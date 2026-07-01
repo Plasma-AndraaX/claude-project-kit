@@ -17,7 +17,7 @@ Produce a **tactical view** of what's left to do: the answer to *"what do I work
    - `Lot N — …` entries from `## Implementation lots` missing from `## Progress` / Decision log as shipped.
    - **Silent-delivery detection**: for a Lot/Phase with no "shipped" entry in `## Progress`/`## Decision log`, check the code side via a distinctive string grep. Code present + plan silent ⇒ flag in the summary as **silent delivery to acknowledge** — do NOT list as a TODO.
 
-**Do NOT use**: `// TODO:` / `// FIXME:` in code (noisy, non-canonical); issue trackers unless referenced from the backlog/a plan.
+**Do NOT use**: `// TODO:` / `// FIXME:` / `// XXX:` in code (noisy, non-canonical); issue trackers unless referenced from the backlog/a plan.
 
 **Exclude**: closing/archive README sections (e.g. "Reference (closed topics)").
 

@@ -17,7 +17,7 @@ Produis une **vue tactique** de ce qu'il reste à faire : la réponse à *« qu'
    - les entrées `Lot N — …` de `## Lots d'implémentation` absentes de `## Progression` / du journal de décisions comme livrées.
    - **Détection de livraison silencieuse** : pour un Lot/Phase sans entrée « livré » dans `## Progression`/`## Journal de décisions`, vérifier côté code via un grep sur une chaîne distinctive. Code présent + plan silencieux ⇒ signaler en synthèse comme **livraison silencieuse à acter** — ne PAS lister comme TODO.
 
-**À NE PAS utiliser** : `// TODO:` / `// FIXME:` du code (bruyant, non-canonique) ; les trackers d'issues sauf s'ils sont référencés depuis le backlog/un plan.
+**À NE PAS utiliser** : `// TODO:` / `// FIXME:` / `// XXX:` du code (bruyant, non-canonique) ; les trackers d'issues sauf s'ils sont référencés depuis le backlog/un plan.
 
 **À exclure** : les sections README de clôture/archive (ex. « Référence (sujets clos) »).
 
