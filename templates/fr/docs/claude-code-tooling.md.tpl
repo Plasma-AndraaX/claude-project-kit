@@ -17,6 +17,7 @@ Inventaire des plugins, skills, subagents et hooks Claude Code utilisés (ou év
 | Skill | Vocation |
 |---|---|
 | `/bootstrap-claude-env` *(si conservé après le setup initial — sinon retirer cette ligne)* | Régénère/étend cet environnement depuis `claude-project-kit` |
+| `/propose-kit-improvement` | Diffte les fichiers issus du kit contre la version de `claude-project-kit` qui a généré ce projet, propose un patch filtré en retour |
 | `/new-adr` | Processus guidé pour ouvrir une ADR + son plan compagnon |
 | `/capture-lessons` | Passe en revue le travail récent et propose des mises à jour de doc |
 | `/whats-left` | Vue tactique des items backlog/plan ouverts |

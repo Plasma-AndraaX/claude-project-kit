@@ -18,8 +18,8 @@ Tamponner le SHA du commit du kit (`git -C KIT_ROOT rev-parse HEAD`, capturé en
 
 Le tamponnage donne le *point de départ* du diff, mais pas de mécanisme pour appliquer sélectivement les changements pertinents à un projet déjà bootstrapé (un `.tpl` peut avoir divergé sous l'effet des propres modifications du projet). Rester en diff manuel assisté (on sait maintenant depuis où diffter) plutôt que viser une synchronisation automatique façon `cookiecutter --replay` — trajet lourd, pas justifié tant qu'aucun cas réel ne le réclame.
 
-## Remontée cross-projet (le vrai trou "auto-apprenant")
+## Remontée cross-projet (le vrai trou "auto-apprenant") — ✅ résolu (2026-07)
 
-Symétrique du problème ci-dessus : rien ne fait remonter vers le kit ce qu'on apprend en l'utilisant sur un projet réel. Proposition à trancher : ajouter à `/capture-lessons` (généré dans chaque projet) un filtre supplémentaire — *"cette leçon concerne-t-elle Claude Code / les conventions de ce kit en général, plutôt que ce projet précis ?"* — et si oui, proposer explicitement d'ouvrir une entrée dans le backlog du kit (ou une PR, une fois le repo public) en plus de (ou à la place de) la capture locale.
+Construit : `/propose-kit-improvement` (généré dans chaque projet bootstrapé, profils Full et Minimal). Utilise le tampon `.claude-project-kit-version` ci-dessus pour diffter les fichiers "propres au kit" (liste stricte, jamais les fichiers de contenu projet) contre l'original, classer généralisable/spécifique/bruit, filtrer les infos personnelles, et présenter le patch à l'utilisateur pour confirmation avant toute branche/commit dans le checkout local du kit. Le push/PR reste une demande séparée et explicite — jamais automatique.
 
-Pas encore implémenté — mérite sa propre réflexion avant d'y toucher (est-ce que ça alourdit `/capture-lessons` pour un bénéfice encore hypothétique tant que le kit n'a bootstrapé qu'un nombre restreint de projets ?).
+Ce qui reste ouvert : le skill n'a jamais été testé en conditions réelles (même limite que le reste du kit, voir `docs/backlog/README.md` § action manuelle requise). Et rien n'assure qu'un contributeur pense à le lancer — pas de rappel automatique, juste une commande disponible.

@@ -17,6 +17,7 @@ Inventory of the Claude Code plugins, skills, subagents, and hooks used (or eval
 | Skill | Purpose |
 |---|---|
 | `/bootstrap-claude-env` *(if kept after initial setup — otherwise remove this row)* | Regenerates/extends this environment from `claude-project-kit` |
+| `/propose-kit-improvement` | Diffs kit-owned files against the `claude-project-kit` version that generated this project, proposes a filtered patch back |
 | `/new-adr` | Guided process to open an ADR + companion plan |
 | `/capture-lessons` | Reviews recent work and proposes doc updates |
 | `/whats-left` | Tactical view of open backlog/plan items |

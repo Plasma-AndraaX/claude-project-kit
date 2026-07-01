@@ -8,6 +8,10 @@ Le repo n'est pas encore public (Forgejo privé). La question se pose en prévis
 
 `CONTRIBUTING.md` documente juste la doctrine : PR bienvenues, aucune garantie de merge, tri par le mainteneur selon un critère simple — généralisable et agnostique de stack → candidat pour le core ; spécifique/opinionated → mieux comme extension personnelle.
 
+## ✅ Construit (2026-07) — `/propose-kit-improvement`, la vraie réponse au "sinon ça remontera jamais"
+
+L'angle mort de la doctrine ci-dessus : sans automatisation, personne ne prend le temps d'écrire une PR à la main — la remontée n'arrive jamais en pratique. `/propose-kit-improvement` (voir `versioning-and-retro-propagation.md`) répond à ça sans construire de système de plugins : il diffte les fichiers propres au kit d'un projet bootstrapé contre l'original (grâce au tampon de version), classe généralisable vs spécifique, filtre les infos personnelles, et prépare un patch relu par l'utilisateur avant tout commit/push. Le contributeur n'a plus qu'à confirmer, pas à tout rédiger à la main.
+
 ## Idée en attente — système de plugins / dépôts satellites
 
 Intuition de départ : plutôt que de tout merger dans `claude-project-kit`, un contributeur pourrait maintenir son propre dépôt qui *référence* le kit (un `templates/<lang>/` additionnel, appliqué en overlay par le skill) — pour éviter d'alourdir le core avec des variantes trop spécifiques, tout en laissant la communauté construire ce qu'elle veut.

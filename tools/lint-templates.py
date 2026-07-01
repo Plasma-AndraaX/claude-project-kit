@@ -125,9 +125,13 @@ def check_rendering(errors):
 
                 text = substitute(strip_markers(f.read_text(encoding='utf-8'), active_tags))
                 label = f'{lang}/{profile}/changelog={changelog}:{rel_str}'
-                if re.search(r'\{\{[A-Z_]+\}\}', text):
+                # Backtick-wrapped mentions (e.g. `{{PROJECT_NAME}}`) are docs explaining the
+                # convention (see propose-kit-improvement.md), not an unresolved placeholder.
+                if re.search(r'(?<!`)\{\{[A-Z_]+\}\}(?!`)', text):
                     errors.append(f'{label}: residual placeholder')
-                if re.search(r'(FULL|MINIMAL|CHANGELOG)-ONLY', text):
+                # Only the real marker-comment form counts; bare mentions like `FULL-ONLY`
+                # in prose (documenting the convention) are not a residual marker.
+                if re.search(r'<!--\s*/?\s*(FULL|MINIMAL|CHANGELOG)-ONLY\s*-->', text):
                     errors.append(f'{label}: residual profile marker')
                 for p in check_broken_tables(text):
                     errors.append(f'{label}: {p}')
