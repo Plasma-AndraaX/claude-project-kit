@@ -24,7 +24,7 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `docs/lessons-domain.md` *(optionnel)* | Règles métier non-évidentes, si le projet a un domaine riche. Append-only, daté. |
 | `docs/adr/` | Décisions architecturales actées — une par fichier, numérotées, gelées une fois `accepted`. |
 | `docs/plans/` | Le *comment* d'un ADR accepté — vivant tant qu'`in-progress`, gelé (renommé avec préfixe date) une fois `implemented`. |
-| `docs/backlog/` | Idées / dette / douleurs pas encore mûres pour un ADR. |
+| `docs/backlog/` *(sauf si tu utilises déjà Jira/Trello/Notion/etc. — le skill demande)* | Idées / dette / douleurs pas encore mûres pour un ADR. |
 | `docs/workflow.md` | La doctrine : quand ouvrir un ADR vs un backlog item, où vont les points qui émergent en cours d'implémentation, checklist de clôture. |
 | `docs/persistence-strategy.md` | La matrice "tel type d'info → tel fichier". Désactive la mémoire privée Claude (si tu choisis cette option). |
 | `docs/prefs/<login>.md` *(profil Full)* | Préférences individuelles par contributeur, committées. |
@@ -32,6 +32,7 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `docs/dashboard.html` + `tools/generate-dashboard.py` *(profil Full)* | Vue HTML générée de l'état ADR ↔ plan ↔ backlog. |
 | `.claude/settings.json` | Hook optionnel qui bloque l'écriture dans la mémoire privée Claude et renvoie vers `persistence-strategy.md`. |
 | `.claude/commands/new-adr.md`, `capture-lessons.md`, `whats-left.md`, `dashboard.md` *(profil Full)* | Skills qui font vivre le système au quotidien. |
+| `docs/changelog/` + `/changelog-capture`, `/changelog-draft` *(profil Full, sur demande)* | Notes de release utilisateur : capture au fil de l'eau, rédaction à la release. Sans traduction multi-langue ni publication automatisée — voir `ADAPTING.md`. |
 
 Deux profils au moment de la génération :
 - **Full** — tout l'arsenal ci-dessus.
@@ -87,4 +88,6 @@ Ce kit généralise le système documentaire construit sur Holoon (gouvernance o
 
 ## Auteur
 
-TODO — nom/pseudo à confirmer.
+[Plasma-AndraaX](https://github.com/Plasma-AndraaX). Publié sous licence [MIT](LICENSE) — cette licence couvre le kit et son outillage (`templates/`, `.claude/`, scripts), pas le contenu qu'il génère dans ton propre projet une fois bootstrapé, qui t'appartient sans condition.
+
+Si tu forkes, améliores ou adaptes ce kit, une issue ou une PR sur le dépôt est la bienvenue — aucune obligation, juste une demande sympathique de l'auteur.

@@ -13,6 +13,7 @@ Carte de la documentation du projet. Chaque document a une vocation distincte ; 
 <!-- FULL-ONLY --> | [`lessons-domain.md`](lessons-domain.md) | Règles métier et invariants de domaine | Append-only |
 | [`prefs/`](prefs/README.md) | Préférences personnelles par contributeur, committées | Un fichier par contributeur |
 | [`claude-code-tooling.md`](claude-code-tooling.md) | Inventaire des plugins/skills/hooks Claude Code utilisés sur ce projet | Vivant | <!-- /FULL-ONLY -->
+<!-- CHANGELOG-ONLY --> | [`changelog/`](changelog/README.md) | Notes de release utilisateur — capturées au fil de l'eau, rédigées à la release | `_next.md` est un brouillon courant, vidé à chaque release | <!-- /CHANGELOG-ONLY -->
 
 ## Conventions de rédaction
 

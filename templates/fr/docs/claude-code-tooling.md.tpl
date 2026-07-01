@@ -21,6 +21,8 @@ Inventaire des plugins, skills, subagents et hooks Claude Code utilisés (ou év
 | `/capture-lessons` | Passe en revue le travail récent et propose des mises à jour de doc |
 | `/whats-left` | Vue tactique des items backlog/plan ouverts |
 | `/dashboard` *(profil Full)* | Régénère `docs/dashboard.html` |
+<!-- CHANGELOG-ONLY --> | `/changelog-capture` | Capture une note de changelog utilisateur pendant que le contexte est frais |
+| `/changelog-draft` | Rédige le changelog de release depuis `docs/changelog/_next.md` | <!-- /CHANGELOG-ONLY -->
 
 ### Plugins évalués
 

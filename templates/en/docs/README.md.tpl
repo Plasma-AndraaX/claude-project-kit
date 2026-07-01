@@ -13,6 +13,7 @@ Map of the project documentation. Each document has a distinct purpose; they don
 <!-- FULL-ONLY --> | [`lessons-domain.md`](lessons-domain.md) | Business rules and domain invariants | Append-only |
 | [`prefs/`](prefs/README.md) | Per-contributor personal preferences, committed | One file per contributor |
 | [`claude-code-tooling.md`](claude-code-tooling.md) | Inventory of Claude Code plugins/skills/hooks used on this project | Living | <!-- /FULL-ONLY -->
+<!-- CHANGELOG-ONLY --> | [`changelog/`](changelog/README.md) | User-facing release notes — captured as-you-go, drafted at release time | `_next.md` is a running scratch file, cleared each release | <!-- /CHANGELOG-ONLY -->
 
 ## Writing guidelines
 

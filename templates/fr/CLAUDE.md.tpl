@@ -22,6 +22,7 @@ Ce fichier est volontairement court et stable. Le contexte approfondi vit sous [
 <!-- FULL-ONLY --> | Pourquoi ce choix architectural a-t-il été fait ? | [`docs/adr/`](docs/adr/README.md) (ADR numérotées) |
 | Comment *X* a-t-il été implémenté / quelles alternatives ont été pesées ? | [`docs/plans/`](docs/plans/README.md) (compagnons des ADR) |
 | Quand ouvrir un ADR plutôt qu'un item de backlog ? / où vont les points qui émergent en cours d'implémentation ? | [`docs/workflow.md`](docs/workflow.md) — cycle de vie ADR ↔ plan ↔ backlog. | <!-- /FULL-ONLY -->
+<!-- CHANGELOG-ONLY --> | Où le changelog utilisateur est-il capturé/rédigé ? | [`docs/changelog/`](docs/changelog/README.md) — `/changelog-capture` à chaud, `/changelog-draft` à la release. | <!-- /CHANGELOG-ONLY -->
 
 Quand tu résous un problème non-évident ou rencontres un piège absent du code, ajoute une section datée à `docs/lessons-technical.md` (ou `docs/lessons-domain.md` si ce projet en a un). <!-- FULL-ONLY -->Quand tu fais un choix architectural, rédige un nouvel ADR (voir [`docs/adr/template.md`](docs/adr/template.md)). <!-- /FULL-ONLY -->Pour le reste — voir [`docs/persistence-strategy.md`](docs/persistence-strategy.md) pour la matrice complète<!-- FULL-ONLY -->, et [`docs/workflow.md`](docs/workflow.md) pour le *quand*<!-- /FULL-ONLY -->.
 

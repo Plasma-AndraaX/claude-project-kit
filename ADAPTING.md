@@ -40,17 +40,26 @@ Le template généré est un squelette de sections (Setup / Build / Run / Test /
 
 `docs/lessons-domain.md` n'a de sens que si le projet encode des règles métier non triviales (comme Holacracy sur Holoon). Un CRUD interne ou un outil technique pur (CLI, lib) n'en a généralement pas besoin — dans ce cas, ne génère pas ce fichier (le profil Minimal l'omet déjà par défaut ; en Full, tu peux le supprimer après coup si tu réalises qu'il ne sert à rien).
 
-## Hook mémoire privée : l'activer ou pas ?
+## Hook mémoire privée : fortement recommandé, même si le skill le demande quand même
 
-Le hook (`PreToolUse` sur `Write`/`Edit` visant `*/memory/*`) impose que tout ce qui doit durer passe par le repo versionné plutôt que la mémoire privée Claude. Pertinent si :
-- plusieurs contributeurs (humains ou instances Claude sur des machines différentes) doivent voir les mêmes décisions,
-- tu veux que `git log docs/` fasse office d'historique des décisions "apprises" par l'agent.
+Le hook (`PreToolUse` sur `Write`/`Edit` visant `*/memory/*`) impose que tout ce qui doit durer passe par le repo versionné plutôt que la mémoire privée Claude. Ce n'est **pas présenté comme un choix neutre** dans le skill de bootstrap — la mémoire privée jamais versionnée est une manière facile de perdre silencieusement des décisions, de dériver de ce que l'équipe a réellement décidé, ou de laisser fuir des suppositions d'un projet à l'autre sans trace auditable. Le coût de ce problème grandit avec le temps et se découvre presque toujours trop tard.
 
-Moins utile en solo sur une seule machine, où la mémoire privée peut suffire — mais elle reste plus fragile (pas de review, pas de portabilité).
+Le skill pose quand même la question (l'utilisateur reste décisionnaire), mais argumente pour le *oui* par défaut, y compris en solo — la mémoire privée sur une seule machine reste plus fragile (pas de review, pas de portabilité, pas d'historique) même sans co-équipier à qui rendre les choses visibles.
 
-## Changelog utilisateur (non fourni par ce kit)
+## Backlog : dans ce repo ou dans un outil externe ?
 
-Holoon a un processus de changelog produit (notes de release traduites, publiées) documenté dans `docs/changelog/`. C'est un choix produit spécifique, pas repris ici. Si ton projet a besoin d'un changelog user-facing : inspire-toi de la doctrine (Markdown versionné dans le repo plutôt qu'un CMS externe — voir l'ADR "changelog in repo" sur Holoon comme référence de raisonnement) et construis ton propre module `docs/changelog/` + skill de capture/draft.
+Le skill demande explicitement en Phase 3 où vit le backlog. Si l'équipe utilise déjà Jira/Trello/Notion/Linear/GitHub Issues, ne génère **pas** `docs/backlog/` — imposer un second système concurrent au premier crée de la confusion et personne ne le maintient. Dans ce cas, `docs/persistence-strategy.md` et les autres références à `docs/backlog/` sont ajustées pour nommer l'outil externe à la place.
+
+Cas particulier — **TODOs déjà présents dans le code existant** : si Phase 2 en détecte un nombre non-trivial, le skill propose (jamais automatiquement) de les trier en items de backlog au moment du bootstrap. En dehors de ce geste de migration ponctuel, les `TODO`/`FIXME` du code restent délibérément exclus comme source de backlog continue (cf. `whats-left.md`) — trop bruyants, jamais triés.
+
+## Changelog utilisateur
+
+Le kit fournit un module générique (`docs/changelog/` + `/changelog-capture` + `/changelog-draft`, profil Full uniquement, question dédiée en Phase 3) : capture d'une note pendant que le contexte est frais, rédaction formatée au moment de la release. Ce que ce module **ne fournit pas**, volontairement :
+- la **traduction multi-langue** des notes (Holoon en a besoin, la plupart des projets non) ;
+- la **publication** effective (site de doc, in-app, mailing list) — spécifique à chaque produit ;
+- un format de sortie imposé — adapte `/changelog-draft` à ta convention (Keep a Changelog, GitHub Releases, autre).
+
+Si tu as besoin de traduction multi-locale, inspire-toi de la doctrine Holoon (Markdown versionné dans le repo plutôt qu'un CMS externe) et étends `/changelog-draft` toi-même.
 
 ## Limite connue : pas de rétro-propagation
 

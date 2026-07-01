@@ -25,6 +25,7 @@ A `PreToolUse` hook in `.claude/settings.json` blocks any write under the memory
 | **New frequent question** of the "Question → Read" kind | add a row to the table in [`CLAUDE.md`](../CLAUDE.md) | keep it short — CLAUDE.md is the index, not the content |
 <!-- FULL-ONLY --> | **AI tooling** (plugins, skills, hooks, slash commands used or to adopt) | [`docs/claude-code-tooling.md`](claude-code-tooling.md) | | <!-- /FULL-ONLY -->
 <!-- FULL-ONLY --> | **Individual contributor preference** (prompt style, aliases, personal choices not shared by the whole team) | [`docs/prefs/<login>.md`](prefs/) | one file per contributor — committed so Claude loads it every session; other contributors see it but don't apply it | <!-- /FULL-ONLY -->
+<!-- CHANGELOG-ONLY --> | **User-visible change worth a changelog note** (fix, feature, behavior change someone using the product would notice) | [`docs/changelog/_next.md`](changelog/_next.md) | capture close to the work via `/changelog-capture`, not at release time | <!-- /CHANGELOG-ONLY -->
 
 ## When nothing fits
 

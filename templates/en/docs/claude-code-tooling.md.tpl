@@ -21,6 +21,8 @@ Inventory of the Claude Code plugins, skills, subagents, and hooks used (or eval
 | `/capture-lessons` | Reviews recent work and proposes doc updates |
 | `/whats-left` | Tactical view of open backlog/plan items |
 | `/dashboard` *(profile Full)* | Regenerates `docs/dashboard.html` |
+<!-- CHANGELOG-ONLY --> | `/changelog-capture` | Captures a user-facing changelog note while context is fresh |
+| `/changelog-draft` | Drafts the release changelog from `docs/changelog/_next.md` | <!-- /CHANGELOG-ONLY -->
 
 ### Plugins evaluated
 

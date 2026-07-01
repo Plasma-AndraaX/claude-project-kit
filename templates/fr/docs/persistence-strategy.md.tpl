@@ -25,6 +25,7 @@ Un hook `PreToolUse` dans `.claude/settings.json` bloque toute écriture sous le
 | **Nouvelle question fréquente** type « Question → Lire » | ajouter une ligne dans la table de [`CLAUDE.md`](../CLAUDE.md) | rester court — CLAUDE.md est l'index, pas le contenu |
 <!-- FULL-ONLY --> | **Outillage IA** (plugins, skills, hooks, slash commands utilisés ou à adopter) | [`docs/claude-code-tooling.md`](claude-code-tooling.md) | | <!-- /FULL-ONLY -->
 <!-- FULL-ONLY --> | **Préférence individuelle d'un contributeur** (style de prompt, alias, choix perso non partagés par toute l'équipe) | [`docs/prefs/<login>.md`](prefs/) | un fichier par contributeur — committé pour que Claude le charge à chaque session ; les autres contributeurs le voient mais ne l'appliquent pas | <!-- /FULL-ONLY -->
+<!-- CHANGELOG-ONLY --> | **Changement visible utilisateur qui mérite une note de changelog** (fix, feature, changement de comportement qu'un utilisateur du produit remarquerait) | [`docs/changelog/_next.md`](changelog/_next.md) | capturer près du travail via `/changelog-capture`, pas à la release | <!-- /CHANGELOG-ONLY -->
 
 ## Quand rien ne colle
 

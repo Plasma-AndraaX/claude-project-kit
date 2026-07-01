@@ -33,13 +33,15 @@ If only one language variant exists, skip the question and use it silently.
 
 List the target directory (excluding `.git`). If it's empty or contains only a handful of non-code files (README, LICENSE), **skip this phase** — there's nothing to detect, move to Phase 3 with all fields blank.
 
-Otherwise, detect the stack:
+Otherwise, analyze with the same ambition the native `/init` command would bring to generating a `CLAUDE.md` — this is a real pass, not a shallow manifest sniff:
 - Glob for manifest/config files at the root and one level down: `package.json`, `*.csproj`/`*.sln`, `pyproject.toml`/`requirements.txt`/`Pipfile`, `go.mod`, `Cargo.toml`, `Gemfile`, `composer.json`, `pom.xml`/`build.gradle*`, `Dockerfile`, `docker-compose*.yml`.
-- From what you find, infer: primary language(s), framework(s), package manager, and — if present — declared scripts (`package.json` → `scripts`, `Makefile` targets, `Taskfile`, CI config under `.github/workflows/` or similar) that look like build/test/run commands.
-- Note top-level directory structure (monorepo signals like `packages/`, `apps/`; a `src/` layout; a clear frontend/backend split).
-- If the codebase is large (rough heuristic: more than ~50 files or more than 3-4 distinct top-level modules), don't read everything yourself — launch 1-2 `Explore` agents in parallel, each scoped to a specific area, and ask for a structured summary (detected stack, directory roles, build/test commands) rather than a file dump.
+- Read any existing `README`/`CONTRIBUTING` for stated conventions — reuse what's already documented there rather than re-guessing it.
+- Sample actual source files (not just manifests) across each detected top-level module to ground: language/framework, **code style actually in use** (indentation, quote/naming conventions, linter/formatter config files), test setup, and what each top-level directory is really for.
+- Declared scripts and CI config (`package.json` → `scripts`, `Makefile`/`Taskfile` targets, `.github/workflows/` or similar) for build/test/run/lint commands.
+- Grep for `TODO`/`FIXME`/`XXX` comments across source files. If there's a non-trivial number, count them and keep a few representative samples for Phase 3 — don't triage or import them yet.
+- Scale the exploration to size: for anything beyond a handful of files, don't read the codebase yourself file-by-file — launch `Explore` agents **in parallel**, one per top-level module/directory, each asked for a structured report (module purpose, key files, conventions observed, build/test hooks).
 
-Keep what you find as draft answers for Phase 3 — you'll present them to the user for confirmation, not commit to them silently. This is a **best-effort starting point**, not an architecture audit — say so if the codebase is complex enough that `architecture.md` will need real follow-up work beyond this pass.
+Keep everything as draft answers for Phase 3 — present for confirmation, never commit silently. This is still a **best-effort starting point**, not a substitute for the user's own judgment on a genuinely large codebase — say so explicitly when that's the case. But the bar to aim for is "as close as reasonably achievable to what a dedicated `/init` pass would produce," not a deliberately watered-down version of it.
 
 ## Phase 3 — Framing questions
 
@@ -49,8 +51,11 @@ Ask the user (pre-filling defaults from Phase 2 where available):
 - **One-line description** — what the project does.
 - **Primary stack** — pre-filled from Phase 2 if detected, otherwise ask.
 - **Team** — solo or multiple contributors (affects whether `docs/prefs/` pulls its weight).
+- **Backlog location** — this repo's `docs/backlog/` (Markdown, versioned) or an external tool already in use (Jira/Trello/Notion/Linear/GitHub Issues/other)? Don't assume: a team with an existing tracker will actively resent a competing one. If external: don't generate `docs/backlog/` at all, and in Phase 4 name that tool instead in `docs/persistence-strategy.md`'s "item to handle later" row and anywhere else `docs/backlog/` would otherwise be referenced (`CLAUDE.md`, `docs/README.md`, `docs/workflow.md` if Full profile) — a few-line manual touch-up per file, not a new placeholder mechanism.
+- **Existing TODOs** *(only ask if Phase 2 found a non-trivial number)* — report the count and a few samples; ask whether to triage them into backlog items now (a one-time migration pass) or leave them as inline comments. Never import them automatically or silently — code `TODO`/`FIXME` comments are deliberately excluded as a backlog source elsewhere in this kit (see `whats-left.md`'s "do NOT use" list) precisely because they're noisy and untriaged; this question is a one-time opt-in assist, not an ongoing sync.
 - **Profile** — **Full** (complete arsenal: ADR/plan/backlog/workflow/prefs/tooling-inventory/dashboard) or **Minimal** (just `CLAUDE.md`, `architecture.md`, `operations.md`, `lessons-technical.md`, `docs/backlog/README.md`, `docs/persistence-strategy.md`). Default recommendation: Full if team ≥ 2 or the user mentions wanting to track decisions long-term; Minimal for a prototype/POC. See `ADAPTING.md` in the kit for the full decision table — don't just ask blindly, give a recommendation with the why.
 - **Memory-block hook** — **strongly recommend enabling it**, regardless of profile or team size. Private memory that never gets versioned is an easy way to silently lose decisions, drift from what the team actually agreed, or leak assumptions across projects with no audit trail — this gets worse, not better, over time, and is genuinely costly to discover after the fact. Say this plainly, don't present it as a neutral coin-flip. Still ask — don't force it — but the default answer you argue for is *yes*. If the user declines, that's their call, but make sure they've heard the reasoning first (see `docs/persistence-strategy.md.tpl`'s intro for the fuller argument).
+- **Changelog module** *(Full profile only)* — does this project ship to users who'd care about a "what changed" note (a product, an app, a public library)? If so, offer the `docs/changelog/` module (`/changelog-capture` + `/changelog-draft`, see `docs/changelog/README.md.tpl`). Skip the question entirely for Minimal profile or for projects with no real "user" in this sense (an internal script, a one-off tool) — don't generate unused ceremony.
 
 Use `AskUserQuestion` for these — they're genuine choices, not things to assume.
 
@@ -68,16 +73,21 @@ For every file under `TPL_ROOT` (the language variant chosen in Phase 1), apply 
 - `{{PROJECT_ONE_LINER}}` → the confirmed one-liner
 - `{{PRIMARY_STACK}}` → the confirmed stack
 
-**Profile-conditional blocks** — templates mark profile-specific content with `<!-- FULL-ONLY -->` ... `<!-- /FULL-ONLY -->` and, more rarely, `<!-- MINIMAL-ONLY -->` ... `<!-- /MINIMAL-ONLY -->` markers (sometimes inline within a paragraph, sometimes wrapping whole sections/table rows). On the profile the block is *for*: remove just the marker comments, keep the content. On the other profile: remove the markers *and* everything between them. (A `MINIMAL-ONLY` block only exists where the Full wording would reference something — e.g. `docs/workflow.md` — that Minimal doesn't generate, and Minimal needs different, self-contained wording instead.)
+**Profile-conditional blocks** — templates mark profile-specific content with `<!-- FULL-ONLY -->` ... `<!-- /FULL-ONLY -->`, `<!-- MINIMAL-ONLY -->` ... `<!-- /MINIMAL-ONLY -->`, and `<!-- CHANGELOG-ONLY -->` ... `<!-- /CHANGELOG-ONLY -->` markers (sometimes inline within a paragraph, sometimes wrapping whole sections/table rows — always on the same line as the row/text they gate, never a standalone marker line, to avoid leaving a blank line that breaks a Markdown table). When a block's condition holds (its profile is active / the changelog module was opted into): remove just the marker comments, keep the content. When it doesn't: remove the markers *and* everything between them, including the trailing newline, so nothing is left blank. `CHANGELOG-ONLY` is independent of the Full/Minimal choice — it's gated purely by the Phase 3 changelog question.
 
 **Profile-driven file selection**:
 - **Minimal**: generate only `CLAUDE.md`, `docs/README.md`, `docs/architecture.md`, `docs/operations.md`, `docs/lessons-technical.md`, `docs/backlog/README.md`, `docs/persistence-strategy.md`. Skip `docs/adr/`, `docs/plans/`, `docs/workflow.md`, `docs/prefs/`, `docs/claude-code-tooling.md`, `docs/lessons-domain.md`, `tools/generate-dashboard.py`, and the `.claude/commands/` skills (`new-adr`, `capture-lessons`, `whats-left`, `dashboard`).
 - **Full**: generate everything except `docs/lessons-domain.md`, which you only generate if the project has a genuinely non-trivial business domain (ask if unsure — see `ADAPTING.md` § "Domaine métier riche ou pas ?"). Don't generate `docs/prefs/<login>.md` itself (only `docs/prefs/README.md` explaining the mechanism) — that's each contributor's own file to create.
 
+**External backlog tool chosen in Phase 3**: don't generate `docs/backlog/` at all. In every generated file that references it (`CLAUDE.md`, `docs/README.md`, `docs/persistence-strategy.md`, `docs/workflow.md` if Full), replace the `docs/backlog/` reference with the named external tool instead — a direct text edit, not a new marker.
+
+**Changelog module chosen in Phase 3**: generate `docs/changelog/README.md`, `docs/changelog/_next.md` (copied verbatim — no placeholders), `.claude/commands/changelog-capture.md`, `.claude/commands/changelog-draft.md`, and keep the `CHANGELOG-ONLY` cross-reference rows in `CLAUDE.md`, `docs/README.md`, `docs/persistence-strategy.md`, `docs/claude-code-tooling.md`. If declined: skip those four files, and strip every `CHANGELOG-ONLY` block from the files above like any other unmet condition.
+
 **Enrichment from Phase 2** — if code analysis ran, don't leave `TODO` placeholders where you have real answers:
-- `CLAUDE.md`'s Stack line and "Build & Development Commands" section → fill with detected commands.
-- `docs/architecture.md`'s Overview + a skeleton under "Major components" (one subsection per detected top-level module, left brief — the user fills in the substance).
+- `CLAUDE.md`'s Project Overview, Stack, "Build & Development Commands", and **Code Style** sections → fill with what was actually observed in the code (real indentation/naming/linter config found), not generic language defaults.
+- `docs/architecture.md`'s Overview + "Major components" (one real one-liner per detected top-level module, informed by the Explore reports — not a placeholder) + "Key flows" if a request lifecycle or entry point was identifiable.
 - `docs/operations.md`'s Setup/Build/Run/Test sections → fill with detected commands where confidently identified; leave `TODO` for what you couldn't determine (e.g. deploy process, which is rarely inferable from the repo alone).
+- If Phase 3's TODO-triage question was answered "yes", convert the samples found into backlog items (or into a note for the external tool, if that's where backlog lives) following the kit's usual granularity rules (`docs/workflow.md` § *Backlog item granularity*, Full profile) rather than dumping them in unfiltered.
 
 If `<target>/.claude/settings.json` already exists (pre-existing project with its own Claude config), do **not** overwrite it — show the memory-block hook snippet from `templates/dot-claude/settings.json.tpl` and ask the user to merge it manually, or offer to merge it yourself with an explicit diff.
 
@@ -94,7 +104,7 @@ If `<target>/.claude/settings.json` already exists (pre-existing project with it
 Show:
 - The generated file tree.
 - What was auto-detected in Phase 2 (so the user can spot-check/correct it) vs. what's still a blank `TODO`.
-- Concrete next steps: flesh out `docs/architecture.md`, open a first ADR if there's already a pending decision, create `docs/prefs/<login>.md` (Full profile), regenerate the dashboard once there's at least one ADR (Full profile).
+- Concrete next steps: flesh out `docs/architecture.md`, open a first ADR if there's already a pending decision, create `docs/prefs/<login>.md` (Full profile), regenerate the dashboard once there's at least one ADR (Full profile), run `/changelog-capture` after the next user-visible change (if the changelog module was included).
 
 ## What this skill does NOT do
 
