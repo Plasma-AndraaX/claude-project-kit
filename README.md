@@ -39,6 +39,10 @@ Deux profils au moment de la génération :
 
 Détail des deux profils et de ce qu'il faut adapter selon ton contexte : [`ADAPTING.md`](ADAPTING.md).
 
+## Détection automatique du projet existant
+
+Si le répertoire cible contient déjà du code, le skill fait un premier passage d'analyse (façon `/init` natif de Claude Code) : détection des manifests (`package.json`, `*.csproj`, `pyproject.toml`, `go.mod`, `Cargo.toml`...), du langage/framework, des scripts de build/run/test déjà déclarés, et de la structure des dossiers. Les réponses détectées pré-remplissent `CLAUDE.md`, `docs/architecture.md` et `docs/operations.md` au lieu de laisser des `TODO` vides — à confirmer/corriger, pas à prendre pour argent comptant sur un projet complexe. Sur un répertoire vide (nouveau projet net-new), cette phase est simplement sautée.
+
 ## Utilisation
 
 ### Option A — depuis ce repo
@@ -67,7 +71,7 @@ Puis, depuis **n'importe quel** répertoire Claude Code :
 
 ## Ce que ce kit ne fait pas
 
-- Il ne devine pas le contenu d'`architecture.md`/`operations.md` en scannant le code du projet cible — il pose les fondations vides, à remplir au fil de l'eau.
+- La détection automatique (§ ci-dessus) est un point de départ *best-effort*, pas un audit d'architecture — sur un projet déjà complexe, elle ne remplace pas une vraie session de rédaction d'`architecture.md`. Sur un répertoire vide, tout reste en `TODO` à remplir au fil de l'eau.
 - Il n'installe aucune dépendance de langage, aucun linter, aucun CI. C'est un scaffold de *documentation et de méthode*, pas de code.
 - Il n'a pas (encore) de mécanisme pour rétro-propager une amélioration de template vers un projet déjà bootstrapé. Si tu améliores `docs/workflow.md.tpl` ici après avoir déjà généré 3 projets, la mise à jour de ces 3 projets reste manuelle. Voir [`ADAPTING.md`](ADAPTING.md).
 
