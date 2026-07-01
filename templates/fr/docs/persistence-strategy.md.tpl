@@ -19,6 +19,7 @@ Un hook `PreToolUse` dans `.claude/settings.json` bloque toute écriture sous le
 <!-- FULL-ONLY --> | **Décision architecturale formelle** (mérite un titre + alternatives + conséquences) | [`docs/adr/`](adr/) (numérotées) + `docs/plans/` compagnon | suivre [`docs/adr/template.md`](adr/template.md) | <!-- /FULL-ONLY -->
 | **Item à traiter plus tard** (rollout, dette, refacto, point différé) | [`docs/backlog/`](backlog/) — un fichier par sujet | format libre, suivre les conventions des fichiers existants |
 | **Leçon technique non-évidente** (piège, contrainte d'outillage, subtilité de librairie) | [`docs/lessons-technical.md`](lessons-technical.md) | section datée |
+| **Convention de style / nommage** observée ou déclarée | [`docs/coding-standards.md`](coding-standards.md) | une section par langage/module si hétérogène |
 | **Règle métier non-évidente** *(si ce projet a un `lessons-domain.md`)* | [`docs/lessons-domain.md`](lessons-domain.md) | section datée |
 | **État courant du système** (architecture, comment ça marche aujourd'hui) | [`docs/architecture.md`](architecture.md) | mise à jour quand le réel change |
 | **Setup / build / déploiement** | [`docs/operations.md`](operations.md) | |

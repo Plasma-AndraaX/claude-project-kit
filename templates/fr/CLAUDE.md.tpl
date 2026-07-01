@@ -17,6 +17,7 @@ Ce fichier est volontairement court et stable. Le contexte approfondi vit sous [
 | Comment le système fonctionne-t-il aujourd'hui ? | [`docs/architecture.md`](docs/architecture.md) |
 | Comment installer / builder / lancer / déployer ? | [`docs/operations.md`](docs/operations.md) |
 | Pourquoi ce point n'est-il pas évident ? / quel piège a déjà été rencontré ? | [`docs/lessons-technical.md`](docs/lessons-technical.md) |
+| Quelles sont les conventions de code de ce projet ? | [`docs/coding-standards.md`](docs/coding-standards.md) |
 | Qu'est-ce qui reste à faire — backlog, sujets différés ? | [`docs/backlog/`](docs/backlog/README.md) |
 | Où noter une décision / préférence / leçon pour qu'elle survive à cette conversation ? | [`docs/persistence-strategy.md`](docs/persistence-strategy.md) — matrice « type d'info → fichier ». |
 <!-- FULL-ONLY --> | Pourquoi ce choix architectural a-t-il été fait ? | [`docs/adr/`](docs/adr/README.md) (ADR numérotées) |
@@ -46,4 +47,6 @@ Voir [`docs/architecture.md`](docs/architecture.md) pour la forme actuelle du sy
 
 ## Style de code
 
-<!-- À remplir une fois les conventions du projet stabilisées (indentation, nommage, linting). -->
+<!-- Pointeur court vers coding-standards.md ; ne pas dupliquer son contenu ici. -->
+
+Voir [`docs/coding-standards.md`](docs/coding-standards.md) pour l'indentation, le nommage, le formatage et les conventions de linting.

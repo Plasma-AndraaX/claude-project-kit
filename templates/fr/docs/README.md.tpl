@@ -7,6 +7,7 @@ Carte de la documentation du projet. Chaque document a une vocation distincte ; 
 | [`architecture.md`](architecture.md) | Comment le système fonctionne *aujourd'hui* | Vivant — mis à jour au fil de l'évolution du système |
 | [`operations.md`](operations.md) | Setup, build, run, debug, déploiement | Vivant — mis à jour au fil de l'évolution de l'outillage |
 | [`lessons-technical.md`](lessons-technical.md) | Pièges et patterns techniques non dérivables du code | Append-only — une entrée par leçon, datée |
+| [`coding-standards.md`](coding-standards.md) | Conventions de style/nommage réellement en vigueur, par langage/module si hétérogène | Vivant — mis à jour au fil de l'adoption des conventions |
 | [`adr/`](adr/README.md) | Architecture Decision Records — numérotées, courtes, une décision par fichier | Chaque ADR est stable une fois `accepted` ; les nouvelles ADR supersèdent les anciennes |
 | [`plans/`](plans/README.md) | Plans d'implémentation/investigation détaillés, rattachés aux ADR | Évoluent tant qu'`in-progress`, gelés avec préfixe de date une fois `implemented` ou `rejected` |
 | [`backlog/`](backlog/README.md) | Idées / dette / sujets différés pas encore mûrs pour une ADR | Un fichier par thème, ou groupé<!-- FULL-ONLY --> — voir `workflow.md` pour les patterns de granularité<!-- /FULL-ONLY --> |

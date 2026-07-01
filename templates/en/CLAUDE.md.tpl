@@ -17,6 +17,7 @@ This file is intentionally short and stable. Deep context lives under [`docs/`](
 | How does the system work today? | [`docs/architecture.md`](docs/architecture.md) |
 | How do I set up / build / run / deploy? | [`docs/operations.md`](docs/operations.md) |
 | Why is this non-obvious? / what trap did someone already hit? | [`docs/lessons-technical.md`](docs/lessons-technical.md) |
+| What are this project's code style conventions? | [`docs/coding-standards.md`](docs/coding-standards.md) |
 | What's queued for later — backlog, deferred items? | [`docs/backlog/`](docs/backlog/README.md) |
 | Where do I write down a decision / preference / lesson so it survives this conversation? | [`docs/persistence-strategy.md`](docs/persistence-strategy.md) — matrix of "type of info → file". |
 <!-- FULL-ONLY --> | Why was this architectural choice made? | [`docs/adr/`](docs/adr/README.md) (numbered ADRs) |
@@ -46,4 +47,6 @@ See [`docs/architecture.md`](docs/architecture.md) for the current system shape.
 
 ## Code Style
 
-<!-- Fill in once the project has settled conventions (indentation, naming, linting). -->
+<!-- Short pointer to coding-standards.md; do not duplicate its content here. -->
+
+See [`docs/coding-standards.md`](docs/coding-standards.md) for indentation, naming, formatting, and linting conventions.

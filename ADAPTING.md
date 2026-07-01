@@ -61,6 +61,12 @@ Le kit fournit un module générique (`docs/changelog/` + `/changelog-capture` +
 
 Si tu as besoin de traduction multi-locale, inspire-toi de la doctrine Holoon (Markdown versionné dans le repo plutôt qu'un CMS externe) et étends `/changelog-draft` toi-même.
 
+## Conventions de code hétérogènes
+
+`docs/coding-standards.md` (présent dans les deux profils, comme `architecture.md`/`operations.md`) est l'endroit où vit le style de code réellement observé — pas une simple ligne dans `CLAUDE.md`, précisément parce qu'un codebase peut être hétérogène (plusieurs langages, dérive entre sous-projets, legacy vs code récent). Le skill l'écrit à partir de Phase 2 : un échantillonnage de fichiers réels, pas seulement la config du linter.
+
+Si Phase 2 détecte un vrai conflit — la config déclare une convention mais une part significative du code ne la suit pas — elle ne tranche **pas** silencieusement. Elle te pose la question en Phase 3 : documenter la convention déclarée comme cible, documenter la convention dominante observée comme convention de fait, ou trancher toi-même. La réponse va dans la section « Déclaré vs observé » du fichier, datée. Si le codebase est homogène ou s'il n'y a pas de code existant, cette question ne se pose simplement pas.
+
 ## Limite connue : pas de rétro-propagation
 
 Si tu améliores un `.tpl` dans `claude-project-kit` après avoir déjà bootstrapé plusieurs projets, ces projets ne se mettent pas à jour automatiquement. Pour l'instant :

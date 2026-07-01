@@ -21,6 +21,7 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `docs/architecture.md` | Comment le système fonctionne *aujourd'hui*. Vivant. |
 | `docs/operations.md` | Setup / build / run / deploy. Vivant. |
 | `docs/lessons-technical.md` | Pièges techniques non-évidents, non dérivables du code. Append-only, daté. |
+| `docs/coding-standards.md` | Conventions de style/nommage réellement en vigueur — une section par langage/module si le codebase est hétérogène. Vivant. |
 | `docs/lessons-domain.md` *(optionnel)* | Règles métier non-évidentes, si le projet a un domaine riche. Append-only, daté. |
 | `docs/adr/` | Décisions architecturales actées — une par fichier, numérotées, gelées une fois `accepted`. |
 | `docs/plans/` | Le *comment* d'un ADR accepté — vivant tant qu'`in-progress`, gelé (renommé avec préfixe date) une fois `implemented`. |

@@ -7,6 +7,7 @@ Map of the project documentation. Each document has a distinct purpose; they don
 | [`architecture.md`](architecture.md) | How the system works *today* | Living — update as the system evolves |
 | [`operations.md`](operations.md) | Setup, build, run, debug, deploy | Living — update as tooling evolves |
 | [`lessons-technical.md`](lessons-technical.md) | Technical gotchas and patterns not derivable from code | Append-only — one entry per lesson, datestamped |
+| [`coding-standards.md`](coding-standards.md) | Actual style/naming conventions in force, per language/module if heterogeneous | Living — update as conventions are adopted |
 | [`adr/`](adr/README.md) | Architecture Decision Records — numbered, short, one decision per file | Each ADR is stable once accepted; new ADRs supersede old ones |
 | [`plans/`](plans/README.md) | Detailed implementation/investigation plans, attached to ADRs | Evolve while `in-progress`, frozen with a date prefix when `implemented` or `rejected` |
 | [`backlog/`](backlog/README.md) | Ideas / debt / deferred items not yet mature enough for an ADR | One file per topic, or grouped by theme<!-- FULL-ONLY --> — see `workflow.md` for granularity patterns<!-- /FULL-ONLY --> |

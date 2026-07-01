@@ -19,6 +19,7 @@ A `PreToolUse` hook in `.claude/settings.json` blocks any write under the memory
 <!-- FULL-ONLY --> | **Formal architectural decision** (deserves a title + alternatives + consequences) | [`docs/adr/`](adr/) (numbered) + `docs/plans/` companion | follow [`docs/adr/template.md`](adr/template.md) | <!-- /FULL-ONLY -->
 | **Item to handle later** (rollout, debt, refactor, deferred point) | [`docs/backlog/`](backlog/) — one file per topic | free-form, follow existing files' conventions |
 | **Non-obvious technical lesson** (gotcha, tooling trap, library quirk) | [`docs/lessons-technical.md`](lessons-technical.md) | dated section |
+| **Code style / naming convention** observed or declared | [`docs/coding-standards.md`](coding-standards.md) | one section per language/module if heterogeneous |
 | **Non-obvious business rule** *(if this project has `lessons-domain.md`)* | [`docs/lessons-domain.md`](lessons-domain.md) | dated section |
 | **Current state of the system** (architecture, how it works today) | [`docs/architecture.md`](architecture.md) | update as reality changes |
 | **Setup / build / deploy** | [`docs/operations.md`](operations.md) | |
