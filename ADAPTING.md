@@ -61,6 +61,14 @@ Le kit fournit un module générique (`docs/changelog/` + `/changelog-capture` +
 
 Si tu as besoin de traduction multi-locale, inspire-toi de la doctrine Holoon (Markdown versionné dans le repo plutôt qu'un CMS externe) et étends `/changelog-draft` toi-même.
 
+## Plugins / MCP suggérés au bootstrap
+
+Le skill ne se contente pas de poser la structure documentaire — en profil Full, il délègue à l'agent `claude-code-guide` (jamais à une recherche web ouverte) pour identifier les plugins Anthropic-verified ou les serveurs MCP officiels pertinents pour le stack détecté. `docs/claude-code-tooling.md` **ne part jamais vide** : il reflète toujours au minimum ce qui a été jugé pertinent, même si tout est marqué `suggested`.
+
+Deux gestes distincts, pas un choix exclusif :
+- **Consigner** — toujours fait, dans la table "Plugins / serveurs MCP" du fichier tooling.
+- **Activer** — une question séparée, par plugin : le skill propose d'ajouter l'entrée dans `enabledPlugins` de `.claude/settings.json` (ou de donner la commande de config MCP) *maintenant*, plutôt que de laisser un outil documenté-mais-jamais-configuré. Si l'activation nécessite un secret, le skill ne le fournit jamais lui-même — il donne la commande exacte et laisse l'utilisateur la lancer (même logique que pour le token Forgejo lors du déploiement de ce kit).
+
 ## Conventions de code hétérogènes
 
 `docs/coding-standards.md` (présent dans les deux profils, comme `architecture.md`/`operations.md`) est l'endroit où vit le style de code réellement observé — pas une simple ligne dans `CLAUDE.md`, précisément parce qu'un codebase peut être hétérogène (plusieurs langages, dérive entre sous-projets, legacy vs code récent). Le skill l'écrit à partir de Phase 2 : un échantillonnage de fichiers réels, pas seulement la config du linter.

@@ -24,9 +24,15 @@ Inventory of the Claude Code plugins, skills, subagents, and hooks used (or eval
 <!-- CHANGELOG-ONLY --> | `/changelog-capture` | Captures a user-facing changelog note while context is fresh |
 | `/changelog-draft` | Drafts the release changelog from `docs/changelog/_next.md` | <!-- /CHANGELOG-ONLY -->
 
-### Plugins evaluated
+### Plugins / MCP servers
 
-<!-- Table: plugin — adopted/rejected — why. -->
+| Plugin or MCP server | Status | Why |
+|---|---|---|
+<!-- One row per plugin/MCP server considered. Status: `adopted` (enabled in .claude/settings.json or MCP config), `suggested` (relevant, not yet enabled — the user's call), `rejected` (considered, explicitly not adopted). Bootstrap-time suggestions come only from Anthropic-verified plugins (claude.com/plugins) or well-known official vendor MCP servers matching the detected stack — never from an open web search, to avoid recommending an unvetted/unofficial MCP server. This table should not ship empty: at minimum it reflects what bootstrap-time analysis found relevant for this stack, even if every row is `suggested`. -->
+
+### Recommended, not yet enabled
+
+<!-- If any `suggested` row above requires a credential/secret to actually enable (most MCP servers do), the exact setup command/config snippet goes here — never a provisioned secret. The user runs it themselves when ready. Delete this section if nothing is pending. -->
 
 ### Hooks catalog
 

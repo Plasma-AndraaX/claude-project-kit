@@ -29,7 +29,7 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `docs/workflow.md` | La doctrine : quand ouvrir un ADR vs un backlog item, où vont les points qui émergent en cours d'implémentation, checklist de clôture. |
 | `docs/persistence-strategy.md` | La matrice "tel type d'info → tel fichier". Désactive la mémoire privée Claude (si tu choisis cette option). |
 | `docs/prefs/<login>.md` *(profil Full)* | Préférences individuelles par contributeur, committées. |
-| `docs/claude-code-tooling.md` *(profil Full)* | Inventaire des skills/plugins/hooks Claude utilisés sur ce projet. |
+| `docs/claude-code-tooling.md` *(profil Full)* | Inventaire des skills/plugins/hooks Claude utilisés sur ce projet — jamais vide : le skill y consigne les plugins/MCP Anthropic-verified pertinents pour le stack détecté, et propose de les activer un par un dans `.claude/settings.json`. |
 | `docs/dashboard.html` + `tools/generate-dashboard.py` *(profil Full)* | Vue HTML générée de l'état ADR ↔ plan ↔ backlog. |
 | `.claude/settings.json` | Hook optionnel qui bloque l'écriture dans la mémoire privée Claude et renvoie vers `persistence-strategy.md`. |
 | `.claude/commands/new-adr.md`, `capture-lessons.md`, `whats-left.md`, `dashboard.md` *(profil Full)* | Skills qui font vivre le système au quotidien. |
