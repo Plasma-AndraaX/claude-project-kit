@@ -14,9 +14,11 @@ Tamponner le SHA du commit du kit (`git -C KIT_ROOT rev-parse HEAD`, capturé en
 
 **Limite assumée initialement, levée le 2026-07-01** : un SHA n'est pas lisible humainement. `VERSION` (semver, `0.1.0` pour l'instant) + `CHANGELOG.md` construits — le SHA reste la source de vérité *précise* pour le diff mécanique de `/propose-kit-improvement`, le semver+changelog sert la lecture humaine ("qu'est-ce qui a changé depuis que j'ai bootstrapé mon projet ?"). Bump manuel et délibéré, pas à chaque commit — sauf le chemin `/propose-kit-improvement` (Phase 6), qui alimente `[Unreleased]` automatiquement à chaque changement externe accepté, précisément pour ne pas dépendre de la mémoire du mainteneur sur ce chemin-là.
 
-## Ce que ça ne résout PAS encore
+## Application sélective des changements — ✅ résolu (2026-07-01)
 
-Le tamponnage donne le *point de départ* du diff, mais pas de mécanisme pour appliquer sélectivement les changements pertinents à un projet déjà bootstrapé (un `.tpl` peut avoir divergé sous l'effet des propres modifications du projet). Rester en diff manuel assisté (on sait maintenant depuis où diffter) plutôt que viser une synchronisation automatique façon `cookiecutter --replay` — trajet lourd, pas justifié tant qu'aucun cas réel ne le réclame.
+Construit : `/pull-kit-updates`, symétrique de `/propose-kit-improvement`. Fusion à 3 voies (BASE = original au SHA tamponné, MIEN = fichier réel du projet, NOUVEAU = kit HEAD actuel) sur la même liste stricte de fichiers propres au kit. La plupart des cas sont sans ambiguïté (MIEN==BASE → fast-forward ; NOUVEAU==BASE → rien à faire) ; l'arbitrage (les deux ont divergé de BASE) présente les deux diffs et laisse l'utilisateur choisir, avec une tentative de fusion structurelle si les zones modifiées ne se recouvrent pas. Le tampon avance après relecture, que tout ait été accepté ou non — une divergence refusée devient délibérée plutôt que rejugée à chaque run.
+
+Toujours pas construit, et volontairement : une synchronisation *automatique* façon `cookiecutter --replay` sans relecture. Les deux skills (`/propose-kit-improvement`, `/pull-kit-updates`) exigent une confirmation explicite avant d'écrire quoi que ce soit — trajet plus lourd pour l'utilisateur qu'un auto-sync, mais c'est le compromis assumé face au risque de laisser du contenu propre à un projet fuiter, ou d'écraser une personnalisation locale sans le dire.
 
 ## Remontée cross-projet (le vrai trou "auto-apprenant") — ✅ résolu (2026-07)
 

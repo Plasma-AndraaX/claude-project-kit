@@ -12,7 +12,8 @@ This is **not** the same thing as:
 
 ## [Unreleased]
 
-(nothing yet)
+### Added
+- `/pull-kit-updates`: the reverse of `/propose-kit-improvement` — three-way merges kit improvements made since a project's bootstrap into its kit-owned files (BASE = original at the stamped SHA, MINE = the project's current file, NEW = the kit's current state), asking the user to arbitrate only when both sides have genuinely diverged from the common ancestor. Generated in both profiles.
 
 ## [0.1.0] - 2026-07-01
 

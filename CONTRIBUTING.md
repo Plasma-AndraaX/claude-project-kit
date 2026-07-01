@@ -13,6 +13,7 @@ Opening a PR is always welcome. Whether it gets merged depends on a simple test:
 
 - If it touches `templates/`, change **both** `templates/en/` and `templates/fr/`, keeping them in structural parity (same files, same `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` marker placement). Run `python3 tools/lint-templates.py` before submitting — it checks exactly this.
 - If it touches `.claude/commands/bootstrap-claude-env.md`, keep the phases in sync with what the templates actually expect (file selection lists, marker semantics).
+- If it touches the kit-owned/excluded file lists in `propose-kit-improvement.md`'s Phase 2, make the identical edit in `pull-kit-updates.md`'s Phase 2 — the two skills must agree on exactly which files are in scope for either direction of sync, or one will offer to touch something the other refuses to.
 - Small, focused PRs are much easier to triage than large ones bundling several ideas.
 
 ## Reporting an issue vs. proposing a fix
