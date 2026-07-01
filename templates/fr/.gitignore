@@ -1,0 +1,5 @@
+# Secrets — ne jamais commiter
+.env.claude
+
+# Résidus OS
+.DS_Store

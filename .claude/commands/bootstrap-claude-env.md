@@ -72,6 +72,9 @@ For every file under `TPL_ROOT` (the language variant chosen in Phase 1), apply 
 - `templates/docs/adr/template.md`, `templates/docs/plans/template.md` → copied verbatim (no placeholders, no `.tpl` suffix — already generic)
 - `templates/dot-claude/**` → `<target>/.claude/**` (the kit stores it as `dot-claude` precisely so it isn't mistaken for the kit repo's *own* `.claude/` config)
 - `templates/tools/generate-dashboard.py.tpl` → `<target>/tools/generate-dashboard.py`
+- `templates/claude.sh` → `<target>/claude.sh`, then `chmod +x` it
+- `templates/.env.claude.example` → `<target>/.env.claude.example` (no placeholders — copied verbatim)
+- `templates/.gitignore` → `<target>/.gitignore`: if the target already has one, **append** the `.env.claude`/OS-cruft entries (checking they're not already present) rather than overwriting an existing file
 
 **Placeholder substitution** — replace in every `.tpl` file:
 - `{{PROJECT_NAME}}` → the confirmed project name
@@ -114,6 +117,7 @@ Show:
 - What was auto-detected in Phase 2 (so the user can spot-check/correct it) vs. what's still a blank `TODO`, including any unresolved code style heterogeneity worth a second look.
 - Concrete next steps: flesh out `docs/architecture.md`, open a first ADR if there's already a pending decision, create `docs/prefs/<login>.md` (Full profile), regenerate the dashboard once there's at least one ADR (Full profile), run `/changelog-capture` after the next user-visible change (if the changelog module was included).
 - Which plugins/MCP servers were enabled vs. just recorded as `suggested` in `docs/claude-code-tooling.md`, and the setup command for any that need a credential the user has to supply.
+- That `./claude.sh` exists to launch Claude Code with local env vars pre-loaded, and that `.env.claude` (copied from `.env.claude.example`) is where secrets go — gitignored, never committed.
 
 ## What this skill does NOT do
 

@@ -69,6 +69,12 @@ Deux gestes distincts, pas un choix exclusif :
 - **Consigner** — toujours fait, dans la table "Plugins / serveurs MCP" du fichier tooling.
 - **Activer** — une question séparée, par plugin : le skill propose d'ajouter l'entrée dans `enabledPlugins` de `.claude/settings.json` (ou de donner la commande de config MCP) *maintenant*, plutôt que de laisser un outil documenté-mais-jamais-configuré. Si l'activation nécessite un secret, le skill ne le fournit jamais lui-même — il donne la commande exacte et laisse l'utilisateur la lancer (même logique que pour le token Forgejo lors du déploiement de ce kit).
 
+## `claude.sh` — lancer Claude avec les bonnes variables d'environnement
+
+`claude.sh` (racine du projet cible) charge `.env.claude` (gitignored, jamais commité) puis lance `claude "$@"` — passe-plat complet des arguments. `.env.claude.example` est committé et documente les deux façons de renseigner une valeur : en clair, ou résolue depuis la CLI d'un gestionnaire de mots de passe (`op`, `bw`, `pass`, etc.) — puisque le fichier est `source`-é en bash, une ligne `export TOKEN=$(op read ...)` s'exécute normalement, aucune intégration spécifique par outil n'est nécessaire.
+
+**Limite connue** : c'est un script bash. Sur Windows natif (hors WSL), il ne fonctionne pas tel quel — un équivalent `.ps1` est une extension possible, pas fournie en v1.
+
 ## Conventions de code hétérogènes
 
 `docs/coding-standards.md` (présent dans les deux profils, comme `architecture.md`/`operations.md`) est l'endroit où vit le style de code réellement observé — pas une simple ligne dans `CLAUDE.md`, précisément parce qu'un codebase peut être hétérogène (plusieurs langages, dérive entre sous-projets, legacy vs code récent). Le skill l'écrit à partir de Phase 2 : un échantillonnage de fichiers réels, pas seulement la config du linter.

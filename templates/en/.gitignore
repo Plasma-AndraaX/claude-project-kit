@@ -1,0 +1,5 @@
+# Secrets — never commit
+.env.claude
+
+# OS cruft
+.DS_Store
