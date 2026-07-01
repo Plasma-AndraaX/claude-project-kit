@@ -1,5 +1,7 @@
 # claude-project-kit
 
+**Version actuelle : [0.1.0](CHANGELOG.md#010---2026-07-01)** — voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique lisible par un humain (distinct du tampon `.claude-project-kit-version`, qui sert au diff précis de `/propose-kit-improvement`).
+
 Un kit pour installer, sur n'importe quel projet informatique (n'importe quel langage/stack), l'**environnement Claude** que j'utilise sur Holoon : de la doc versionnée qui fait office de mémoire durable pour l'agent, un cycle ADR ↔ plan ↔ backlog pour tracer les décisions, et une poignée de skills qui font vivre tout ça.
 
 Important : ce n'est **pas** un scaffold de code (pas de boilerplate Angular/React/dotnet/etc.). C'est un scaffold pour l'**environnement de travail avec Claude** — la doc, les conventions, les commandes. Le code, tu l'écris dans le langage que tu veux, à côté.

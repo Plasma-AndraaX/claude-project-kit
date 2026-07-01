@@ -58,6 +58,7 @@ For each confirmed hunk:
 - Edit the corresponding file under `KIT_ROOT/templates/<lang>/...` (or the language-agnostic file, e.g. `.claude/commands/bootstrap-claude-env.md` itself if that's what changed) — re-inserting `{{PLACEHOLDER}}` tokens and profile markers exactly where the original had them. **Never let one of this project's own concrete values leak into the shared template** — if the original had a placeholder there, the edit must restore the placeholder, not hardcode this project's value.
 - If the same fix plausibly applies to the other language variant too and wasn't itself a translation, say so and offer to draft the equivalent edit there — per `CONTRIBUTING.md`'s own expectation that `templates/en/` and `templates/fr/` move together.
 - Create a branch in `KIT_ROOT` (e.g. `propose/<short-slug>`) off its current HEAD (not off the stamped SHA — the kit has likely moved on since bootstrap) and commit the accepted changes there with a clear message.
+- If `KIT_ROOT/CHANGELOG.md` exists, add one line per accepted change under its `## [Unreleased]` section (create the section if it says "(nothing yet)") — plain language, same register as the rest of that file. This is the one path that's expected to keep the kit's changelog fed without relying on the maintainer remembering to do it by hand.
 - Run `python3 tools/lint-templates.py` inside `KIT_ROOT` and show the result. If it fails, fix before presenting the branch as ready, or tell the user plainly if you can't.
 
 ## Phase 7 — Push/PR is a separate, explicit ask
