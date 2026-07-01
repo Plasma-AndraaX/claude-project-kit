@@ -92,4 +92,8 @@ Ce kit généralise le système documentaire construit sur Holoon (gouvernance o
 
 [Plasma-AndraaX](https://github.com/Plasma-AndraaX). Publié sous licence [MIT](LICENSE) — cette licence couvre le kit et son outillage (`templates/`, `.claude/`, scripts), pas le contenu qu'il génère dans ton propre projet une fois bootstrapé, qui t'appartient sans condition.
 
-Si tu forkes, améliores ou adaptes ce kit, une issue ou une PR sur le dépôt est la bienvenue — aucune obligation, juste une demande sympathique de l'auteur.
+Si tu forkes, améliores ou adaptes ce kit, une issue ou une PR sur le dépôt est la bienvenue — aucune obligation, juste une demande sympathique de l'auteur. Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) pour comment les PR sont triées.
+
+## Backlog du kit
+
+Les sujets ouverts sur le kit lui-même (pas sur un projet bootstrapé) vivent dans [`docs/backlog/`](docs/backlog/README.md).
