@@ -19,7 +19,7 @@ Current version: **0.1.0** (see [`CHANGELOG.md`](CHANGELOG.md); `git log` is ahe
 
 ## Where things stand — read this first in a new session
 
-Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, the single real open item: **none of `/bootstrap-claude-env`, `/propose-kit-improvement`, or `/pull-kit-updates` has ever been run as a real slash command in a live session** — every check so far is `tools/lint-templates.py`, a mechanical proxy for what an LLM *should* do reading the skill files, not proof it actually does it. That's the next priority. Everything else flagged in `docs/backlog/README.md`'s "fond de tiroir" is deliberately dormant, no active trigger.
+Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have now been run for real, on a live project (2026-07-01/02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md) for the full results and the 10 sub-specification frictions found (none blocking). Next priority: triage that list — decide which findings are worth fixing now vs. deferring. Everything else flagged in `docs/backlog/README.md`'s "fond de tiroir" is deliberately dormant, no active trigger.
 
 ## Working conventions
 

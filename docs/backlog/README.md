@@ -4,10 +4,11 @@ Sujets ouverts sur le kit lui-même (pas sur un projet bootstrapé). Pas de `doc
 
 ## Action manuelle requise (pas automatisable depuis cette session)
 
-- [ ] **Faire tourner les trois skills pour de vrai** — `/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`. Tous les tests à ce jour sont `tools/lint-templates.py`, un proxy mécanique en Python qui simule ce qu'un LLM *devrait* faire en lisant les skills. Aucun n'a jamais été réellement invoqué comme vraie commande slash dans une session Claude Code fraîche — et je ne peux pas le faire moi-même depuis cette session (les skills sont scopés à un repo dont je ne suis pas le cwd ici). À faire : ouvrir Claude Code dans `claude-project-kit`, lancer `/bootstrap-claude-env /tmp/un-repertoire-jetable`, faire un petit changement générique à la main dans ce répertoire puis lancer `/propose-kit-improvement`, et séparément faire évoluer le kit puis lancer `/pull-kit-updates` depuis le répertoire jetable pour vérifier la fusion à 3 voies (y compris un cas d'arbitrage volontairement provoqué). C'est la seule vérification qui compte vraiment.
+_(vide — le seul item de cette section a été traité, voir ci-dessous)_
 
 ## Sujets à mûrir
 
+- [x] **Faire tourner les trois skills pour de vrai** — fait le 2026-07-01/02, sur un vrai projet (`voxtrail`, pas un répertoire jetable vide), par des agents frais suivant le texte des skills à la lettre. Les 3 fonctionnent et n'ont produit aucun résultat incorrect. Voir [`first-real-run-findings.md`](first-real-run-findings.md) pour le détail complet des frictions/instructions sous-spécifiées trouvées (10 points, aucun bloquant) — reste à mûrir : lesquelles corriger et dans quel skill.
 - [x] **Versioning et rétro-propagation** — voir [`versioning-and-retro-propagation.md`](versioning-and-retro-propagation.md). Tampon de version construit ; remontée cross-projet via `/propose-kit-improvement` ; application sélective via `/pull-kit-updates`. Reste ouvert : jamais testé en conditions réelles (item ci-dessus).
 - [x] **Modèle de contribution / système d'extension** — voir [`contribution-and-extension-model.md`](contribution-and-extension-model.md). `CONTRIBUTING.md` + `/propose-kit-improvement` couvrent le triage assisté. Le système de plugins/dépôts satellites reste délibérément non construit (zéro contributeur externe à ce jour).
 
