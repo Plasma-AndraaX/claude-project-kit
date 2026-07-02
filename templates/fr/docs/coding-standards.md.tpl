@@ -4,6 +4,8 @@ Le style et les conventions de nommage réellement en vigueur dans {{PROJECT_NAM
 
 > Garder ce document centré sur *quelle* est la convention et *comment* elle est appliquée, pas sur le *pourquoi*. Si un choix de style est une décision architecturale délibérée, référencer l'ADR concernée ou une entrée datée de `docs/lessons-technical.md` plutôt que d'expliquer le raisonnement ici.
 
+> Pour (re)générer une proposition de conventions selon la stack (projet neuf, ajout d'un langage, actualisation) : lancer la commande `/coding-standards`.
+
 ## Vue d'ensemble
 
 <!-- Une ligne : ce codebase est-il homogène de bout en bout, ou varie-t-il par module/langage ? Si hétérogène, le dire explicitement ici et utiliser une sous-section "Conventions" par zone ci-dessous plutôt qu'une section globale unique. -->

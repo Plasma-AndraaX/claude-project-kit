@@ -1,7 +1,7 @@
 ---
-status: in-progress
+status: implemented
 created: 2026-07-02
-settled:
+settled: 2026-07-02
 related-adr: 0003
 ---
 
@@ -70,5 +70,7 @@ Périmètre : **jamais** installer un outil, générer un `.prettierrc`/`.eslint
 
 ## Prochaines actions
 
-- [ ] Lot 1 — commande (en+fr) + intégrations + lint vert.
-- [ ] Lot 2 (gated) — dogfood réel sur un projet, à la prochaine occasion.
+- [x] Lot 1 — commande (en+fr) + intégrations + lint vert.
+- [ ] Lot 2 (gated future) — dogfood réel sur un projet, au prochain projet neuf ou session dédiée (non bloquant).
+
+_Clôturé le 2026-07-02 — Lot 1 livré ; Lot 2 explicitement gated future. Voir `CHANGELOG.md` § [Unreleased]._

@@ -12,7 +12,8 @@ This is **not** the same thing as:
 
 ## [Unreleased]
 
-_(nothing yet)_
+### Added
+- `/coding-standards` command (both profiles): proposes or refreshes `docs/coding-standards.md` from the project's stack, pulling idiomatic conventions (formatter + style guide) from a live docs source (`find-docs`/`ctx7`) when available, falling back to model knowledge (flagged) otherwise. Documentation only — never installs or configures a tool; offers a derived `.editorconfig` but doesn't impose it. Fills the new-project gap without bloating the bootstrap. See ADR 0003.
 
 ## [0.3.0] - 2026-07-02
 

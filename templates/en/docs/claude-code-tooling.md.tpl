@@ -18,6 +18,7 @@ Inventory of the Claude Code plugins, skills, subagents, and hooks used (or eval
 |---|---|
 | `/propose-kit-improvement` | Diffs kit-owned files against the `claude-project-kit` version that generated this project, proposes a filtered patch back |
 | `/pull-kit-updates` | The reverse: three-way merges kit improvements made since this project was bootstrapped into its kit-owned files |
+| `/coding-standards` | Proposes/refreshes `docs/coding-standards.md` from the stack, via a live docs source (documentation only, no scaffold) |
 | `/new-adr` | Guided process to open an ADR + companion plan |
 | `/capture-lessons` | Reviews recent work and proposes doc updates |
 | `/whats-left` | Tactical view of open backlog/plan items |
