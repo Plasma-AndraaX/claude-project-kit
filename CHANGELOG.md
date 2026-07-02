@@ -18,6 +18,7 @@ This is **not** the same thing as:
 - `.claude-project-kit-version`: two new fields, `profile=full|minimal` and `changelog=yes|no`, alongside the existing `sha=`/`lang=`. `/propose-kit-improvement` and `/pull-kit-updates` use them instead of re-inferring profile/changelog from file presence. Purely additive — both skills fall back to the old inference on a stamp from before this change.
 
 ### Fixed
+- `claude.sh` (both `en`/`fr`): fail with a clear message if `claude` isn't found in `PATH`, instead of a bare shell `command not found` from `exec claude "$@"`. Surfaced via `/propose-kit-improvement` from a bootstrapped project.
 - `.claude/commands/bootstrap-claude-env.md`: Phase 0's `merge` option now says explicitly that the diff review happens after Phases 1-4 generate candidate content, right before Phase 5 commits — not at Phase 0 itself, which had nothing to diff against yet.
 - `.claude/commands/bootstrap-claude-env.md`: Phase 2's plugin/MCP discovery step now says explicitly it needs Phase 3's profile answer first.
 - `.claude/commands/bootstrap-claude-env.md`: Phase 4's `.claude/settings.json` guidance no longer points at this kit's own `.claude/settings.json` as a shape reference for `enabledPlugins` — that file doesn't have one.
@@ -27,10 +28,7 @@ This is **not** the same thing as:
 - `templates/en/dot-claude/commands/pull-kit-updates.md`: fixed a leftover untranslated French phrase in the arbitration bullet.
 - `CONTRIBUTING.md`: added a `Which files get a .tpl suffix` section — the exact rule was previously implicit, discoverable only by exploring `templates/` directly.
 
-All ten found by actually running the three skills for real for the first time (2026-07-01/02) — see `docs/backlog/first-real-run-findings.md`.
-
-### Fixed
-- `claude.sh` (both `en`/`fr`): fail with a clear message if `claude` isn't found in `PATH`, instead of a bare shell `command not found` from `exec claude "$@"`. Surfaced via `/propose-kit-improvement` from a bootstrapped project.
+Everything above (except the `claude.sh` fix, which was itself the payload `/propose-kit-improvement` upstreamed) came out of actually running the three skills for real for the first time (2026-07-01/02) — see `docs/backlog/first-real-run-findings.md` for the full list of 10 frictions (9 fixed, 1 deliberately left to case-by-case judgment).
 
 ## [0.1.0] - 2026-07-01
 
