@@ -27,6 +27,6 @@ Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; 
 ## Working conventions
 
 - New template content touches **both** `templates/en/` and `templates/fr/` — see `CONTRIBUTING.md`.
-- Profile-conditional markers go on the **same line** as the content they gate, never a standalone marker line (a past bug: a standalone marker line leaves a blank line behind when stripped, which breaks a Markdown table mid-file).
+- Profile-conditional markers: **on a table row, keep the marker inline** on the same line as the row — a standalone marker line there leaves a blank line mid-table and breaks it. **Around a multi-line prose block, a marker on its own line is fine**: the strip removes it as a whole line, and both `strip_markers` in `tools/lint-templates.py` and the bootstrap skill absorb the framing blanks so nothing collapses into a double blank line (enforced by the linter's consecutive-blank-line check).
 - `/propose-kit-improvement`'s Phase 6 appends to `CHANGELOG.md`'s `[Unreleased]` section for accepted external contributions; changes made directly in a session here should get a `CHANGELOG.md` entry by hand, same discipline.
 - Don't build ahead of a demonstrated need — several backlog items are deliberately deferred with a documented wake trigger rather than built speculatively (see `docs/backlog/contribution-and-extension-model.md` for the clearest example of this doctrine in action).

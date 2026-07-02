@@ -75,14 +75,21 @@ def check_lang_parity(errors):
 def strip_markers(text, active_tags):
     for tag in ALL_TAGS:
         if tag in active_tags:
-            # Symmetric strip: a marker that opens a line (before a table row, or on its
-            # own line) takes its trailing space with it; a marker that closes a line takes
-            # its leading space. Markers mid-prose keep the surrounding spaces intact.
+            # A marker alone on its line (the case for multi-line prose blocks) is removed
+            # as a whole line, newline included, so it leaves no blank line behind. This
+            # must run *before* the inline strip below.
+            text = re.sub(rf'(?m)^[ \t]*<!-- {tag}-ONLY -->[ \t]*\n', '', text)
+            text = re.sub(rf'(?m)^[ \t]*<!-- /{tag}-ONLY -->[ \t]*\n', '', text)
+            # Symmetric inline strip: a marker opening a line (before a table row) takes its
+            # trailing space with it; a marker closing a line takes its leading space; a
+            # marker mid-prose keeps the surrounding spaces intact.
             text = re.sub(rf'(?m)^<!-- {tag}-ONLY -->[ \t]+', '', text)
             text = re.sub(rf'(?m)[ \t]+<!-- /{tag}-ONLY -->[ \t]*$', '', text)
             text = text.replace(f'<!-- {tag}-ONLY -->', '').replace(f'<!-- /{tag}-ONLY -->', '')
         else:
-            text = re.sub(rf'[ \t]*<!-- {tag}-ONLY -->.*?<!-- /{tag}-ONLY -->[ \t]*\n?', '', text, flags=re.DOTALL)
+            # Drop the gated block, and absorb one blank line that followed it so the blank
+            # lines that framed the block on both sides don't collapse into a double blank.
+            text = re.sub(rf'[ \t]*<!-- {tag}-ONLY -->.*?<!-- /{tag}-ONLY -->[ \t]*\n?(?:[ \t]*\n)?', '', text, flags=re.DOTALL)
     return text
 
 
@@ -136,6 +143,12 @@ def check_leading_space_tables(text):
         if re.match(r'[ \t]+\|', line):
             problems.append(f'leading space before table row: {line[:60]!r}')
     return problems
+
+
+def check_consecutive_blank_lines(text):
+    """No 2+ consecutive blank lines in a render — usually the fingerprint of a
+    standalone marker line left behind as an empty line (see strip_markers)."""
+    return ['2+ consecutive blank lines in rendered output'] if re.search(r'\n[ \t]*\n[ \t]*\n', text) else []
 
 
 LINK_RE = re.compile(r'\[[^\]]*\]\(([^)]+)\)')
@@ -194,12 +207,18 @@ def check_rendering(errors):
                 # in prose (documenting the convention) are not a residual marker.
                 if re.search(r'<!--\s*/?\s*(FULL|MINIMAL|CHANGELOG|MEMORYHOOK)-ONLY\s*-->', text):
                     errors.append(f'{label}: residual profile marker')
-                for p in check_broken_tables(text):
-                    errors.append(f'{label}: {p}')
-                for p in check_leading_space_tables(text):
-                    errors.append(f'{label}: {p}')
-                for p in check_dead_links(text, gen_path(rel_str), all_gen, rendered_gen):
-                    errors.append(f'{label}: {p}')
+                # Markdown-shape checks only apply to rendered Markdown — a .py/.sh/.env
+                # file legitimately has table-like pipes, leading spaces, or PEP 8 double
+                # blank lines that would be false positives here.
+                if rel_str.endswith(('.md', '.md.tpl')):
+                    for p in check_broken_tables(text):
+                        errors.append(f'{label}: {p}')
+                    for p in check_leading_space_tables(text):
+                        errors.append(f'{label}: {p}')
+                    for p in check_consecutive_blank_lines(text):
+                        errors.append(f'{label}: {p}')
+                    for p in check_dead_links(text, gen_path(rel_str), all_gen, rendered_gen):
+                        errors.append(f'{label}: {p}')
 
 
 def main():
