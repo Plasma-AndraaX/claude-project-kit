@@ -6,7 +6,7 @@ Guidance for Claude Code sessions working **on this repo** (`claude-project-kit`
 
 A bilingual (`en`/`fr`) kit that bootstraps a Claude Code documentation/workflow environment (ADR↔plan↔backlog, `CLAUDE.md`, coding standards, optional changelog module) into any project, via the `/bootstrap-claude-env` skill. See [`README.md`](README.md) for the user-facing pitch, [`ADAPTING.md`](ADAPTING.md) for the reasoning behind every non-obvious design choice.
 
-Current version: **0.3.0** (see [`CHANGELOG.md`](CHANGELOG.md)). Public at `github.com/Plasma-AndraaX/claude-project-kit`.
+Current version: **0.4.0** (see [`CHANGELOG.md`](CHANGELOG.md)). Public at `github.com/Plasma-AndraaX/claude-project-kit`.
 
 ## Structure
 

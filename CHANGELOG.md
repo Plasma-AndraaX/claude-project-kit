@@ -12,6 +12,10 @@ This is **not** the same thing as:
 
 ## [Unreleased]
 
+_(nothing yet)_
+
+## [0.4.0] - 2026-07-02
+
 ### Added
 - `/coding-standards` command (both profiles): proposes or refreshes `docs/coding-standards.md` from the project's stack, pulling idiomatic conventions (formatter + style guide) from a live docs source (`find-docs`/`ctx7`) when available, falling back to model knowledge (flagged) otherwise. Documentation only — never installs or configures a tool; offers a derived `.editorconfig` but doesn't impose it. Fills the new-project gap without bloating the bootstrap. See ADR 0003.
 - New `MEMORYHOOK-ONLY` marker axis + `memoryhook=yes|no` version-stamp field, gated purely by the Phase 3 memory-block-hook question (independent of Full/Minimal, like `CHANGELOG-ONLY`). Wired through `lint-templates.py` (`ALL_TAGS` + memoryhook combos), `bootstrap-claude-env.md` (Phase 3/4), and `/propose-kit-improvement`/`/pull-kit-updates` (tolerant fallback: infer from the hook's presence in `.claude/settings.json` when the field is absent, so older stamps keep working).
