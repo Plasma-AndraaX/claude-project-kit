@@ -87,6 +87,14 @@ Checks before creating a new item:
 - **Duplicate?** Grep the slug or main keyword in `docs/backlog/` and `docs/plans/`. If an adjacent item exists → add to it or as a sub-item of a bundle, **not** a new file.
 - **Sub-theme of an existing PRIMARY bundle?** → a line under the PRIMARY rather than a dedicated file (see § Granularity, Pattern 3).
 
+## Routing an incident (an event that happened, not an idea)
+
+An **event** that just occurred (an outage, a destructive action, a real-impact surprise) doesn't route like a fresh idea:
+
+> *"An ordinary bug, fixed? → the commit is enough. General knowledge not to forget? → `lessons-technical`. Remaining work? → `backlog`. A real-impact, surprising event worth a timeline that generates follow-up actions? → a postmortem in [`incidents/`](incidents/README.md)."*
+
+The postmortem is the record of the event; it **references** the lesson (`lessons-technical`) and follow-ups (`backlog`) it produces — it doesn't duplicate them.
+
 ## When to open what
 
 | You have… | You open… | Shape |

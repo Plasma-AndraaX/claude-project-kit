@@ -87,6 +87,14 @@ Vérifications avant de créer un nouvel item :
 - **Doublon ?** Grep le slug ou le mot-clé principal dans `docs/backlog/` et `docs/plans/`. Si un item adjacent existe → l'ajouter dedans ou en sous-item d'un bundle, **pas** un nouveau fichier.
 - **Sous-thème d'un bundle PRINCIPAL existant ?** → une ligne sous le PRINCIPAL plutôt qu'un fichier dédié (voir § Granularité, Pattern 3).
 
+## Router un incident (un événement vécu, pas une idée)
+
+Un **événement** qui vient de se produire (une panne, une action destructrice, une surprise à impact réel) ne se route pas comme une idée neuve :
+
+> *« Un simple bug corrigé ? → le commit suffit. Une connaissance générale à ne pas réoublier ? → `lessons-technical`. Du travail restant ? → `backlog`. Un événement à impact réel, surprenant, qui mérite une chronologie et génère des actions de suivi ? → un postmortem dans [`incidents/`](incidents/README.md). »*
+
+Le postmortem est l'enregistrement de l'événement ; il **référence** la leçon (`lessons-technical`) et les follow-ups (`backlog`) qu'il produit, il ne les duplique pas.
+
 ## Quand ouvrir quoi
 
 | Tu as… | Tu ouvres… | Forme |

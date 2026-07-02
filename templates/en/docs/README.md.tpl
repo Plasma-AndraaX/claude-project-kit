@@ -11,7 +11,9 @@ Map of the project documentation. Each document has a distinct purpose; they don
 | [`adr/`](adr/README.md) | Architecture Decision Records — numbered, short, one decision per file | Each ADR is stable once accepted; new ADRs supersede old ones |
 | [`plans/`](plans/README.md) | Detailed implementation/investigation plans, attached to ADRs | Evolve while `in-progress`, frozen with a date prefix when `implemented` or `rejected` |
 | [`backlog/`](backlog/README.md) | Ideas / debt / deferred items not yet mature enough for an ADR | One file per topic, or grouped by theme<!-- FULL-ONLY --> — see `workflow.md` for granularity patterns<!-- /FULL-ONLY --> |
-<!-- FULL-ONLY --> | [`lessons-domain.md`](lessons-domain.md) | Business rules and domain invariants | Append-only |
+<!-- FULL-ONLY --> | [`testing.md`](testing.md) | Testing strategy: levels, philosophy, what we don't test | Living |
+| [`incidents/`](incidents/README.md) | Postmortems of real-impact incidents | One file per incident, dated |
+| [`lessons-domain.md`](lessons-domain.md) | Business rules and domain invariants | Append-only |
 | [`prefs/`](prefs/README.md) | Per-contributor personal preferences, committed | One file per contributor |
 | [`claude-code-tooling.md`](claude-code-tooling.md) | Inventory of Claude Code plugins/skills/hooks used on this project | Living | <!-- /FULL-ONLY -->
 <!-- CHANGELOG-ONLY --> | [`changelog/`](changelog/README.md) | User-facing release notes — captured as-you-go, drafted at release time | `_next.md` is a running scratch file, cleared each release | <!-- /CHANGELOG-ONLY -->

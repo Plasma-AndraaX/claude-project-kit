@@ -33,8 +33,8 @@ PLACEHOLDERS = {
 
 ALL_TAGS = ('FULL', 'MINIMAL', 'CHANGELOG')
 
-MINIMAL_SKIP_DIRS = {'adr', 'plans', 'prefs', 'changelog'}
-MINIMAL_SKIP_FILES = {'workflow.md.tpl', 'claude-code-tooling.md.tpl', 'lessons-domain.md.tpl'}
+MINIMAL_SKIP_DIRS = {'adr', 'plans', 'prefs', 'changelog', 'incidents'}
+MINIMAL_SKIP_FILES = {'workflow.md.tpl', 'claude-code-tooling.md.tpl', 'lessons-domain.md.tpl', 'testing.md.tpl'}
 MINIMAL_SKIP_COMMANDS = {'new-adr.md', 'capture-lessons.md', 'whats-left.md', 'dashboard.md',
                          'changelog-capture.md', 'changelog-draft.md'}
 CHANGELOG_PATH_MARKERS = ('docs/changelog', 'dot-claude/commands/changelog-capture.md',

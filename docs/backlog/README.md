@@ -1,6 +1,6 @@
 # Backlog — claude-project-kit
 
-Sujets ouverts sur le kit lui-même (pas sur un projet bootstrapé). Pas de `docs/adr/`/`docs/plans/` pour l'instant — les décisions structurantes déjà prises ont leur raisonnement dans `README.md`/`ADAPTING.md` ; le format ADR est réservé aux futures décisions pas encore tranchées (voir les items ci-dessous, plusieurs sont candidats).
+Sujets ouverts sur le kit lui-même (pas sur un projet bootstrapé). Depuis le 2026-07-02, le kit a son propre [`docs/adr/`](../adr/README.md) + [`docs/plans/`](../plans/README.md) (il dogfoode sa propre machinerie) — les décisions structurantes assez mûres y vont ; les décisions plus anciennes gardent leur raisonnement dans `README.md`/`ADAPTING.md`. Le backlog reste pour ce qui n'est pas encore tranché.
 
 ## Action manuelle requise (pas automatisable depuis cette session)
 
@@ -14,11 +14,10 @@ _(vide — le seul item de cette section a été traité, voir ci-dessous)_
 
 ## Fond de tiroir (pas de déclencheur)
 
-- [ ] Doc de stratégie de test dédiée pour les projets bootstrapés.
-- [ ] Journal d'incidents/postmortem, distinct de `lessons-technical.md`.
 - [ ] Profils supplémentaires entre Minimal et Full.
 - [ ] Équivalent `.ps1` de `claude.sh` pour Windows natif (hors WSL).
 
 ## Fichiers conservés en référence (sujets clos)
 
-_(vide pour l'instant)_
+- [x] **Doc de stratégie de test dédiée** — résolu le 2026-07-02 : module `docs/testing.md` (Full only). Voir [ADR 0001](../adr/0001-strategie-de-test.md) + [plan](../plans/2026-07-02-strategie-de-test.md). Déclencheur : le premier run réel des skills.
+- [x] **Journal d'incidents / postmortem** — résolu le 2026-07-02 : module `docs/incidents/` (un fichier par incident, Full only), distinct de `lessons-technical.md`. Voir [ADR 0002](../adr/0002-journal-incidents.md) + [plan](../plans/2026-07-02-journal-incidents.md). Déclencheur + premier postmortem : l'incident `settings.json` du 2026-07-01.

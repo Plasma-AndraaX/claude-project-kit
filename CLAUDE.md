@@ -15,11 +15,14 @@ Current version: **0.2.0** (see [`CHANGELOG.md`](CHANGELOG.md)). Public at `gith
 - `templates/<lang>/dot-claude/commands/propose-kit-improvement.md` + `pull-kit-updates.md` — generated into every bootstrapped project; sync changes *to* and *from* the kit using a three-way diff anchored on `.claude-project-kit-version` (SHA + lang + profile + changelog choice, stamped at bootstrap time). Both skills share a strict "kit-owned vs. project-owned" file list — if you edit one skill's Phase 2 list, edit the other's too (see `CONTRIBUTING.md`).
 - `templates/<lang>/tools/session-end-capture.sh` — optional `SessionEnd` hook (message or headless-auto capture of lessons/changelog).
 - `tools/lint-templates.py` — the only automated check that exists. Verifies marker balance, `en`/`fr` parity, and clean rendering across every profile × changelog combination. It does **not** verify the skills actually work when run for real — see below.
-- `docs/backlog/README.md` — what's open on the kit itself (not ADR/plan machinery, deliberately — see that file's own header for why).
+- `docs/backlog/README.md` — what's open on the kit itself.
+- `docs/adr/` + `docs/plans/` — the kit's own decision records and companion plans. Since 2026-07-02 the kit dogfoods its own ADR ↔ plan machinery (format points at `templates/fr/docs/adr|plans/template.md` rather than duplicating it).
+- `docs/testing.md` — how the kit is tested (lint + manual end-to-end run of the 3 skills). `tools/lint-templates.py` stays the only automated check.
+- `docs/incidents/` — postmortems of real-impact incidents hit while working on the kit.
 
 ## Where things stand — read this first in a new session
 
-Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have been run for real on a live project (2026-07-01/02) and 9 of the 10 sub-specification frictions found have been fixed (2026-07-02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md). No active next priority right now; everything flagged in `docs/backlog/README.md`'s "fond de tiroir" is deliberately dormant, no active trigger.
+Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have been run for real on a live project (2026-07-01/02) and 9 of the 10 sub-specification frictions found have been fixed (2026-07-02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md). On 2026-07-02, two new Full-profile modules were added and dogfooded — `docs/testing.md` (testing strategy) and `docs/incidents/` (postmortems), see ADR 0001/0002. No active next priority right now; the two remaining `docs/backlog/README.md` "fond de tiroir" items are deliberately dormant, no active trigger.
 
 ## Working conventions
 

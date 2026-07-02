@@ -11,7 +11,7 @@ Opening a PR is always welcome. Whether it gets merged depends on a simple test:
 
 ## Which files get a `.tpl` suffix
 
-A file under `templates/<lang>/` gets a `.tpl` suffix **iff** `/bootstrap-claude-env`'s Phase 4 must do something to it at generation time — substitute a `{{PLACEHOLDER}}` and/or strip a `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` marker. Everything else is copied byte-for-byte and never gets the suffix: `claude.sh`, `.gitignore`, `.env.claude.example`, `docs/adr/template.md`, `docs/plans/template.md`, `docs/changelog/_next.md`, every `dot-claude/commands/*.md`, `tools/session-end-capture.sh`. See Phase 4's file mapping in `.claude/commands/bootstrap-claude-env.md` for the authoritative, exhaustive list — don't restate or re-derive this rule elsewhere (`propose-kit-improvement.md`/`pull-kit-updates.md` both point back here instead of repeating it).
+A file under `templates/<lang>/` gets a `.tpl` suffix **iff** `/bootstrap-claude-env`'s Phase 4 must do something to it at generation time — substitute a `{{PLACEHOLDER}}` and/or strip a `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` marker. Everything else is copied byte-for-byte and never gets the suffix: `claude.sh`, `.gitignore`, `.env.claude.example`, `docs/adr/template.md`, `docs/plans/template.md`, `docs/incidents/template.md`, `docs/changelog/_next.md`, every `dot-claude/commands/*.md`, `tools/session-end-capture.sh`. See Phase 4's file mapping in `.claude/commands/bootstrap-claude-env.md` for the authoritative, exhaustive list — don't restate or re-derive this rule elsewhere (`propose-kit-improvement.md`/`pull-kit-updates.md` both point back here instead of repeating it).
 
 ## Before opening a PR
 

@@ -32,6 +32,8 @@ Setup, build, run, debug, deploy for {{PROJECT_NAME}}. **Living document** — u
 # TODO
 ```
 
+<!-- FULL-ONLY -->For the test *strategy* (levels, philosophy, what we don't test), see [`testing.md`](testing.md) — here, only *how to run*.<!-- /FULL-ONLY -->
+
 ## Debug
 
 <!-- Common debugging entry points: logs location, how to attach a debugger, useful flags. -->

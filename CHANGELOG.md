@@ -12,7 +12,10 @@ This is **not** the same thing as:
 
 ## [Unreleased]
 
-_(nothing yet)_
+### Added
+- `docs/testing.md` module (Full profile): a dedicated testing-strategy doc — levels, philosophy, what we deliberately don't test, definition of "tested" — distinct from `operations.md § Test` (how to run). See ADR 0001.
+- `docs/incidents/` module (Full profile): one postmortem file per real-impact incident (`YYYY-MM-DD-slug.md`) with a structured template — the missing piece between "a commit" and "a lesson". Wired into `persistence-strategy`, `workflow`, `lessons-technical`, `CLAUDE.md`, `docs/README.md`, and `lint-templates.py`'s `MINIMAL_SKIP_DIRS`. See ADR 0002.
+- The kit now has its own `docs/adr/` + `docs/plans/` (dogfooding its own machinery): ADR 0001 (testing strategy) and ADR 0002 (incident log), with companion plans, plus `docs/testing.md` and a first real postmortem (`docs/incidents/2026-07-01-*`).
 
 ## [0.2.0] - 2026-07-02
 

@@ -11,7 +11,9 @@ Carte de la documentation du projet. Chaque document a une vocation distincte ; 
 | [`adr/`](adr/README.md) | Architecture Decision Records — numérotées, courtes, une décision par fichier | Chaque ADR est stable une fois `accepted` ; les nouvelles ADR supersèdent les anciennes |
 | [`plans/`](plans/README.md) | Plans d'implémentation/investigation détaillés, rattachés aux ADR | Évoluent tant qu'`in-progress`, gelés avec préfixe de date une fois `implemented` ou `rejected` |
 | [`backlog/`](backlog/README.md) | Idées / dette / sujets différés pas encore mûrs pour une ADR | Un fichier par thème, ou groupé<!-- FULL-ONLY --> — voir `workflow.md` pour les patterns de granularité<!-- /FULL-ONLY --> |
-<!-- FULL-ONLY --> | [`lessons-domain.md`](lessons-domain.md) | Règles métier et invariants de domaine | Append-only |
+<!-- FULL-ONLY --> | [`testing.md`](testing.md) | Stratégie de test : niveaux, philosophie, ce qu'on ne teste pas | Vivant |
+| [`incidents/`](incidents/README.md) | Postmortems d'incidents à impact réel | Un fichier par incident, daté |
+| [`lessons-domain.md`](lessons-domain.md) | Règles métier et invariants de domaine | Append-only |
 | [`prefs/`](prefs/README.md) | Préférences personnelles par contributeur, committées | Un fichier par contributeur |
 | [`claude-code-tooling.md`](claude-code-tooling.md) | Inventaire des plugins/skills/hooks Claude Code utilisés sur ce projet | Vivant | <!-- /FULL-ONLY -->
 <!-- CHANGELOG-ONLY --> | [`changelog/`](changelog/README.md) | Notes de release utilisateur — capturées au fil de l'eau, rédigées à la release | `_next.md` est un brouillon courant, vidé à chaque release | <!-- /CHANGELOG-ONLY -->
