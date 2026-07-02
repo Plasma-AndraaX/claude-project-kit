@@ -11,7 +11,7 @@ $ARGUMENTS
 
 ## Phase 1 — Locate the baseline
 
-- Read `.claude-project-kit-version` at the project root (two lines: `sha=...`, `lang=...`). If it doesn't exist, this project predates version stamping — tell the user there's no reliable baseline to diff against and stop (don't guess).
+- Read `.claude-project-kit-version` at the project root (`sha=...`, `lang=...`, and — on a recent stamp — `profile=full|minimal` and `changelog=yes|no`). If it doesn't exist, this project predates version stamping — tell the user there's no reliable baseline to diff against and stop (don't guess). If `profile=`/`changelog=` are absent (a stamp from before they existed), infer them from which Full-only files are present, as before.
 - Resolve `KIT_ROOT`: `$CLAUDE_PROJECT_KIT_HOME` env var if set, otherwise `/mnt/c/dev/claude-project-kit`, otherwise ask the user for their kit checkout path.
 - Verify the stamped SHA still exists in the kit's local history (`git -C KIT_ROOT cat-file -e <sha>`). If it doesn't (rebase, shallow clone, pruned history), tell the user precisely why and stop rather than silently diffing against something else.
 
@@ -26,20 +26,22 @@ $ARGUMENTS
 - Every `.claude/commands/*.md` present (including this file)
 - `tools/generate-dashboard.py` (if present)
 - `claude.sh`, `.env.claude.example`, `.gitignore`, `tools/session-end-capture.sh` (if present)
-- `.claude/settings.json` — **only** the memory-block hook portion and the `SessionEnd` capture hook block (including its `message`/`auto` mode argument), never `enabledPlugins` or anything else in it (that's this project's own choices)
+- `.claude/settings.json` — **only** the memory-block hook portion and the `SessionEnd` capture hook block (including its `message`/`auto` mode argument), never `enabledPlugins` or anything else in it (that's this project's own choices). **Special case for the `SessionEnd` block**: it doesn't exist in any static `.tpl` file — it's assembled dynamically by the prose in `.claude/commands/bootstrap-claude-env.md` (§ Phase 4, *"Assembling `.claude/settings.json`"*, itself outside the candidate list). Reconstruct its BASE by reading that paragraph and substituting mode `message` (the one shown in the text), not via a `git show` on a candidate path.
 
 **Never consider, under any circumstance, even if it looks generic**: `docs/architecture.md`, `docs/operations.md`, `docs/coding-standards.md`, `docs/lessons-technical.md`, `docs/lessons-domain.md`, anything under `docs/backlog/`, any numbered file under `docs/adr/` or `docs/plans/` (i.e. actual ADRs/plans, not the templates), `docs/prefs/<login>.md` files, `docs/changelog/_next.md` or any dated changelog entry, `docs/claude-code-tooling.md`. These are pure project content by construction — there is no scenario where diffing them for upstreaming is correct, so they're excluded structurally rather than left to judgment.
 
 ## Phase 3 — Diff each candidate
 
 For each candidate file that exists in this project:
-1. Fetch the original template content: `git -C KIT_ROOT show <sha>:templates/<lang>/<mapped-path>` (map `.claude/` back to `dot-claude/`, add back the `.tpl` suffix for files that had one).
-2. **Normalize before comparing** — the original template may contain `{{PROJECT_NAME}}`/`{{PROJECT_ONE_LINER}}`/`{{PRIMARY_STACK}}` placeholders and `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` markers that were resolved for this project's profile/language/changelog choice at bootstrap time. Resolve the *original* the same way (substitute this project's actual name/description/stack, strip markers per this project's actual profile) before diffing — otherwise every file shows spurious differences that are just profile resolution, not real changes.
+1. Fetch the original template content: `git -C KIT_ROOT show <sha>:templates/<lang>/<mapped-path>` (map `.claude/` back to `dot-claude/`; for whether a path takes a `.tpl` suffix, see `CONTRIBUTING.md` § *Which files get a `.tpl` suffix* in the kit — don't re-derive the rule).
+2. **Normalize before comparing** — the original template may contain `{{PROJECT_NAME}}`/`{{PROJECT_ONE_LINER}}`/`{{PRIMARY_STACK}}` placeholders and `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` markers that were resolved for this project's profile/language/changelog choice at bootstrap time. Resolve the *original* the same way (substitute this project's actual name/description/stack, strip markers per the `profile=`/`changelog=` read in Phase 1) before diffing — otherwise every file shows spurious differences that are just profile resolution, not real changes. Also check that no scaffolding comment unrelated to a marker (e.g. an HTML comment explaining what a section is for, present in the template but stripped by the real bootstrap) is left in your normalized version — otherwise it shows up as a phantom hunk.
 3. What's left after normalization is the real diff. Expect it to be empty or tiny for most files most of the time — that's normal, not a bug.
 
 ## Phase 4 — Classify and screen
 
-For every real diff hunk:
+**Classification grain**: when a unified hunk mixes several logically distinct changes (e.g. a scaffolding comment removed + a real wording improvement in the same `@@` block), split it and classify each part separately rather than classifying the whole hunk as one unit.
+
+For every real diff hunk (or sub-hunk):
 - **Generalizable improvement**: reads the same regardless of which project it's in — a clearer instruction, a fixed typo, a corrected edge case, a genuinely useful new example. Candidate to propose.
 - **Project-specific customization**: only makes sense in the context of *this* project — mentions its actual domain, names, architecture, or a preference specific to this team. Drop it, don't even show it as a "rejected" candidate with the specific content quoted — just note in the summary that N project-specific changes were found and excluded.
 - **Noise**: differs only because of placeholder/marker resolution that Phase 3 should have already normalized away, or a trivial reformatting with no semantic change. Drop it.

@@ -12,14 +12,14 @@ Current version: **0.1.0** (see [`CHANGELOG.md`](CHANGELOG.md); `git log` is ahe
 
 - `templates/en/`, `templates/fr/` — the actual templates, kept in **structural parity** (same files, same `<!-- FULL-ONLY -->`/`<!-- MINIMAL-ONLY -->`/`<!-- CHANGELOG-ONLY -->` markers). Run `python3 tools/lint-templates.py` after touching either.
 - `.claude/commands/bootstrap-claude-env.md` — the main skill, generates a project from `templates/<lang>/`.
-- `templates/<lang>/dot-claude/commands/propose-kit-improvement.md` + `pull-kit-updates.md` — generated into every bootstrapped project; sync changes *to* and *from* the kit using a three-way diff anchored on `.claude-project-kit-version` (SHA + lang, stamped at bootstrap time). Both skills share a strict "kit-owned vs. project-owned" file list — if you edit one skill's Phase 2 list, edit the other's too (see `CONTRIBUTING.md`).
+- `templates/<lang>/dot-claude/commands/propose-kit-improvement.md` + `pull-kit-updates.md` — generated into every bootstrapped project; sync changes *to* and *from* the kit using a three-way diff anchored on `.claude-project-kit-version` (SHA + lang + profile + changelog choice, stamped at bootstrap time). Both skills share a strict "kit-owned vs. project-owned" file list — if you edit one skill's Phase 2 list, edit the other's too (see `CONTRIBUTING.md`).
 - `templates/<lang>/tools/session-end-capture.sh` — optional `SessionEnd` hook (message or headless-auto capture of lessons/changelog).
 - `tools/lint-templates.py` — the only automated check that exists. Verifies marker balance, `en`/`fr` parity, and clean rendering across every profile × changelog combination. It does **not** verify the skills actually work when run for real — see below.
 - `docs/backlog/README.md` — what's open on the kit itself (not ADR/plan machinery, deliberately — see that file's own header for why).
 
 ## Where things stand — read this first in a new session
 
-Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have now been run for real, on a live project (2026-07-01/02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md) for the full results and the 10 sub-specification frictions found (none blocking). Next priority: triage that list — decide which findings are worth fixing now vs. deferring. Everything else flagged in `docs/backlog/README.md`'s "fond de tiroir" is deliberately dormant, no active trigger.
+Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have been run for real on a live project (2026-07-01/02) and 9 of the 10 sub-specification frictions found have been fixed (2026-07-02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md). No active next priority right now; everything flagged in `docs/backlog/README.md`'s "fond de tiroir" is deliberately dormant, no active trigger.
 
 ## Working conventions
 

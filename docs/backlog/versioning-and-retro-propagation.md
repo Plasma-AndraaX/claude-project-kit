@@ -24,4 +24,10 @@ Toujours pas construit, et volontairement : une synchronisation *automatique* fa
 
 Construit : `/propose-kit-improvement` (généré dans chaque projet bootstrapé, profils Full et Minimal). Utilise le tampon `.claude-project-kit-version` ci-dessus pour diffter les fichiers "propres au kit" (liste stricte, jamais les fichiers de contenu projet) contre l'original, classer généralisable/spécifique/bruit, filtrer les infos personnelles, et présenter le patch à l'utilisateur pour confirmation avant toute branche/commit dans le checkout local du kit. Le push/PR reste une demande séparée et explicite — jamais automatique.
 
-Ce qui reste ouvert : le skill n'a jamais été testé en conditions réelles (même limite que le reste du kit, voir `docs/backlog/README.md` § action manuelle requise). Et rien n'assure qu'un contributeur pense à le lancer — pas de rappel automatique, juste une commande disponible.
+Ce qui reste ouvert : rien n'assure qu'un contributeur pense à le lancer — pas de rappel automatique, juste une commande disponible.
+
+## Tampon étendu à profile/changelog — ✅ résolu (2026-07-02)
+
+`.claude-project-kit-version` ne stockait que `sha=`/`lang=` ; le profil (Full/Minimal) et le choix changelog devaient être redéduits de la présence/absence de fichiers par `/propose-kit-improvement`/`/pull-kit-updates` lors de la normalisation — ambiguïté silencieuse entre "Minimal choisi au bootstrap" et "Full choisi puis fichiers supprimés depuis". Trouvé lors du premier run réel des 3 skills, voir `docs/backlog/first-real-run-findings.md`.
+
+Ajout de `profile=full|minimal` et `changelog=yes|no` au tampon (Phase 4 de `bootstrap-claude-env.md`). Purement additif — les deux skills miroirs retombent sur l'ancienne inférence par présence de fichiers si ces champs sont absents (tampon généré avant ce changement), donc pas de rupture pour les projets déjà bootstrapés (ex. `voxtrail`, tamponné avant cet ajout).

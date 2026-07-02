@@ -11,7 +11,7 @@ $ARGUMENTS
 
 ## Phase 1 — Localiser la baseline
 
-- Lis `.claude-project-kit-version` à la racine du projet (deux lignes : `sha=...`, `lang=...`). S'il n'existe pas, ce projet précède le tamponnage de version — dis à l'utilisateur qu'il n'y a pas de baseline fiable pour diffter et arrête-toi (ne devine pas).
+- Lis `.claude-project-kit-version` à la racine du projet (`sha=...`, `lang=...`, et — sur un tampon récent — `profile=full|minimal` et `changelog=yes|no`). S'il n'existe pas, ce projet précède le tamponnage de version — dis à l'utilisateur qu'il n'y a pas de baseline fiable pour diffter et arrête-toi (ne devine pas). Si `profile=`/`changelog=` sont absents (tampon d'avant leur ajout), déduis-les de la présence/absence des fichiers Full-only comme avant.
 - Résous `KIT_ROOT` : variable d'env `$CLAUDE_PROJECT_KIT_HOME` si définie, sinon `/mnt/c/dev/claude-project-kit`, sinon demande à l'utilisateur le chemin de son checkout du kit.
 - Vérifie que le SHA tamponné existe encore dans l'historique local du kit (`git -C KIT_ROOT cat-file -e <sha>`). Si non (rebase, clone shallow, historique élagué), explique précisément pourquoi à l'utilisateur et arrête-toi plutôt que de diffter silencieusement contre autre chose.
 
@@ -26,20 +26,22 @@ $ARGUMENTS
 - Chaque `.claude/commands/*.md` présent (y compris ce fichier)
 - `tools/generate-dashboard.py` (si présent)
 - `claude.sh`, `.env.claude.example`, `.gitignore`, `tools/session-end-capture.sh` (si présent)
-- `.claude/settings.json` — **seulement** la partie hook memory-block et le bloc du hook `SessionEnd` de capture (y compris son argument de mode `message`/`auto`), jamais `enabledPlugins` ni le reste (ce sont les choix propres à ce projet)
+- `.claude/settings.json` — **seulement** la partie hook memory-block et le bloc du hook `SessionEnd` de capture (y compris son argument de mode `message`/`auto`), jamais `enabledPlugins` ni le reste (ce sont les choix propres à ce projet). **Cas particulier pour le bloc `SessionEnd`** : il n'existe dans aucun fichier `.tpl` statique — il est assemblé dynamiquement par la prose de `.claude/commands/bootstrap-claude-env.md` (§ Phase 4, *« Assembling `.claude/settings.json` »*, hors de la liste candidate elle-même). Sa BASE se reconstruit en lisant ce paragraphe et en substituant le mode `message` (celui montré dans le texte), pas via un `git show` sur un chemin candidat.
 
 **Ne jamais considérer, en aucune circonstance, même si ça a l'air générique** : `docs/architecture.md`, `docs/operations.md`, `docs/coding-standards.md`, `docs/lessons-technical.md`, `docs/lessons-domain.md`, tout ce qui est sous `docs/backlog/`, tout fichier numéroté sous `docs/adr/` ou `docs/plans/` (les vraies ADR/plans, pas les gabarits), les fichiers `docs/prefs/<login>.md`, `docs/changelog/_next.md` ou toute entrée datée du changelog, `docs/claude-code-tooling.md`. Ce sont du contenu projet par construction — il n'y a aucun scénario où les diffter pour remontée est correct, donc ils sont exclus structurellement plutôt que laissés au jugement.
 
 ## Phase 3 — Diffter chaque candidat
 
 Pour chaque fichier candidat présent dans ce projet :
-1. Récupère le contenu original du gabarit : `git -C KIT_ROOT show <sha>:templates/<lang>/<chemin-mappé>` (remapper `.claude/` vers `dot-claude/`, rajouter le suffixe `.tpl` pour les fichiers qui en avaient un).
-2. **Normaliser avant de comparer** — le gabarit original peut contenir des placeholders `{{PROJECT_NAME}}`/`{{PROJECT_ONE_LINER}}`/`{{PRIMARY_STACK}}` et des marqueurs `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` qui ont été résolus pour le profil/langue/choix changelog de ce projet au moment du bootstrap. Résous l'*original* de la même façon (substitue le vrai nom/description/stack de ce projet, retire les marqueurs selon le profil réel de ce projet) avant de diffter — sinon chaque fichier montre des différences fantômes qui ne sont que de la résolution de profil, pas de vrais changements.
+1. Récupère le contenu original du gabarit : `git -C KIT_ROOT show <sha>:templates/<lang>/<chemin-mappé>` (remapper `.claude/` vers `dot-claude/` ; pour savoir si le chemin prend un suffixe `.tpl`, voir `CONTRIBUTING.md` § *Which files get a `.tpl` suffix* dans le kit — ne redevine pas la règle).
+2. **Normaliser avant de comparer** — le gabarit original peut contenir des placeholders `{{PROJECT_NAME}}`/`{{PROJECT_ONE_LINER}}`/`{{PRIMARY_STACK}}` et des marqueurs `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` qui ont été résolus pour le profil/langue/choix changelog de ce projet au moment du bootstrap. Résous l'*original* de la même façon (substitue le vrai nom/description/stack de ce projet, retire les marqueurs selon le `profile=`/`changelog=` lus en Phase 1) avant de diffter — sinon chaque fichier montre des différences fantômes qui ne sont que de la résolution de profil, pas de vrais changements. Vérifie aussi qu'aucun commentaire d'échafaudage non lié à un marqueur (ex. un commentaire HTML expliquant à quoi sert une section, présent dans le gabarit mais retiré par le bootstrap réel) ne traîne dans ta version normalisée — sinon il apparaît comme un faux hunk.
 3. Ce qui reste après normalisation est le vrai diff. Attends-toi à ce qu'il soit vide ou minuscule la plupart du temps pour la plupart des fichiers — c'est normal, pas un bug.
 
 ## Phase 4 — Classer et filtrer
 
-Pour chaque vrai hunk de diff :
+**Grain de classification** : quand un hunk unifié mélange plusieurs changements logiquement distincts (ex. suppression d'un commentaire d'échafaudage + vraie amélioration de formulation dans le même bloc `@@`), sous-découpe-le et classe chaque partie séparément plutôt que de classer tout le hunk d'un bloc.
+
+Pour chaque vrai hunk (ou sous-hunk) de diff :
 - **Amélioration généralisable** : se lit pareil quel que soit le projet — une instruction plus claire, une typo corrigée, un cas limite corrigé, un nouvel exemple réellement utile. Candidat à proposer.
 - **Personnalisation propre au projet** : n'a de sens que dans le contexte de *ce* projet — mentionne son domaine réel, des noms, son architecture, ou une préférence propre à cette équipe. Écarte-le, ne le montre même pas comme "rejeté" en citant son contenu — note juste dans la synthèse que N changements propres au projet ont été trouvés et exclus.
 - **Bruit** : ne diffère qu'à cause d'une résolution de placeholder/marqueur que la Phase 3 aurait dû déjà normaliser, ou un reformatage trivial sans changement sémantique. Écarte-le.

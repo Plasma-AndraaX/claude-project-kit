@@ -15,6 +15,19 @@ This is **not** the same thing as:
 ### Added
 - `/pull-kit-updates`: the reverse of `/propose-kit-improvement` — three-way merges kit improvements made since a project's bootstrap into its kit-owned files (BASE = original at the stamped SHA, MINE = the project's current file, NEW = the kit's current state), asking the user to arbitrate only when both sides have genuinely diverged from the common ancestor. Generated in both profiles.
 - `tools/session-end-capture.sh` + `SessionEnd` hook (Full profile, opt-in, off by default): reminds or auto-captures lessons/changelog when a session ends with uncommitted, uncaptured work. `message` mode prints a visible reminder; `auto` mode spawns a detached headless `claude -p` (recursion-guarded, `--allowedTools` restricted to `Read Edit Write Glob Grep` — no Bash) that applies the same filters as `/capture-lessons`/`/changelog-capture` and writes files, but never commits. Gated on a heuristic (dirty tree or Write/Edit tool use in the transcript, and no evidence a capture skill already ran).
+- `.claude-project-kit-version`: two new fields, `profile=full|minimal` and `changelog=yes|no`, alongside the existing `sha=`/`lang=`. `/propose-kit-improvement` and `/pull-kit-updates` use them instead of re-inferring profile/changelog from file presence. Purely additive — both skills fall back to the old inference on a stamp from before this change.
+
+### Fixed
+- `.claude/commands/bootstrap-claude-env.md`: Phase 0's `merge` option now says explicitly that the diff review happens after Phases 1-4 generate candidate content, right before Phase 5 commits — not at Phase 0 itself, which had nothing to diff against yet.
+- `.claude/commands/bootstrap-claude-env.md`: Phase 2's plugin/MCP discovery step now says explicitly it needs Phase 3's profile answer first.
+- `.claude/commands/bootstrap-claude-env.md`: Phase 4's `.claude/settings.json` guidance no longer points at this kit's own `.claude/settings.json` as a shape reference for `enabledPlugins` — that file doesn't have one.
+- `.claude/commands/bootstrap-claude-env.md`: Phase 4's `.gitignore` handling now checks for a pre-existing broader pattern (e.g. `.env.*`) silently shadowing `.env.claude.example`/`claude.sh`, and stages those with `git add -f` when needed.
+- `templates/*/docs/claude-code-tooling.md.tpl`: removed the `/bootstrap-claude-env` row from the generated skills table — that command is never actually copied into a bootstrapped project, so the row's "if kept" condition could never be true.
+- `templates/*/dot-claude/commands/propose-kit-improvement.md` + `pull-kit-updates.md`: Phase 3's `.tpl`-suffix mapping now points at `CONTRIBUTING.md`'s new documented rule instead of an unstated convention; both skills now flag the `SessionEnd` hook block's baseline as assembled dynamically (no static `.tpl` to `git show`) rather than a plain candidate path; `pull-kit-updates.md`'s arbitration case now defines "overlap" at line granularity explicitly; `propose-kit-improvement.md`'s hunk classification now says to split a unified hunk that mixes distinct changes before classifying.
+- `templates/en/dot-claude/commands/pull-kit-updates.md`: fixed a leftover untranslated French phrase in the arbitration bullet.
+- `CONTRIBUTING.md`: added a `Which files get a .tpl suffix` section — the exact rule was previously implicit, discoverable only by exploring `templates/` directly.
+
+All ten found by actually running the three skills for real for the first time (2026-07-01/02) — see `docs/backlog/first-real-run-findings.md`.
 
 ## [0.1.0] - 2026-07-01
 
