@@ -18,14 +18,14 @@ Un hook `PreToolUse` dans `.claude/settings.json` bloque toute écriture sous le
 | **Item à traiter plus tard** (rollout, dette, refacto, point différé) | [`docs/backlog/`](backlog/) — un fichier par sujet | format libre, suivre les conventions des fichiers existants |
 | **Leçon technique non-évidente** (piège, contrainte d'outillage, subtilité de librairie) | [`docs/lessons-technical.md`](lessons-technical.md) | section datée |
 | **Incident / postmortem** (événement daté : chronologie, cause racine, actions de suivi) | [`docs/incidents/`](incidents/README.md) — un fichier par incident | ≠ leçon (`lessons-technical`), ≠ travail (`backlog`) |
-| **Convention de style / nommage** observée ou déclarée | [`docs/coding-standards.md`](coding-standards.md) | une section par langage/module si hétérogène ; `/coding-standards` en propose selon la stack |
+| **Convention de style / nommage** observée ou déclarée | [`docs/coding-standards.md`](coding-standards.md) | une section par langage/module si hétérogène ; `/armature:coding-standards` en propose selon la stack |
 | **Règle métier non-évidente** *(si ce projet a un `lessons-domain.md`)* | `docs/lessons-domain.md` (généré seulement si domaine métier riche) | section datée |
 | **État courant du système** (architecture, comment ça marche aujourd'hui) | [`docs/architecture.md`](architecture.md) | mise à jour quand le réel change |
 | **Setup / build / déploiement** | [`docs/operations.md`](operations.md) | |
 | **Nouvelle question fréquente** type « Question → Lire » | ajouter une ligne dans la table de [`CLAUDE.md`](../CLAUDE.md) | rester court — CLAUDE.md est l'index, pas le contenu |
 | **Outillage IA** (plugins, skills, hooks, slash commands utilisés ou à adopter) | [`docs/claude-code-tooling.md`](claude-code-tooling.md) | |
 | **Préférence individuelle d'un contributeur** (style de prompt, alias, choix perso non partagés par toute l'équipe) | [`docs/prefs/<login>.md`](prefs/) | un fichier par contributeur — committé pour que Claude le charge à chaque session ; les autres contributeurs le voient mais ne l'appliquent pas |
-<!-- CHANGELOG-ONLY --> | **Changement visible utilisateur qui mérite une note de changelog** (fix, feature, changement de comportement qu'un utilisateur du produit remarquerait) | [`docs/changelog/_next.md`](changelog/_next.md) | capturer près du travail via `/changelog-capture`, pas à la release | <!-- /CHANGELOG-ONLY -->
+<!-- CHANGELOG-ONLY --> | **Changement visible utilisateur qui mérite une note de changelog** (fix, feature, changement de comportement qu'un utilisateur du produit remarquerait) | [`docs/changelog/_next.md`](changelog/_next.md) | capturer près du travail via `/armature:changelog-capture`, pas à la release | <!-- /CHANGELOG-ONLY -->
 
 ## Quand rien ne colle
 

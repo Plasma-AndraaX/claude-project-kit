@@ -18,14 +18,14 @@ A `PreToolUse` hook in `.claude/settings.json` blocks any write under the memory
 | **Item to handle later** (rollout, debt, refactor, deferred point) | [`docs/backlog/`](backlog/) — one file per topic | free-form, follow existing files' conventions |
 | **Non-obvious technical lesson** (gotcha, tooling trap, library quirk) | [`docs/lessons-technical.md`](lessons-technical.md) | dated section |
 | **Incident / postmortem** (dated event: timeline, root cause, follow-up actions) | [`docs/incidents/`](incidents/README.md) — one file per incident | ≠ lesson (`lessons-technical`), ≠ work (`backlog`) |
-| **Code style / naming convention** observed or declared | [`docs/coding-standards.md`](coding-standards.md) | one section per language/module if heterogeneous; `/coding-standards` proposes from the stack |
+| **Code style / naming convention** observed or declared | [`docs/coding-standards.md`](coding-standards.md) | one section per language/module if heterogeneous; `/armature:coding-standards` proposes from the stack |
 | **Non-obvious business rule** *(if this project has `lessons-domain.md`)* | `docs/lessons-domain.md` (only generated for a rich business domain) | dated section |
 | **Current state of the system** (architecture, how it works today) | [`docs/architecture.md`](architecture.md) | update as reality changes |
 | **Setup / build / deploy** | [`docs/operations.md`](operations.md) | |
 | **New frequent question** of the "Question → Read" kind | add a row to the table in [`CLAUDE.md`](../CLAUDE.md) | keep it short — CLAUDE.md is the index, not the content |
 | **AI tooling** (plugins, skills, hooks, slash commands used or to adopt) | [`docs/claude-code-tooling.md`](claude-code-tooling.md) | |
 | **Individual contributor preference** (prompt style, aliases, personal choices not shared by the whole team) | [`docs/prefs/<login>.md`](prefs/) | one file per contributor — committed so Claude loads it every session; other contributors see it but don't apply it |
-<!-- CHANGELOG-ONLY --> | **User-visible change worth a changelog note** (fix, feature, behavior change someone using the product would notice) | [`docs/changelog/_next.md`](changelog/_next.md) | capture close to the work via `/changelog-capture`, not at release time | <!-- /CHANGELOG-ONLY -->
+<!-- CHANGELOG-ONLY --> | **User-visible change worth a changelog note** (fix, feature, behavior change someone using the product would notice) | [`docs/changelog/_next.md`](changelog/_next.md) | capture close to the work via `/armature:changelog-capture`, not at release time | <!-- /CHANGELOG-ONLY -->
 
 ## When nothing fits
 

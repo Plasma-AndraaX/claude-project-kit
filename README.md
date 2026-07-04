@@ -2,7 +2,7 @@
 
 > *L'ossature qu'on pose dans un projet avant d'y monter la doc, les décisions et les conventions. Pas du code : l'environnement de travail avec Claude.*
 
-**Version actuelle : [0.4.0](CHANGELOG.md#040---2026-07-02)** — voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique lisible par un humain (distinct du tampon `.armature-version`, qui sert au diff précis de `/propose-kit-improvement`).
+**Version actuelle : [0.4.0](CHANGELOG.md#040---2026-07-02)** — voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique lisible par un humain.
 
 Un kit pour installer, sur n'importe quel projet informatique (n'importe quel langage/stack), l'**environnement Claude** que j'utilise sur Holoon : de la doc versionnée qui fait office de mémoire durable pour l'agent, un cycle ADR ↔ plan ↔ backlog pour tracer les décisions, et une poignée de skills qui font vivre tout ça.
 
@@ -32,27 +32,22 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `docs/backlog/` *(sauf si tu utilises déjà Jira/Trello/Notion/etc. — le skill demande)* | Idées / dette / douleurs pas encore mûres pour un ADR. |
 | `docs/workflow.md` | La doctrine : quand ouvrir un ADR vs un backlog item, où vont les points qui émergent en cours d'implémentation, checklist de clôture. |
 | `docs/persistence-strategy.md` | La matrice "tel type d'info → tel fichier". Désactive la mémoire privée Claude (si tu choisis cette option). |
-| `docs/prefs/<login>.md` *(profil Full)* | Préférences individuelles par contributeur, committées. |
-| `docs/claude-code-tooling.md` *(profil Full)* | Inventaire des skills/plugins/hooks Claude utilisés sur ce projet — jamais vide : le skill y consigne les plugins/MCP Anthropic-verified pertinents pour le stack détecté, et propose de les activer un par un dans `.claude/settings.json`. |
-| `docs/dashboard.html` + `tools/generate-dashboard.py` *(profil Full)* | Vue HTML générée de l'état ADR ↔ plan ↔ backlog. |
+| `docs/prefs/<login>.md` | Préférences individuelles par contributeur, committées. |
+| `docs/claude-code-tooling.md` | Inventaire des skills/plugins/hooks Claude utilisés sur ce projet — jamais vide : le skill y consigne les plugins/MCP Anthropic-verified pertinents pour le stack détecté, et propose de les activer un par un dans `.claude/settings.json`. |
+| `docs/dashboard.html` + `tools/generate-dashboard.py` | Vue HTML générée de l'état ADR ↔ plan ↔ backlog. |
 | `.claude/settings.json` | Hook optionnel qui bloque l'écriture dans la mémoire privée Claude et renvoie vers `persistence-strategy.md`. |
-| `.claude/commands/new-adr.md`, `capture-lessons.md`, `whats-left.md`, `dashboard.md` *(profil Full)* | Skills qui font vivre le système au quotidien. |
+| Skills `/armature:new-adr`, `/armature:capture-lessons`, `/armature:whats-left`, `/armature:dashboard` | Fournis par le plugin `armature` (invoqués `/armature:…`), pas copiés dans le projet. Font vivre le système au quotidien. |
 | `claude.sh` + `.env.claude.example` + `.gitignore` | Script de lancement qui charge `.env.claude` (gitignored, jamais commité) puis lance `claude "$@"`. L'exemple documente valeur en clair ou résolution via un gestionnaire de mots de passe. Bash uniquement (pas de `.ps1` fourni). |
-| `tools/session-end-capture.sh` *(profil Full, sur demande)* | Hook `SessionEnd` optionnel : rappel visible (mode `message`) ou capture headless automatique sans commit (mode `auto`) quand une session se termine avec du travail non capturé. |
-| `docs/changelog/` + `/changelog-capture`, `/changelog-draft` *(profil Full, sur demande)* | Notes de release utilisateur : capture au fil de l'eau, rédaction à la release. Sans traduction multi-langue ni publication automatisée — voir `ADAPTING.md`. |
-| `.armature-version` + `/propose-kit-improvement` | Tamponne le SHA du kit + la langue choisie à la génération, pour pouvoir diffter les fichiers propres au kit contre l'original et proposer un patch filtré en retour — jamais de push/PR sans confirmation explicite. |
+| `tools/session-end-capture.sh` *(sur demande)* | Hook `SessionEnd` optionnel : rappel visible (mode `message`) ou capture headless automatique sans commit (mode `auto`) quand une session se termine avec du travail non capturé. |
+| `docs/changelog/` + `/armature:changelog-capture`, `/armature:changelog-draft` *(sur demande)* | Notes de release utilisateur : capture au fil de l'eau, rédaction à la release. Sans traduction multi-langue ni publication automatisée — voir `ADAPTING.md`. |
 
-Deux profils au moment de la génération :
-- **Full** — tout l'arsenal ci-dessus.
-- **Minimal** — juste `CLAUDE.md`, `architecture.md`, `operations.md`, `lessons-technical.md`, `docs/backlog/README.md`, `docs/persistence-strategy.md` (matrice réduite). Pas de machinerie ADR/plan/dashboard tant que le projet n'en a pas l'usage — on peut toujours upgrader vers Full plus tard en relançant le bootstrap.
-
-Détail des deux profils et de ce qu'il faut adapter selon ton contexte : [`ADAPTING.md`](ADAPTING.md).
+Détail de ce qu'il faut adapter selon ton contexte : [`ADAPTING.md`](ADAPTING.md).
 
 ## Langues
 
-Les gabarits vivent sous `templates/<lang>/` — un dossier par langue de contenu, structure identique (même fichiers, mêmes marqueurs de profil `<!-- FULL-ONLY -->`/`<!-- MINIMAL-ONLY -->`), seul le texte change. Aujourd'hui : `templates/en/` (anglais) et `templates/fr/` (français). Le skill demande la langue au démarrage (Phase 1) — si une seule variante existe, il l'utilise sans demander.
+Les gabarits vivent sous `plugin/templates/<lang>/` — un dossier par langue de contenu, structure identique (même fichiers, mêmes marqueurs `<!-- CHANGELOG-ONLY -->`/`<!-- MEMORYHOOK-ONLY -->`), seul le texte change. Aujourd'hui : `plugin/templates/en/` (anglais) et `plugin/templates/fr/` (français). La langue du contenu généré vient de la config du plugin (`${user_config.lang}`).
 
-Ajouter une langue : dupliquer `templates/en/` en `templates/<code>/` et traduire fichier par fichier, en gardant les marqueurs de profil et les clés de frontmatter YAML (`status`, `date`, `related-adr`, etc.) en anglais — seule la prose change. Pour `tools/generate-dashboard.py.tpl`, adapter aussi les regex `is_resolved`/`is_primary`/`find_subitem_of` aux conventions textuelles de la nouvelle langue (ex. le marqueur de bundle « PRIMARY » devient « PRINCIPAL » en français).
+Ajouter une langue : dupliquer `plugin/templates/en/` en `plugin/templates/<code>/` et traduire fichier par fichier, en gardant les marqueurs et les clés de frontmatter YAML (`status`, `date`, `related-adr`, etc.) en anglais — seule la prose change. Pour `tools/generate-dashboard.py.tpl`, adapter aussi les regex `is_resolved`/`is_primary`/`find_subitem_of` aux conventions textuelles de la nouvelle langue (ex. le marqueur de bundle « PRIMARY » devient « PRINCIPAL » en français).
 
 ## Détection automatique du projet existant
 
@@ -60,29 +55,18 @@ Si le répertoire cible contient déjà du code, le skill fait un premier passag
 
 ## Utilisation
 
-### Option A — depuis ce repo
+Armature se distribue comme **plugin Claude Code**. Une fois pour toutes, ajoute la marketplace puis installe le plugin :
 
-```bash
-cd /mnt/c/dev/armature
-claude
 ```
-Puis, dans la session :
+/plugin marketplace add Plasma-AndraaX/armature
+/plugin install armature@armature
 ```
-/bootstrap-claude-env /chemin/absolu/vers/mon-nouveau-projet
-```
-Le skill demande d'abord la langue des gabarits (§ Langues ci-dessus), puis pose quelques questions (nom du projet, stack, solo/équipe, profil Full/Minimal, hook mémoire oui/non), puis écrit dans le répertoire cible — pas besoin d'y être `cd`, Claude Code écrit à des chemins absolus arbitraires.
 
-### Option B — commande globale
-
-Copie `template` en commande globale pour l'avoir disponible sans repasser par ce repo :
-```bash
-cp /mnt/c/dev/armature/.claude/commands/bootstrap-claude-env.md ~/.claude/commands/
+Ensuite, depuis **n'importe quelle** session Claude Code :
 ```
-Puis, depuis **n'importe quel** répertoire Claude Code :
+/armature:bootstrap-claude-env /chemin/absolu/vers/mon-nouveau-projet
 ```
-/bootstrap-claude-env
-```
-(sans argument, génère dans le répertoire courant).
+(sans argument, génère dans le répertoire courant). Le skill pose quelques questions (nom du projet, stack, solo/équipe, hook mémoire oui/non), puis écrit dans le répertoire cible — pas besoin d'y être `cd`, Claude Code écrit à des chemins absolus arbitraires. La langue du contenu généré vient de la config du plugin (`${user_config.lang}`).
 
 ## Ce que ce kit ne fait pas
 
@@ -96,7 +80,7 @@ Ce kit généralise le système documentaire construit sur Holoon (gouvernance o
 
 ## Auteur
 
-[Plasma-AndraaX](https://github.com/Plasma-AndraaX). Publié sous licence [MIT](LICENSE) — cette licence couvre le kit et son outillage (`templates/`, `.claude/`, scripts), pas le contenu qu'il génère dans ton propre projet une fois bootstrapé, qui t'appartient sans condition.
+[Plasma-AndraaX](https://github.com/Plasma-AndraaX). Publié sous licence [MIT](LICENSE) — cette licence couvre le kit et son outillage (`plugin/`, `tools/`, scripts), pas le contenu qu'il génère dans ton propre projet une fois bootstrapé, qui t'appartient sans condition.
 
 Si tu forkes, améliores ou adaptes ce kit, une issue ou une PR sur le dépôt est la bienvenue — aucune obligation, juste une demande sympathique de l'auteur. Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) pour comment les PR sont triées.
 

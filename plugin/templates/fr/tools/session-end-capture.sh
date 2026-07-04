@@ -64,8 +64,8 @@ if [ "$MODE" = "message" ]; then
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Cette session a du travail non commité qui n'a pas l'air capturé.
-Lance `./claude.sh --continue` pour la reprendre, puis `/capture-lessons`
-et (si ce projet l'utilise) `/changelog-capture`.
+Lance `./claude.sh --continue` pour la reprendre, puis `/armature:capture-lessons`
+et (si ce projet l'utilise) `/armature:changelog-capture`.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
     exit 0
@@ -103,10 +103,10 @@ format JSONL interne de Claude Code (un objet JSON par ligne, peut varier d'une
 version à l'autre ; parse-le de façon défensive pour extraire les messages
 utilisateur/assistant et l'usage d'outils, ne suppose pas un schéma fixe).
 
-Ta tâche : applique EXACTEMENT les mêmes filtres de pertinence que
-`.claude/commands/capture-lessons.md` de ce projet et, s'il existe,
-`.claude/commands/changelog-capture.md` — lis ces deux fichiers d'abord et suis
-leurs critères précisément, n'improvise pas d'autres critères. Écris ensuite toute
+Ta tâche : applique EXACTEMENT les mêmes filtres de pertinence que le skill
+`/armature:capture-lessons` du plugin `armature` et, si ce projet utilise un changelog,
+`/armature:changelog-capture` — suis leurs critères précisément, n'improvise pas
+d'autres critères. Écris ensuite toute
 entrée qualifiante directement dans les fichiers qu'ils précisent (typiquement
 `docs/lessons-technical.md`, `docs/lessons-domain.md` s'il existe,
 `docs/changelog/_next.md` s'il existe).

@@ -61,8 +61,8 @@ if [ "$MODE" = "message" ]; then
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 This session has uncommitted work that doesn't look captured yet.
-Run `./claude.sh --continue` to resume it, then `/capture-lessons`
-and (if this project uses it) `/changelog-capture`.
+Run `./claude.sh --continue` to resume it, then `/armature:capture-lessons`
+and (if this project uses it) `/armature:changelog-capture`.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
     exit 0
@@ -99,9 +99,9 @@ Code's internal JSONL transcript format (one JSON object per line, may vary betw
 versions; parse it defensively for user/assistant messages and tool use, don't assume
 a fixed schema).
 
-Your job: apply the EXACT same relevance filters as this project's own
-`.claude/commands/capture-lessons.md` and, if it exists, `.claude/commands/changelog-capture.md`
-— read those two files first and follow their criteria precisely, don't improvise
+Your job: apply the EXACT same relevance filters as the `armature` plugin's
+`/armature:capture-lessons` skill and, if this project uses a changelog,
+`/armature:changelog-capture` — follow their criteria precisely, don't improvise
 different ones. Then write any qualifying entries directly to the files they specify
 (typically `docs/lessons-technical.md`, `docs/lessons-domain.md` if present,
 `docs/changelog/_next.md` if present).

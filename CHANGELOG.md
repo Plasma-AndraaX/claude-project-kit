@@ -2,19 +2,27 @@
 
 Human-readable history of the kit itself, release by release. Bumped manually and deliberately, not on every commit — that discipline would erode fast otherwise. Loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
-This is **not** the same thing as:
-- `docs/changelog/` inside a *bootstrapped* project — that's a separate, generated artifact for that project's own end users.
-- `.armature-version` — the precise machine-readable SHA + language stamp that `/propose-kit-improvement` diffs against. This file is for humans deciding whether to pull in kit updates; that one is for exact diffing.
+This is **not** the same thing as `docs/changelog/` inside a *bootstrapped* project — that's a separate, generated artifact for that project's own end users.
 
 ## Versioning
 
-[SemVer](https://semver.org/)-ish: MINOR for a new user-facing capability (a new template, a new skill, a new question in the bootstrap flow), PATCH for fixes/docs-only changes, MAJOR reserved for a breaking change to something already-bootstrapped projects depend on (e.g. renaming `.armature-version`'s format). `/propose-kit-improvement` appends to `[Unreleased]` when it applies an accepted external contribution; bumping `VERSION` and rolling `[Unreleased]` into a dated section is still a deliberate, manual step.
+[SemVer](https://semver.org/)-ish: MINOR for a new user-facing capability (a new template, a new skill, a new question in the bootstrap flow), PATCH for fixes/docs-only changes, MAJOR reserved for a breaking change to something already-bootstrapped projects depend on. Bumping `VERSION` and rolling `[Unreleased]` into a dated section is a deliberate, manual step.
 
 ## [Unreleased]
 
+Major reshaping: Armature is renamed and turned into a **Claude Code plugin**. See ADR 0004 (plugin distribution) and ADR 0005 (post-plugin simplifications).
+
 ### Changed
-- **Renamed the kit `claude-project-kit` → `Armature`.** The repo (`github.com/Plasma-AndraaX/armature`), all doc titles/prose, skill descriptions, `bootstrap-claude-env`, and the `KIT_ROOT` resolution (`$ARMATURE_HOME` env var + `/mnt/c/dev/armature` default path) now carry the new name.
-- **Renamed the version-stamp file `.claude-project-kit-version` → `.armature-version`.** `bootstrap-claude-env` now writes the new name; `/propose-kit-improvement` and `/pull-kit-updates` now read it. The only two deployed projects (`voxtrail`, `Unfog`) were migrated by hand (stamp file renamed + their kit-owned skills/docs updated), so this is a **clean break with no compatibility fallback** for the old filename — any future project still holding a `.claude-project-kit-version` must be migrated the same way. Dated release entries below intentionally keep the old filename (historical record).
+- **Renamed `claude-project-kit` → `Armature`** — repo (`github.com/Plasma-AndraaX/armature`), all docs, skill descriptions, prose.
+- **Armature is now a Claude Code plugin (`armature`).** The kit's commands are plugin skills invoked as `/armature:…`, installed once (`/plugin marketplace add Plasma-AndraaX/armature` then `/plugin install armature@armature`) instead of copied into every bootstrapped project. Templates are bundled in the plugin and resolved via `${CLAUDE_PLUGIN_ROOT}` — no more hard-coded `/mnt/c/dev/armature` path or `$ARMATURE_HOME` env var. Content language comes from the plugin's `${user_config.lang}` option (chosen at install). See ADR 0004.
+- **Single profile.** The Full/Minimal axis is gone: `FULL-ONLY`/`MINIMAL-ONLY` markers were flattened to always-on, the bootstrap no longer asks about profile, and `lint-templates.py` now only checks the orthogonal `CHANGELOG` × `MEMORYHOOK` combinations. See ADR 0005.
+
+### Removed
+- **`/propose-kit-improvement` and `/pull-kit-updates`.** The plugin updates via `/plugin update`; generated docs are too project-specific for a useful three-way merge. Retro-propagation is back to a manual diff (`ADAPTING.md` § "Known limitation").
+- **The `.armature-version` version stamp** — its only role was the propose/pull diff baseline.
+
+### Migration
+- The two deployed projects (`voxtrail`, `Unfog`) were migrated by hand during the rebrand; they'll install the plugin and drop their copied commands at distribution time.
 
 ## [0.4.0] - 2026-07-02
 

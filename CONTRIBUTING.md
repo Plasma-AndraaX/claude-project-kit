@@ -11,13 +11,12 @@ Opening a PR is always welcome. Whether it gets merged depends on a simple test:
 
 ## Which files get a `.tpl` suffix
 
-A file under `plugin/templates/<lang>/` gets a `.tpl` suffix **iff** `/bootstrap-claude-env`'s Phase 4 must do something to it at generation time — substitute a `{{PLACEHOLDER}}` and/or strip a `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` marker. Everything else is copied byte-for-byte and never gets the suffix: `claude.sh`, `.gitignore`, `.env.claude.example`, `docs/adr/template.md`, `docs/plans/template.md`, `docs/incidents/template.md`, `docs/changelog/_next.md`, every `dot-claude/commands/*.md`, `tools/session-end-capture.sh`. See Phase 4's file mapping in `plugin/skills/bootstrap-claude-env/SKILL.md` for the authoritative, exhaustive list — don't restate or re-derive this rule elsewhere (`propose-kit-improvement.md`/`pull-kit-updates.md` both point back here instead of repeating it).
+A file under `plugin/templates/<lang>/` gets a `.tpl` suffix **iff** `/bootstrap-claude-env`'s Phase 4 must do something to it at generation time — substitute a `{{PLACEHOLDER}}` and/or strip a `CHANGELOG-ONLY`/`MEMORYHOOK-ONLY` marker. Everything else is copied byte-for-byte and never gets the suffix: `claude.sh`, `.gitignore`, `.env.claude.example`, `docs/adr/template.md`, `docs/plans/template.md`, `docs/incidents/template.md`, `docs/changelog/_next.md`, `tools/session-end-capture.sh`. See Phase 4's file mapping in `plugin/skills/bootstrap-claude-env/SKILL.md` for the authoritative, exhaustive list — don't restate or re-derive this rule elsewhere.
 
 ## Before opening a PR
 
-- If it touches `plugin/templates/`, change **both** `plugin/templates/en/` and `plugin/templates/fr/`, keeping them in structural parity (same files, same `FULL-ONLY`/`MINIMAL-ONLY`/`CHANGELOG-ONLY` marker placement). Run `python3 tools/lint-templates.py` before submitting — it checks exactly this.
+- If it touches `plugin/templates/`, change **both** `plugin/templates/en/` and `plugin/templates/fr/`, keeping them in structural parity (same files, same `CHANGELOG-ONLY`/`MEMORYHOOK-ONLY` marker placement). Run `python3 tools/lint-templates.py` before submitting — it checks exactly this.
 - If it touches `plugin/skills/bootstrap-claude-env/SKILL.md`, keep the phases in sync with what the templates actually expect (file selection lists, marker semantics).
-- If it touches the kit-owned/excluded file lists in `propose-kit-improvement.md`'s Phase 2, make the identical edit in `pull-kit-updates.md`'s Phase 2 — the two skills must agree on exactly which files are in scope for either direction of sync, or one will offer to touch something the other refuses to.
 - Small, focused PRs are much easier to triage than large ones bundling several ideas.
 
 ## Reporting an issue vs. proposing a fix

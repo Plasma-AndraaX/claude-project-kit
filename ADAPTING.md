@@ -1,23 +1,12 @@
 # Guide d'adaptation
 
-Check-list de ce qu'il faut personnaliser après (ou pendant) un `/bootstrap-claude-env`, selon le contexte du projet cible. Le skill pose les questions de base (nom, stack, solo/équipe, profil) mais ne peut pas tout déduire — cette page couvre le reste.
-
-## Profil Full vs Minimal
-
-| Signal | Profil conseillé |
-|---|---|
-| Prototype, POC, projet perso à durée de vie incertaine | **Minimal** |
-| Projet avec au moins un autre contributeur (humain ou toi-sur-un-autre-poste) | **Full** |
-| Tu prévois de revenir dessus dans plusieurs mois et veux te souvenir du "pourquoi" | **Full** |
-| Le projet va accumuler des décisions structurantes (choix d'archi, migrations, tradeoffs produit) | **Full** |
-
-Le passage Minimal → Full n'est pas automatisé : relance `/bootstrap-claude-env` sur le même répertoire, le skill détecte les fichiers déjà présents et ne régénère que ce qui manque (voir § *Écraser vs compléter* dans le skill).
+Check-list de ce qu'il faut personnaliser après (ou pendant) un `/bootstrap-claude-env`, selon le contexte du projet cible. Le skill pose les questions de base (nom, stack, solo/équipe) mais ne peut pas tout déduire — cette page couvre le reste.
 
 ## Langue des templates
 
-Indépendant du profil Full/Minimal : `plugin/templates/en/` et `plugin/templates/fr/` ont la même structure et la même mécanique (marqueurs de profil, placeholders, script dashboard) — seule la prose diffère. Le skill demande la langue en Phase 1.
+`plugin/templates/en/` et `plugin/templates/fr/` ont la même structure et la même mécanique (marqueurs conditionnels, placeholders, script dashboard) — seule la prose diffère. Le skill demande la langue en Phase 1.
 
-Une correction de fond (pas juste un mot) apportée à un fichier d'une langue — par exemple le fix du bug de tableau Markdown cassé par les marqueurs `FULL-ONLY` — doit être reportée manuellement dans l'autre langue : ce n'est **pas** automatique. Vérifier les deux dossiers `plugin/templates/<lang>/` restent en parité structurelle (mêmes fichiers, mêmes lignes marquées) après toute évolution du skill ou d'un gabarit.
+Une correction de fond (pas juste un mot) apportée à un fichier d'une langue — par exemple le fix du bug de tableau Markdown cassé par les marqueurs `CHANGELOG-ONLY` — doit être reportée manuellement dans l'autre langue : ce n'est **pas** automatique. Vérifier les deux dossiers `plugin/templates/<lang>/` restent en parité structurelle (mêmes fichiers, mêmes lignes marquées) après toute évolution du skill ou d'un gabarit.
 
 ## Solo vs équipe
 
@@ -38,7 +27,7 @@ Le template généré est un squelette de sections (Setup / Build / Run / Test /
 
 ## Domaine métier riche ou pas ?
 
-`docs/lessons-domain.md` n'a de sens que si le projet encode des règles métier non triviales (comme Holacracy sur Holoon). Un CRUD interne ou un outil technique pur (CLI, lib) n'en a généralement pas besoin — dans ce cas, ne génère pas ce fichier (le profil Minimal l'omet déjà par défaut ; en Full, tu peux le supprimer après coup si tu réalises qu'il ne sert à rien).
+`docs/lessons-domain.md` n'a de sens que si le projet encode des règles métier non triviales (comme Holacracy sur Holoon). Un CRUD interne ou un outil technique pur (CLI, lib) n'en a généralement pas besoin — dans ce cas, ne génère pas ce fichier (généré seulement si le domaine métier est riche ; tu peux le supprimer après coup si tu réalises qu'il ne sert à rien).
 
 ## Hook mémoire privée : fortement recommandé, même si le skill le demande quand même
 
@@ -54,16 +43,16 @@ Cas particulier — **TODOs déjà présents dans le code existant** : si Phase 
 
 ## Changelog utilisateur
 
-Le kit fournit un module générique (`docs/changelog/` + `/changelog-capture` + `/changelog-draft`, profil Full uniquement, question dédiée en Phase 3) : capture d'une note pendant que le contexte est frais, rédaction formatée au moment de la release. Ce que ce module **ne fournit pas**, volontairement :
+Le kit fournit un module générique (`docs/changelog/` + `/armature:changelog-capture` + `/armature:changelog-draft`, en option, question dédiée en Phase 3) : capture d'une note pendant que le contexte est frais, rédaction formatée au moment de la release. Ce que ce module **ne fournit pas**, volontairement :
 - la **traduction multi-langue** des notes (Holoon en a besoin, la plupart des projets non) ;
 - la **publication** effective (site de doc, in-app, mailing list) — spécifique à chaque produit ;
-- un format de sortie imposé — adapte `/changelog-draft` à ta convention (Keep a Changelog, GitHub Releases, autre).
+- un format de sortie imposé — adapte `/armature:changelog-draft` à ta convention (Keep a Changelog, GitHub Releases, autre).
 
-Si tu as besoin de traduction multi-locale, inspire-toi de la doctrine Holoon (Markdown versionné dans le repo plutôt qu'un CMS externe) et étends `/changelog-draft` toi-même.
+Si tu as besoin de traduction multi-locale, inspire-toi de la doctrine Holoon (Markdown versionné dans le repo plutôt qu'un CMS externe) et étends `/armature:changelog-draft` toi-même.
 
 ## Plugins / MCP suggérés au bootstrap
 
-Le skill ne se contente pas de poser la structure documentaire — en profil Full, il délègue à l'agent `claude-code-guide` (jamais à une recherche web ouverte) pour identifier les plugins Anthropic-verified ou les serveurs MCP officiels pertinents pour le stack détecté. `docs/claude-code-tooling.md` **ne part jamais vide** : il reflète toujours au minimum ce qui a été jugé pertinent, même si tout est marqué `suggested`.
+Le skill ne se contente pas de poser la structure documentaire — il délègue à l'agent `claude-code-guide` (jamais à une recherche web ouverte) pour identifier les plugins Anthropic-verified ou les serveurs MCP officiels pertinents pour le stack détecté. `docs/claude-code-tooling.md` **ne part jamais vide** : il reflète toujours au minimum ce qui a été jugé pertinent, même si tout est marqué `suggested`.
 
 Deux gestes distincts, pas un choix exclusif :
 - **Consigner** — toujours fait, dans la table "Plugins / serveurs MCP" du fichier tooling.
@@ -77,16 +66,16 @@ Deux gestes distincts, pas un choix exclusif :
 
 ## Capture en fin de session — message ou auto
 
-Un hook `SessionEnd` (profil Full uniquement) peut prévenir quand une session se termine avec du travail non capturé. Deux modes, choisis à la Phase 3 du bootstrap :
+Un hook `SessionEnd` peut prévenir quand une session se termine avec du travail non capturé. Deux modes, choisis à la Phase 3 du bootstrap :
 
-- **`message`** *(recommandé par défaut)* — affiche un rappel visible (mentionnant `claude.sh --continue`) si l'arbre git est sale et que rien dans le transcript ne montre que `/capture-lessons`/`/changelog-capture` ont déjà tourné. Coût nul si rien à signaler, humain toujours dans la boucle avant toute écriture.
-- **`auto`** — lance un `claude -p` headless détaché (`tools/session-end-capture.sh auto`) qui lit la fin du transcript, applique **les mêmes filtres** que `.claude/commands/capture-lessons.md`/`changelog-capture.md` (il les lit lui-même plutôt que de dupliquer la doctrine), et écrit directement dans les fichiers concernés. Il ne commite **jamais** — la relecture humaine reste obligatoire, juste déplacée à la session suivante plutôt que supprimée. Outils autorisés restreints à `Read Edit Write Glob Grep` (pas de Bash), garde anti-récursion par variable d'environnement (`CLAUDE_HOOK_SPAWNED`), transcript capé à 4 Mo.
+- **`message`** *(recommandé par défaut)* — affiche un rappel visible (mentionnant `claude.sh --continue`) si l'arbre git est sale et que rien dans le transcript ne montre que `/armature:capture-lessons`/`/armature:changelog-capture` ont déjà tourné. Coût nul si rien à signaler, humain toujours dans la boucle avant toute écriture.
+- **`auto`** — lance un `claude -p` headless détaché (`tools/session-end-capture.sh auto`) qui lit la fin du transcript, applique **les mêmes filtres** que les skills `/armature:capture-lessons`/`/armature:changelog-capture` du plugin (il en lit la doctrine plutôt que de la dupliquer), et écrit directement dans les fichiers concernés. Il ne commite **jamais** — la relecture humaine reste obligatoire, juste déplacée à la session suivante plutôt que supprimée. Outils autorisés restreints à `Read Edit Write Glob Grep` (pas de Bash), garde anti-récursion par variable d'environnement (`CLAUDE_HOOK_SPAWNED`), transcript capé à 4 Mo.
 
 Le gate (arbre dirty + rien capturé) est une heuristique, pas une garantie — même posture "best-effort" que le reste du kit. Le pattern est adapté d'un hook personnel validé en conditions réelles ; durci pour un kit public (pas de Bash dans les outils headless, pas de logique spécifique à un environnement).
 
 ## Conventions de code hétérogènes
 
-`docs/coding-standards.md` (présent dans les deux profils, comme `architecture.md`/`operations.md`) est l'endroit où vit le style de code réellement observé — pas une simple ligne dans `CLAUDE.md`, précisément parce qu'un codebase peut être hétérogène (plusieurs langages, dérive entre sous-projets, legacy vs code récent). Le skill l'écrit à partir de Phase 2 : un échantillonnage de fichiers réels, pas seulement la config du linter.
+`docs/coding-standards.md` (au même titre que `architecture.md`/`operations.md`) est l'endroit où vit le style de code réellement observé — pas une simple ligne dans `CLAUDE.md`, précisément parce qu'un codebase peut être hétérogène (plusieurs langages, dérive entre sous-projets, legacy vs code récent). Le skill l'écrit à partir de Phase 2 : un échantillonnage de fichiers réels, pas seulement la config du linter.
 
 Si Phase 2 détecte un vrai conflit — la config déclare une convention mais une part significative du code ne la suit pas — elle ne tranche **pas** silencieusement. Elle te pose la question en Phase 3 : documenter la convention déclarée comme cible, documenter la convention dominante observée comme convention de fait, ou trancher toi-même. La réponse va dans la section « Déclaré vs observé » du fichier, datée. Si le codebase est homogène ou s'il n'y a pas de code existant, cette question ne se pose simplement pas.
 

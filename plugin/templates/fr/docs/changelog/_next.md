@@ -1,6 +1,6 @@
 # Prochaine release — notes non publiées
 
-Capture brute, non formatée, des changements visibles pour l'utilisateur depuis la dernière release. Alimenté par `/changelog-capture`, consommé et vidé par `/changelog-draft`. Ce n'est pas le changelog publié — voir [`README.md`](README.md).
+Capture brute, non formatée, des changements visibles pour l'utilisateur depuis la dernière release. Alimenté par `/armature:changelog-capture`, consommé et vidé par `/armature:changelog-draft`. Ce n'est pas le changelog publié — voir [`README.md`](README.md).
 
 <!-- Chaque entrée : une courte note éditoriale en langage clair, datée. Exemple de forme :
 

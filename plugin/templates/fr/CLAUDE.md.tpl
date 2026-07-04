@@ -25,7 +25,7 @@ Ce fichier est volontairement court et stable. Le contexte approfondi vit sous [
 | Quand ouvrir un ADR plutôt qu'un item de backlog ? / où vont les points qui émergent en cours d'implémentation ? | [`docs/workflow.md`](docs/workflow.md) — cycle de vie ADR ↔ plan ↔ backlog. |
 | Comment ce projet aborde-t-il le test (stratégie, niveaux) ? | [`docs/testing.md`](docs/testing.md) |
 | Un incident est survenu — où le consigner, et y en a-t-il eu ? | [`docs/incidents/`](docs/incidents/README.md) (un fichier par postmortem) |
-<!-- CHANGELOG-ONLY --> | Où le changelog utilisateur est-il capturé/rédigé ? | [`docs/changelog/`](docs/changelog/README.md) — `/changelog-capture` à chaud, `/changelog-draft` à la release. | <!-- /CHANGELOG-ONLY -->
+<!-- CHANGELOG-ONLY --> | Où le changelog utilisateur est-il capturé/rédigé ? | [`docs/changelog/`](docs/changelog/README.md) — `/armature:changelog-capture` à chaud, `/armature:changelog-draft` à la release. | <!-- /CHANGELOG-ONLY -->
 
 Quand tu résous un problème non-évident ou rencontres un piège absent du code, ajoute une section datée à `docs/lessons-technical.md` (ou `docs/lessons-domain.md` si ce projet en a un). Quand tu fais un choix architectural, rédige un nouvel ADR (voir [`docs/adr/template.md`](docs/adr/template.md)). Pour le reste — voir [`docs/persistence-strategy.md`](docs/persistence-strategy.md) pour la matrice complète, et [`docs/workflow.md`](docs/workflow.md) pour le *quand*.
 

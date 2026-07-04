@@ -373,7 +373,7 @@ def render(tracks, orphans, subitems_orphan, resolved):
     out.append(f'''
 <header>
   <h1>{escape(PROJECT_NAME)} — vue d'ensemble par tracks</h1>
-  <div class="subtitle">Chaque ADR forme un track : décision + plan compagnon + items de backlog qui la mentionnent. Vue <b>architecturale</b> — pour la <b>liste tactique priorisée</b>, utiliser <code>/whats-left</code>. État au {datetime.now().strftime('%Y-%m-%d')}.</div>
+  <div class="subtitle">Chaque ADR forme un track : décision + plan compagnon + items de backlog qui la mentionnent. Vue <b>architecturale</b> — pour la <b>liste tactique priorisée</b>, utiliser <code>/armature:whats-left</code>. État au {datetime.now().strftime('%Y-%m-%d')}.</div>
   <div class="stats">
     <div class="stat"><strong>{len(tracks)}</strong> ADR ({tot_accepted} accepted, {tot_deferred} deferred)</div>
     <div class="stat"><strong>{tot_inprog}</strong> plans in-progress · <strong>{tot_impl}</strong> implemented</div>
@@ -427,8 +427,8 @@ def render(tracks, orphans, subitems_orphan, resolved):
 
     # Bundles PRINCIPAUX hors-ADR uniquement (= candidats à devenir leur propre ADR).
     # Les items isolés sans ADR + les sous-items d'un bundle sans ADR sont délégués
-    # à /whats-left (vue tactique priorisée) — pas dupliqués ici. Voir .claude/commands/
-    # dashboard.md § « Frontière avec /whats-left ».
+    # à /armature:whats-left (vue tactique priorisée) — pas dupliqués ici. Voir le skill
+    # /armature:dashboard § « Frontière avec /armature:whats-left ».
     if primary_orphans:
         out.append(
             f'<section><h2>Bundles candidats à devenir ADR '

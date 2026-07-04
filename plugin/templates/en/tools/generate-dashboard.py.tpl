@@ -373,7 +373,7 @@ def render(tracks, orphans, subitems_orphan, resolved):
     out.append(f'''
 <header>
   <h1>{escape(PROJECT_NAME)} — track overview</h1>
-  <div class="subtitle">Each ADR forms a track: decision + companion plan + backlog items that mention it. <b>Architectural</b> view — for the <b>prioritized tactical list</b>, use <code>/whats-left</code>. State as of {datetime.now().strftime('%Y-%m-%d')}.</div>
+  <div class="subtitle">Each ADR forms a track: decision + companion plan + backlog items that mention it. <b>Architectural</b> view — for the <b>prioritized tactical list</b>, use <code>/armature:whats-left</code>. State as of {datetime.now().strftime('%Y-%m-%d')}.</div>
   <div class="stats">
     <div class="stat"><strong>{len(tracks)}</strong> ADRs ({tot_accepted} accepted, {tot_deferred} deferred)</div>
     <div class="stat"><strong>{tot_inprog}</strong> plans in-progress · <strong>{tot_impl}</strong> implemented</div>
@@ -427,8 +427,8 @@ def render(tracks, orphans, subitems_orphan, resolved):
 
     # PRIMARY bundles without an ADR only (= candidates to become their own ADR).
     # Standalone items without an ADR + sub-items of a bundle without an ADR are
-    # delegated to /whats-left (prioritized tactical view) — not duplicated here.
-    # See .claude/commands/dashboard.md § "Boundary with /whats-left".
+    # delegated to /armature:whats-left (prioritized tactical view) — not duplicated here.
+    # See the /armature:dashboard skill § "Boundary with /armature:whats-left".
     if primary_orphans:
         out.append(
             f'<section><h2>Bundles that are ADR candidates '
