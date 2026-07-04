@@ -1,0 +1,107 @@
+---
+status: in-progress
+created: 2026-07-04
+settled:
+related-adr: 0004
+---
+
+# Plan — Armature comme plugin `armature` (compagnon de l'ADR 0004)
+
+Compagnon de [l'ADR 0004](../adr/0004-plugin-armature.md). Capture *comment* Armature devient un plugin Claude Code distribuable, *quelles* alternatives ont été explorées, et *ce qui* reste ouvert.
+
+## Reformulation du problème
+
+Faire passer Armature du modèle « **copie de fichiers** dans chaque projet + `KIT_ROOT` résolu par chemin en dur » au modèle « **plugin installé une fois**, commandes namespacées `/armature:…`, templates lus depuis l'installation ». Contraintes : les commandes doivent marcher dans tout projet (installé, pas copié) ; les templates doivent voyager avec le plugin (`${CLAUDE_PLUGIN_ROOT}/templates/<lang>/`) ; les deux seuls projets déployés (`voxtrail`, `Unfog`) doivent être rebasculés ; garder le repo dogfoodable (sa propre `docs/`).
+
+## Forme cible
+
+Le repo `Plasma-AndraaX/armature` = **marketplace + plugin `armature`** :
+
+```
+armature/                              ← repo = marketplace + plugin
+├── .claude-plugin/
+│   ├── marketplace.json               ← déclare le marketplace + l'entrée "armature"
+│   └── plugin.json                    ← name: "armature"  →  namespace /armature:
+├── skills/                            ← ex-commandes, invoquées /armature:<nom>
+│   ├── bootstrap-claude-env/SKILL.md  → /armature:bootstrap-claude-env
+│   ├── new-adr/SKILL.md               → /armature:new-adr
+│   └── … (les autres)
+├── templates/  en/  fr/               ← bundlés, lus via ${CLAUDE_PLUGIN_ROOT}/templates
+├── README · CHANGELOG · ADAPTING
+└── docs/  adr/ plans/ backlog/        ← doc dogfoodée du kit lui-même
+```
+
+Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace intégralement l'ordre actuel `$ARMATURE_HOME` → `/mnt/c/dev/armature` → demander. Flux tiers : `/plugin marketplace add Plasma-AndraaX/armature` puis `/plugin install armature@armature`, ensuite `/armature:bootstrap-claude-env <chemin>`.
+
+## Surface d'impact
+
+### Structure du plugin
+- **Nouveaux** : `.claude-plugin/plugin.json` (`name: armature`, `version`, `description`), `.claude-plugin/marketplace.json` (entrée pointant sur `.`).
+- **Migration** : `templates/<lang>/dot-claude/commands/*.md` → `skills/<nom>/SKILL.md` (format skill : dossier + `SKILL.md`, frontmatter `description`/`$ARGUMENTS` conservés). Ces commandes cessent d'être des *templates copiés*.
+
+### Skill bootstrap & résolution KIT_ROOT
+- `bootstrap-claude-env` : Phase 1 résout `KIT_ROOT = ${CLAUDE_PLUGIN_ROOT}` et lit la langue via `${user_config.lang}` ; Phase 4 **ne copie plus** les commandes (elles vivent dans le plugin) et **n'écrit plus de tampon** (ADR 0005) — ne génère que la doc/structure, un seul profil.
+
+### `propose`/`pull` & tampon
+- **Supprimés** ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) : les 2 skills et le tampon `.armature-version` disparaissent (détail dans [`post-plugin-simplification.md`](post-plugin-simplification.md)).
+
+### Doc & outillage
+- `README` (install via plugin, plus via clone), `ADAPTING`, `CLAUDE.md` (structure), `CHANGELOG`.
+- `tools/lint-templates.py` : les commandes ne sont plus des templates `dot-claude/commands/` — adapter la parité/le lint aux `skills/` du plugin.
+
+### Projets déployés
+- `voxtrail`, `Unfog` : retirer leurs `.claude/commands/*` kit-owned, installer le plugin `armature`. Garder leur doc copiée.
+
+## Lots d'implémentation
+
+### Lot 1 — Squelette plugin + skill pilote
+- `.claude-plugin/plugin.json` + `marketplace.json` ; migrer **une** commande (`new-adr`) en `skills/new-adr/SKILL.md` ; tester `claude --plugin-dir .`.
+- **Critère de sortie** : `/armature:new-adr` s'invoque et fonctionne via `--plugin-dir`.
+
+### Lot 2 — Templates via `${CLAUDE_PLUGIN_ROOT}` + bootstrap
+- Réécrire la résolution `KIT_ROOT` de `bootstrap-claude-env` sur `${CLAUDE_PLUGIN_ROOT}` (supprimer `/mnt/c/dev/armature` + `$ARMATURE_HOME`) ; migrer le skill en `skills/`.
+- **Critère de sortie** : `/armature:bootstrap-claude-env` génère un projet en lisant les templates bundlés, zéro chemin en dur.
+
+### Lot 3 — Migrer les commandes restantes en skills
+- Migrer en `skills/` les commandes conservées (`new-adr`, `capture-lessons`, `whats-left`, `dashboard`, `coding-standards`, `changelog-capture`, `changelog-draft` — `propose`/`pull` supprimées, cf. ADR 0005) ; langue du contenu via `${user_config.lang}`.
+- **Critère de sortie** : tous les `/armature:…` conservés fonctionnent.
+
+### Lot 4 — Nettoyage post-plugin (ADR 0005)
+- Voir le plan compagnon [`post-plugin-simplification.md`](post-plugin-simplification.md) : aplatir le profil, supprimer `propose`/`pull` + tampon. Mené conjointement à ce chantier.
+- **Critère de sortie** : plus de marqueurs de profil, ni de skills de sync, ni de tampon ; lint vert.
+
+### Lot 5 — Distribution + re-migration voxtrail/Unfog
+- Publier/valider le marketplace (`claude plugin validate`) ; documenter l'install ; basculer `voxtrail` et `Unfog` sur le plugin.
+- **Critère de sortie** : install tierce vérifiée sur une machine sans le repo ; les 2 projets basculés, leurs commandes copiées retirées.
+
+### Lot 6 (gated future) — Marketplace communautaire
+- Soumettre `armature` à `anthropics/claude-plugins-community`. **Déclencheur** : maturité + volonté de diffusion publique. Non bloquant.
+
+## Alternatives considérées (plus détaillé que l'ADR)
+
+### α — Préfixe tiret `/armature-<nom>`, modèle de copie conservé
+Écartée : donne `-` pas `:`, et surtout ne résout ni la distribution tierce ni le chemin en dur — deux gains majeurs du plugin. Ne répond pas au besoin « utilisable partout, par d'autres ».
+
+### β — Deux artefacts séparés (un plugin *commandes* + le kit *templates* restant cloné)
+Écartée pour l'instant : garde le clone et le chemin en dur pour les templates. Bundler les templates dans le plugin (`${CLAUDE_PLUGIN_ROOT}`) est plus simple et supprime la dette d'un coup.
+
+## Questions ouvertes
+
+- ~~**Q1 — Profils Full/Minimal**~~ : résolu ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) — **profil unique (Full)** ; plus de filtrage par profil, toutes les commandes sont présentes.
+- ~~**Q2 — Sort de `/propose-kit-improvement` & `/pull-kit-updates`**~~ : résolu ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) — **supprimés**. Commandes mises à jour via `/plugin update` ; docs trop personnalisées pour un merge ; amélioration via PR directe sur le repo.
+- ~~**Q3 — Tampon `.armature-version`**~~ : résolu ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) — **supprimé**. Plus de baseline de diff (propose/pull partis) ; la langue vient de `${user_config.lang}`, plus besoin de la tracer par projet.
+- **Q4 — `skills/` vs `commands/`** : la doc recommande `skills/<nom>/SKILL.md` pour un nouveau plugin ; confirmer que `description`/`$ARGUMENTS`/`argument-hint` se comportent à l'identique. À vérifier au Lot 1.
+- ~~**Q5 — Langue / parité `en`/`fr`**~~ : résolu — **un seul jeu de skills** (instructions en anglais), templates bilingues bundlés, langue du **contenu généré** pilotée par `${user_config.lang}` (choisie à l'install via `userConfig`). Pas de double jeu de skills.
+- **Q6 — Distribution** : marketplace auto-hébergé (le repo) d'abord, communautaire (Lot 6) plus tard.
+
+## Journal de décisions
+
+- **2026-07-04** — Architecture plugin retenue (ADR 0004) après vérification doc : le namespace `:` n'existe que via plugin ; `${CLAUDE_PLUGIN_ROOT}` bundle les templates et supprime le chemin en dur. Namespace choisi : `armature`.
+- **2026-07-04** — Simplifications actées ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) : profil unique (Full), suppression de `propose`/`pull` et du tampon, langue via `${user_config.lang}`. Résout Q1/Q2/Q3/Q5.
+
+## Prochaines actions
+
+- [ ] Lot 1 — squelette plugin + skill pilote `new-adr`, testé via `--plugin-dir`.
+- [ ] Lot 2 — `${CLAUDE_PLUGIN_ROOT}` dans bootstrap + migration du skill.
+- [x] Q1/Q2/Q3/Q5 tranchées (ADR 0005 + `${user_config.lang}`) ; reste Q4 (`skills/` format) à vérifier au Lot 1.
+- [ ] Lot 5 — publier + re-migrer voxtrail/Unfog.

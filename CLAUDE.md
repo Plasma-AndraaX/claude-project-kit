@@ -1,18 +1,18 @@
 # CLAUDE.md
 
-Guidance for Claude Code sessions working **on this repo** (`claude-project-kit` itself). Not to be confused with `templates/*/CLAUDE.md.tpl`, which is what gets generated **into** bootstrapped projects — different audience, don't conflate the two.
+Guidance for Claude Code sessions working **on this repo** (`Armature` itself). Not to be confused with `templates/*/CLAUDE.md.tpl`, which is what gets generated **into** bootstrapped projects — different audience, don't conflate the two.
 
 ## What this repo is
 
 A bilingual (`en`/`fr`) kit that bootstraps a Claude Code documentation/workflow environment (ADR↔plan↔backlog, `CLAUDE.md`, coding standards, optional changelog module) into any project, via the `/bootstrap-claude-env` skill. See [`README.md`](README.md) for the user-facing pitch, [`ADAPTING.md`](ADAPTING.md) for the reasoning behind every non-obvious design choice.
 
-Current version: **0.4.0** (see [`CHANGELOG.md`](CHANGELOG.md)). Public at `github.com/Plasma-AndraaX/claude-project-kit`.
+Current version: **0.4.0** (see [`CHANGELOG.md`](CHANGELOG.md)). Public at `github.com/Plasma-AndraaX/armature`.
 
 ## Structure
 
 - `templates/en/`, `templates/fr/` — the actual templates, kept in **structural parity** (same files, same `<!-- FULL-ONLY -->`/`<!-- MINIMAL-ONLY -->`/`<!-- CHANGELOG-ONLY -->` markers). Run `python3 tools/lint-templates.py` after touching either.
 - `.claude/commands/bootstrap-claude-env.md` — the main skill, generates a project from `templates/<lang>/`.
-- `templates/<lang>/dot-claude/commands/propose-kit-improvement.md` + `pull-kit-updates.md` — generated into every bootstrapped project; sync changes *to* and *from* the kit using a three-way diff anchored on `.claude-project-kit-version` (SHA + lang + profile + changelog choice, stamped at bootstrap time). Both skills share a strict "kit-owned vs. project-owned" file list — if you edit one skill's Phase 2 list, edit the other's too (see `CONTRIBUTING.md`).
+- `templates/<lang>/dot-claude/commands/propose-kit-improvement.md` + `pull-kit-updates.md` — generated into every bootstrapped project; sync changes *to* and *from* the kit using a three-way diff anchored on `.armature-version` (SHA + lang + profile + changelog choice, stamped at bootstrap time). Both skills share a strict "kit-owned vs. project-owned" file list — if you edit one skill's Phase 2 list, edit the other's too (see `CONTRIBUTING.md`).
 - `templates/<lang>/tools/session-end-capture.sh` — optional `SessionEnd` hook (message or headless-auto capture of lessons/changelog).
 - `tools/lint-templates.py` — the only automated check that exists. Verifies marker balance, `en`/`fr` parity, and clean rendering across every profile × changelog combination. It does **not** verify the skills actually work when run for real — see below.
 - `docs/backlog/README.md` — what's open on the kit itself.
@@ -22,7 +22,7 @@ Current version: **0.4.0** (see [`CHANGELOG.md`](CHANGELOG.md)). Public at `gith
 
 ## Where things stand — read this first in a new session
 
-Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have been run for real on a live project (2026-07-01/02) and 9 of the 10 sub-specification frictions found have been fixed (2026-07-02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md). On 2026-07-02, three decisions landed (ADRs 0001/0002/0003): two new Full-profile modules — `docs/testing.md` (testing strategy) and `docs/incidents/` (postmortems) — plus the `/coding-standards` command (both profiles, proposes conventions from the stack via a live docs source). ADR 0003's plan leaves a gated-future Lot 2 (dogfood `/coding-standards` on a real project). No active next priority right now; the two remaining `docs/backlog/README.md` "fond de tiroir" items are deliberately dormant, no active trigger.
+Check [`docs/backlog/README.md`](docs/backlog/README.md) for the current state; don't trust this paragraph to stay accurate as work continues, update it here only if it goes stale. As of `0.1.0`, all 3 skills (`/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates`) have been run for real on a live project (2026-07-01/02) and 9 of the 10 sub-specification frictions found have been fixed (2026-07-02) — see [`docs/backlog/first-real-run-findings.md`](docs/backlog/first-real-run-findings.md). On 2026-07-02, three decisions landed (ADRs 0001/0002/0003): two new Full-profile modules — `docs/testing.md` (testing strategy) and `docs/incidents/` (postmortems) — plus the `/coding-standards` command (both profiles, proposes conventions from the stack via a live docs source). ADR 0003's plan leaves a gated-future Lot 2 (dogfood `/coding-standards` on a real project). Since then (2026-07-03/04) the kit was **renamed `claude-project-kit` → Armature** (repo `Plasma-AndraaX/armature`; version stamp `.claude-project-kit-version` → `.armature-version`; the two deployed projects `voxtrail`/`Unfog` migrated by hand) — see `CHANGELOG.md` [Unreleased], not yet committed. **Active priority**: ADR 0004 — distribute Armature as a Claude Code plugin `armature` (accepted 2026-07-04, plan [`docs/plans/armature-plugin.md`](docs/plans/armature-plugin.md) `in-progress`), refounding the model from per-project file-copy to a single installed plugin (`/armature:…` commands, templates via `${CLAUDE_PLUGIN_ROOT}`); Lot 1 not yet started. Its companion **ADR 0005** (accepted, plan [`docs/plans/post-plugin-simplification.md`](docs/plans/post-plugin-simplification.md)) drops what the plugin makes moot: single profile (Full — no more Full/Minimal), no project↔kit sync (`/propose-kit-improvement`+`/pull-kit-updates` and the `.armature-version` stamp all removed), content language from the plugin's `${user_config.lang}`. The two `docs/backlog/README.md` "fond de tiroir" items stay dormant.
 
 ## Working conventions
 

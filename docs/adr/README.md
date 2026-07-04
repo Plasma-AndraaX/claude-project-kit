@@ -1,4 +1,4 @@
-# Architecture Decision Records — claude-project-kit
+# Architecture Decision Records — Armature
 
 Index des ADR **du kit lui-même**, les plus récentes en premier. Chaque ADR est un enregistrement court, gelé (une fois `accepted`) d'une décision structurante unique — le *quoi* et le *pourquoi*. Le *comment* vit dans le plan compagnon sous [`../plans/`](../plans/README.md).
 
@@ -8,6 +8,8 @@ Index des ADR **du kit lui-même**, les plus récentes en premier. Chaque ADR es
 
 | # | Titre | Statut | Date | Plan compagnon |
 |---|---|---|---|---|
+| [0005](0005-simplifications-post-plugin.md) | Simplifications post-plugin (profil unique + fin de la sync projet↔kit) | accepted | 2026-07-04 | [plan](../plans/post-plugin-simplification.md) |
+| [0004](0004-plugin-armature.md) | Distribuer Armature comme plugin Claude Code (`armature`) | accepted | 2026-07-04 | [plan](../plans/armature-plugin.md) |
 | [0003](0003-commande-coding-standards.md) | Commande `/coding-standards` (conventions via source vivante) | accepted | 2026-07-02 | [plan](../plans/2026-07-02-commande-coding-standards.md) |
 | [0002](0002-journal-incidents.md) | Journal d'incidents / postmortem (module `docs/incidents/`) | accepted | 2026-07-02 | [plan](../plans/2026-07-02-journal-incidents.md) |
 | [0001](0001-strategie-de-test.md) | Stratégie de test des projets bootstrapés (module `docs/testing.md`) | accepted | 2026-07-02 | [plan](../plans/2026-07-02-strategie-de-test.md) |
