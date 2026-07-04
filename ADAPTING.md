@@ -15,9 +15,9 @@ Le passage Minimal → Full n'est pas automatisé : relance `/bootstrap-claude-e
 
 ## Langue des templates
 
-Indépendant du profil Full/Minimal : `templates/en/` et `templates/fr/` ont la même structure et la même mécanique (marqueurs de profil, placeholders, script dashboard) — seule la prose diffère. Le skill demande la langue en Phase 1.
+Indépendant du profil Full/Minimal : `plugin/templates/en/` et `plugin/templates/fr/` ont la même structure et la même mécanique (marqueurs de profil, placeholders, script dashboard) — seule la prose diffère. Le skill demande la langue en Phase 1.
 
-Une correction de fond (pas juste un mot) apportée à un fichier d'une langue — par exemple le fix du bug de tableau Markdown cassé par les marqueurs `FULL-ONLY` — doit être reportée manuellement dans l'autre langue : ce n'est **pas** automatique. Vérifier les deux dossiers `templates/<lang>/` restent en parité structurelle (mêmes fichiers, mêmes lignes marquées) après toute évolution du skill ou d'un gabarit.
+Une correction de fond (pas juste un mot) apportée à un fichier d'une langue — par exemple le fix du bug de tableau Markdown cassé par les marqueurs `FULL-ONLY` — doit être reportée manuellement dans l'autre langue : ce n'est **pas** automatique. Vérifier les deux dossiers `plugin/templates/<lang>/` restent en parité structurelle (mêmes fichiers, mêmes lignes marquées) après toute évolution du skill ou d'un gabarit.
 
 ## Solo vs équipe
 

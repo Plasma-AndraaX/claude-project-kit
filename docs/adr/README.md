@@ -4,7 +4,7 @@ Index des ADR **du kit lui-même**, les plus récentes en premier. Chaque ADR es
 
 > **Pourquoi le kit a-t-il maintenant son propre `docs/adr/` ?** Jusqu'à la 0.2.0, le kit documentait ses décisions dans `README.md`/`ADAPTING.md` et gardait le format ADR pour les *projets bootstrapés* uniquement — `docs/backlog/README.md` notait que certains items du backlog en étaient « candidats ». Les deux premières ADR ci-dessous (modules test + incidents) sont les premières décisions du kit assez structurantes pour mériter le trajet lourd. Le kit **dogfoode** ainsi sa propre machinerie ADR ↔ plan.
 
-**Format** : le kit utilise exactement le gabarit qu'il génère dans les projets — voir [`../../templates/fr/docs/adr/template.md`](../../templates/fr/docs/adr/template.md) (et [`../../templates/fr/docs/workflow.md.tpl`](../../templates/fr/docs/workflow.md.tpl) pour savoir quand ouvrir une ADR plutôt qu'un item de backlog).
+**Format** : le kit utilise exactement le gabarit qu'il génère dans les projets — voir [`../../plugin/templates/fr/docs/adr/template.md`](../../plugin/templates/fr/docs/adr/template.md) (et [`../../plugin/templates/fr/docs/workflow.md.tpl`](../../plugin/templates/fr/docs/workflow.md.tpl) pour savoir quand ouvrir une ADR plutôt qu'un item de backlog).
 
 | # | Titre | Statut | Date | Plan compagnon |
 |---|---|---|---|---|

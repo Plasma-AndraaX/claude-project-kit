@@ -10,7 +10,7 @@ Le kit est un arbre de templates + des skills en Markdown. Il n'a **pas de code 
 
 | Niveau | Outil | Périmètre | Quand |
 |---|---|---|---|
-| Lint des templates | `python3 tools/lint-templates.py` | Balance des marqueurs `FULL`/`MINIMAL`/`CHANGELOG`, parité `en`/`fr`, rendu sans placeholder / marqueur / ligne-vide-de-tableau résiduels sur chaque profil × changelog | Avant chaque commit touchant `templates/`, un skill, ou le lint lui-même |
+| Lint des templates | `python3 tools/lint-templates.py` | Balance des marqueurs `FULL`/`MINIMAL`/`CHANGELOG`, parité `en`/`fr`, rendu sans placeholder / marqueur / ligne-vide-de-tableau résiduels sur chaque profil × changelog | Avant chaque commit touchant `plugin/templates/`, un skill, ou le lint lui-même |
 | Run manuel end-to-end | Session Claude Code réelle | Que `/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates` produisent réellement le comportement décrit, sur un vrai projet | À chaque changement substantiel d'un skill |
 
 Le run manuel end-to-end n'est pas de la cérémonie théorique : le premier (2026-07-01/02, sur le projet `voxtrail`) a fait remonter 10 frictions que le lint ne pouvait pas voir — voir [`backlog/first-real-run-findings.md`](backlog/first-real-run-findings.md).
@@ -25,7 +25,7 @@ Le run manuel end-to-end n'est pas de la cérémonie théorique : le premier (20
 
 Un changement est « testé » avant commit si :
 - **Changement de template** → `lint-templates.py` est vert.
-- **Changement de skill** (`.claude/commands/*.md` ou `templates/*/dot-claude/commands/*.md`) → idéalement un run réel du skill concerné ; à défaut, une relecture à la lettre de son chemin d'exécution. **Le lint ne couvre pas la *sémantique* d'un skill** — c'est précisément le trou que le run manuel comble.
+- **Changement de skill** (`.claude/commands/*.md` ou `plugin/templates/*/dot-claude/commands/*.md`) → idéalement un run réel du skill concerné ; à défaut, une relecture à la lettre de son chemin d'exécution. **Le lint ne couvre pas la *sémantique* d'un skill** — c'est précisément le trou que le run manuel comble.
 
 ## Comment lancer
 

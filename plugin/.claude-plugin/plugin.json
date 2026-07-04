@@ -7,5 +7,12 @@
     "url": "https://github.com/Plasma-AndraaX"
   },
   "homepage": "https://github.com/Plasma-AndraaX/armature",
-  "repository": "https://github.com/Plasma-AndraaX/armature"
+  "repository": "https://github.com/Plasma-AndraaX/armature",
+  "userConfig": {
+    "lang": {
+      "type": "string",
+      "title": "Content language",
+      "description": "Language of the docs Armature generates (e.g. \"en\", \"fr\"). Must match a subdirectory of the bundled templates/. Left empty, the bootstrap skill asks."
+    }
+  }
 }

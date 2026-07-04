@@ -10,7 +10,7 @@ Aujourd'hui, un projet bootstrapé ne garde aucune trace de la révision du kit 
 
 Tamponner le SHA du commit du kit (`git -C KIT_ROOT rev-parse HEAD`, capturé en Phase 4) dans un fichier `.armature-version` à la racine du projet cible, plutôt que de maintenir un numéro de version sémantique à la main.
 
-**Pourquoi pas un semver classique + CHANGELOG dédié** : ça demanderait une discipline manuelle (bump à chaque commit substantiel) qui sera oubliée — exactement le genre de mécanisme qui s'auto-sabote avec le temps. Le SHA git est automatique, précis, et permet un `git diff <sha>..HEAD -- templates/<lang>/` direct pour voir exactement ce qui a changé depuis le bootstrap d'un projet donné.
+**Pourquoi pas un semver classique + CHANGELOG dédié** : ça demanderait une discipline manuelle (bump à chaque commit substantiel) qui sera oubliée — exactement le genre de mécanisme qui s'auto-sabote avec le temps. Le SHA git est automatique, précis, et permet un `git diff <sha>..HEAD -- plugin/templates/<lang>/` direct pour voir exactement ce qui a changé depuis le bootstrap d'un projet donné.
 
 **Limite assumée initialement, levée le 2026-07-01** : un SHA n'est pas lisible humainement. `VERSION` (semver, `0.4.0` au 2026-07-02) + `CHANGELOG.md` construits — le SHA reste la source de vérité *précise* pour le diff mécanique de `/propose-kit-improvement`, le semver+changelog sert la lecture humaine ("qu'est-ce qui a changé depuis que j'ai bootstrapé mon projet ?"). Bump manuel et délibéré, pas à chaque commit — sauf le chemin `/propose-kit-improvement` (Phase 6), qui alimente `[Unreleased]` automatiquement à chaque changement externe accepté, précisément pour ne pas dépendre de la mémoire du mainteneur sur ce chemin-là.
 

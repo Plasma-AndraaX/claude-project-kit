@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 KIT = Path(__file__).resolve().parent.parent
-TPL_ROOT = KIT / 'templates'
+TPL_ROOT = KIT / 'plugin' / 'templates'
 
 PLACEHOLDERS = {
     '{{PROJECT_NAME}}': 'Widgetizer',

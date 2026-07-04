@@ -1,6 +1,7 @@
 ---
 description: Bootstrap the Claude Code documentation/workflow environment (CLAUDE.md, docs/, ADR↔plan↔backlog, skills) into a target project, generic across any language/stack and available in multiple content languages (see templates/<lang>/).
 argument-hint: [absolute path to target project — defaults to the current directory]
+disable-model-invocation: true
 ---
 
 # Bootstrap Claude environment
@@ -16,16 +17,11 @@ Target path argument: **$ARGUMENTS**
 - If the target directory doesn't exist, create it (`mkdir -p`).
 - If `<target>/CLAUDE.md` already exists, stop and ask the user how to proceed: **overwrite**, **merge**, or **abort**. Never silently overwrite existing project docs. Note on `merge`: there's nothing to diff yet at this point — Phase 0 only captures *which* of the three paths to take. Run Phases 1-4 as normal to produce the candidate content, then, right before Phase 5 commits, show a diff of what would actually change per file and apply only what the user confirms (see Phase 5).
 
-## Phase 1 — Locate this kit's templates and pick a language
+## Phase 1 — Locate the bundled templates and pick a language
 
-Resolve `KIT_ROOT` in this order, stop at the first hit:
-1. `$ARMATURE_HOME` env var, if set and `$ARMATURE_HOME/templates` exists.
-2. `./templates` relative to the current working directory (covers the case where you're running this from inside an `Armature` checkout).
-3. `/mnt/c/dev/armature/templates` (default known location on this machine).
+The templates ship **inside this plugin**. Resolve `KIT_ROOT = ${CLAUDE_PLUGIN_ROOT}/templates` — the `templates/` directory bundled next to this skill. `${CLAUDE_PLUGIN_ROOT}` is provided by Claude Code and points at the installed plugin's root; there's no external checkout to locate and no env var to set.
 
-If none exist, stop and ask the user for the path to their `Armature` checkout.
-
-List `KIT_ROOT`'s immediate subdirectories — each one is a language variant (e.g. `en`, `fr`). Ask the user which one to use via `AskUserQuestion`, defaulting the suggested option to the language they're currently conversing in if it matches an available variant. Resolve `TPL_ROOT = KIT_ROOT/<chosen-lang>`. Every path referenced as `templates/...` in the phases below means `TPL_ROOT/...` (i.e. language-relative, not `KIT_ROOT` directly).
+List `KIT_ROOT`'s immediate subdirectories — each is a language variant (e.g. `en`, `fr`). Pick the language: if `${user_config.lang}` is set (the plugin's `lang` option, chosen at install time) and names an available variant, use it; otherwise ask the user via `AskUserQuestion`, defaulting the suggested option to the language they're currently conversing in if it matches. Resolve `TPL_ROOT = KIT_ROOT/<chosen-lang>`. Every path referenced as `templates/...` in the phases below means `TPL_ROOT/...` (i.e. language-relative, not `KIT_ROOT` directly).
 
 If only one language variant exists, skip the question and use it silently.
 
