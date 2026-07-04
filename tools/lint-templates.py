@@ -34,8 +34,7 @@ PLACEHOLDERS = {
 
 ALL_TAGS = ('CHANGELOG', 'MEMORYHOOK')
 
-CHANGELOG_PATH_MARKERS = ('docs/changelog', 'dot-claude/commands/changelog-capture.md',
-                          'dot-claude/commands/changelog-draft.md')
+CHANGELOG_PATH_MARKERS = ('docs/changelog',)
 
 
 def check_marker_balance(errors):
