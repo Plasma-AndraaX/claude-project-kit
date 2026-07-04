@@ -2,17 +2,17 @@
 """Consistency checks for Armature's templates/ tree.
 
 Not generated into bootstrapped projects — this is a maintenance tool for
-the kit itself. Run before committing a change to templates/ or to
-bootstrap-claude-env.md:
+the kit itself. Run before committing a change to plugin/templates/ or to
+the bootstrap skill:
 
     python3 tools/lint-templates.py
 
 Checks:
-1. Structural parity between templates/<lang>/ variants: same set of
+1. Structural parity between plugin/templates/<lang>/ variants: same set of
    relative file paths in every language directory.
-2. Every FULL-ONLY / MINIMAL-ONLY / CHANGELOG-ONLY marker is balanced
+2. Every CHANGELOG-ONLY / MEMORYHOOK-ONLY marker is balanced
    (open == close) within each file.
-3. Rendering each file for every (profile, changelog) combination never
+3. Rendering each file for every (changelog, memoryhook) combination never
    leaves a residual {{PLACEHOLDER}}, a residual marker, or a blank line
    sitting between two Markdown table rows (which breaks the table).
 
@@ -32,12 +32,8 @@ PLACEHOLDERS = {
     '{{PRIMARY_STACK}}': 'Node.js / TypeScript (Express backend), npm',
 }
 
-ALL_TAGS = ('FULL', 'MINIMAL', 'CHANGELOG', 'MEMORYHOOK')
+ALL_TAGS = ('CHANGELOG', 'MEMORYHOOK')
 
-MINIMAL_SKIP_DIRS = {'adr', 'plans', 'prefs', 'changelog', 'incidents'}
-MINIMAL_SKIP_FILES = {'workflow.md.tpl', 'claude-code-tooling.md.tpl', 'lessons-domain.md.tpl', 'testing.md.tpl'}
-MINIMAL_SKIP_COMMANDS = {'new-adr.md', 'capture-lessons.md', 'whats-left.md', 'dashboard.md',
-                         'changelog-capture.md', 'changelog-draft.md'}
 CHANGELOG_PATH_MARKERS = ('docs/changelog', 'dot-claude/commands/changelog-capture.md',
                           'dot-claude/commands/changelog-draft.md')
 
@@ -119,17 +115,8 @@ def gen_path(rel_str):
     return p
 
 
-def is_skipped(parts, rel_str, profile, changelog):
-    """True if this template file is NOT generated for the given (profile, changelog)."""
-    if profile == 'minimal':
-        if len(parts) > 1 and parts[1] in MINIMAL_SKIP_DIRS:
-            return True
-        if parts[-1] in MINIMAL_SKIP_FILES:
-            return True
-        if parts[0] == 'tools':
-            return True
-        if len(parts) > 2 and parts[0] == 'dot-claude' and parts[1] == 'commands' and parts[2] in MINIMAL_SKIP_COMMANDS:
-            return True
+def is_skipped(rel_str, changelog):
+    """True if this template file is NOT generated for the given changelog choice."""
     if not changelog and any(rel_str.startswith(m) for m in CHANGELOG_PATH_MARKERS):
         return True
     return False
@@ -172,33 +159,30 @@ def check_dead_links(text, src_gen, all_gen, rendered_gen):
 
 def check_rendering(errors):
     langs = sorted(p.name for p in TPL_ROOT.iterdir() if p.is_dir())
-    base_combos = [('full', True), ('full', False), ('minimal', False)]
-    combos = [(p, c, m) for (p, c) in base_combos for m in (True, False)]
+    combos = [(c, m) for c in (True, False) for m in (True, False)]
     for lang in langs:
         tpl = TPL_ROOT / lang
         files = [f for f in sorted(tpl.rglob('*')) if f.is_file()]
         # every template file as the path it'd generate to — used to tell a "link to a
-        # kit file skipped in this profile" (flag) from a "link to a non-kit file" (ignore).
+        # kit file skipped for this changelog choice" (flag) from a "link to a non-kit file" (ignore).
         all_gen = {gen_path(str(f.relative_to(tpl)).replace('\\', '/')) for f in files}
-        for profile, changelog, memoryhook in combos:
-            active_tags = {'FULL'} if profile == 'full' else {'MINIMAL'}
+        for changelog, memoryhook in combos:
+            active_tags = set()
             if changelog:
                 active_tags.add('CHANGELOG')
             if memoryhook:
                 active_tags.add('MEMORYHOOK')
             rendered_gen = {gen_path(str(f.relative_to(tpl)).replace('\\', '/'))
                             for f in files
-                            if not is_skipped(f.relative_to(tpl).parts,
-                                              str(f.relative_to(tpl)).replace('\\', '/'), profile, changelog)}
+                            if not is_skipped(str(f.relative_to(tpl)).replace('\\', '/'), changelog)}
             for f in files:
                 rel = f.relative_to(tpl)
-                parts = rel.parts
                 rel_str = str(rel).replace('\\', '/')
-                if is_skipped(parts, rel_str, profile, changelog):
+                if is_skipped(rel_str, changelog):
                     continue
 
                 text = substitute(strip_markers(f.read_text(encoding='utf-8'), active_tags))
-                label = f'{lang}/{profile}/changelog={changelog}/memoryhook={memoryhook}:{rel_str}'
+                label = f'{lang}/changelog={changelog}/memoryhook={memoryhook}:{rel_str}'
                 # Backtick-wrapped mentions (e.g. `{{PROJECT_NAME}}`) are docs explaining the
                 # convention (see propose-kit-improvement.md), not an unresolved placeholder.
                 if re.search(r'(?<!`)\{\{[A-Z_]+\}\}(?!`)', text):

@@ -6,9 +6,7 @@ Non-obvious technical gotchas, traps, and patterns that **can't be derived by re
 
 > Write here: something that would cost the next contributor real time (>30 min) to rediscover, and that stays true regardless of who's reading it.
 
-<!-- FULL-ONLY -->
 > For a dated **event** (an incident with timeline, impact, root cause) rather than a general lesson: see [`incidents/`](incidents/README.md).
-<!-- /FULL-ONLY -->
 
 ## [Template — copy this shape for a new entry]
 

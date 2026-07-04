@@ -32,7 +32,7 @@ Setup, build, run, debug, déploiement pour {{PROJECT_NAME}}. **Document vivant*
 # TODO
 ```
 
-<!-- FULL-ONLY -->Pour la *stratégie* de test (niveaux, philosophie, ce qu'on ne teste pas), voir [`testing.md`](testing.md) — ici, seulement le *comment lancer*.<!-- /FULL-ONLY -->
+Pour la *stratégie* de test (niveaux, philosophie, ce qu'on ne teste pas), voir [`testing.md`](testing.md) — ici, seulement le *comment lancer*.
 
 ## Debug
 

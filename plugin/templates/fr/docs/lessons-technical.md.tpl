@@ -6,9 +6,7 @@ Pièges, subtilités et patterns techniques non-évidents qui **ne peuvent pas �
 
 > Écrire ici : quelque chose qui ferait perdre un temps réel (>30 min) au prochain contributeur pour le redécouvrir, et qui reste vrai indépendamment de qui le lit.
 
-<!-- FULL-ONLY -->
 > Pour un **événement** daté (un incident avec chronologie, impact, cause racine) plutôt qu'une leçon générale : voir [`incidents/`](incidents/README.md).
-<!-- /FULL-ONLY -->
 
 ## [Gabarit — copier cette forme pour une nouvelle entrée]
 

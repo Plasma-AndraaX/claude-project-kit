@@ -20,14 +20,14 @@ This file is intentionally short and stable. Deep context lives under [`docs/`](
 | What are this project's code style conventions? | [`docs/coding-standards.md`](docs/coding-standards.md) |
 | What's queued for later — backlog, deferred items? | [`docs/backlog/`](docs/backlog/README.md) |
 | Where do I write down a decision / preference / lesson so it survives this conversation? | [`docs/persistence-strategy.md`](docs/persistence-strategy.md) — matrix of "type of info → file". |
-<!-- FULL-ONLY --> | Why was this architectural choice made? | [`docs/adr/`](docs/adr/README.md) (numbered ADRs) |
+| Why was this architectural choice made? | [`docs/adr/`](docs/adr/README.md) (numbered ADRs) |
 | How was *X* actually implemented / what alternatives were weighed? | [`docs/plans/`](docs/plans/README.md) (companions to ADRs) |
 | When do I open an ADR vs a backlog item? / where do points that emerge during implementation go? | [`docs/workflow.md`](docs/workflow.md) — ADR ↔ plan ↔ backlog lifecycle. |
 | How does this project approach testing (strategy, levels)? | [`docs/testing.md`](docs/testing.md) |
-| An incident happened — where do I record it, and have there been any? | [`docs/incidents/`](docs/incidents/README.md) (one file per postmortem) | <!-- /FULL-ONLY -->
+| An incident happened — where do I record it, and have there been any? | [`docs/incidents/`](docs/incidents/README.md) (one file per postmortem) |
 <!-- CHANGELOG-ONLY --> | Where's the user-facing changelog captured/drafted? | [`docs/changelog/`](docs/changelog/README.md) — `/changelog-capture` now, `/changelog-draft` at release time. | <!-- /CHANGELOG-ONLY -->
 
-When you solve a non-obvious problem or hit a trap that isn't in the code, append a dated section to `docs/lessons-technical.md` (or `docs/lessons-domain.md` if this project has one). <!-- FULL-ONLY -->When you make an architectural choice, write a new ADR (see [`docs/adr/template.md`](docs/adr/template.md)). <!-- /FULL-ONLY -->Anything else — see [`docs/persistence-strategy.md`](docs/persistence-strategy.md) for the full matrix<!-- FULL-ONLY -->, and [`docs/workflow.md`](docs/workflow.md) for *when*<!-- /FULL-ONLY -->.
+When you solve a non-obvious problem or hit a trap that isn't in the code, append a dated section to `docs/lessons-technical.md` (or `docs/lessons-domain.md` if this project has one). When you make an architectural choice, write a new ADR (see [`docs/adr/template.md`](docs/adr/template.md)). Anything else — see [`docs/persistence-strategy.md`](docs/persistence-strategy.md) for the full matrix, and [`docs/workflow.md`](docs/workflow.md) for *when*.
 
 ## Searching the codebase
 

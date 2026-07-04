@@ -2,13 +2,7 @@
 
 Index of files in this folder, grouped by current state. Update on every item open/close.
 
-<!-- FULL-ONLY -->
 See [`../workflow.md`](../workflow.md) for granularity patterns (individual file / grouped file / PRIMARY bundle) and for when a topic should be promoted to an ADR instead.
-<!-- /FULL-ONLY -->
-<!-- MINIMAL-ONLY -->
-Keep entries short. One file per topic unless several share a clear theme (group them under one file with a checklist instead of many tiny files).
-<!-- /MINIMAL-ONLY -->
-
 ## Actions to arbitrate (high priority)
 
 <!-- Items that need a decision soon. Empty at project start. -->

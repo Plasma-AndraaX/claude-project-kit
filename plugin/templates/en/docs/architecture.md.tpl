@@ -1,8 +1,8 @@
 # Architecture
 
-How {{PROJECT_NAME}} works *today*. This is a **living document** — update it as the system evolves, not as a historical log (for history, use `git log`<!-- FULL-ONLY --> or `docs/adr/`<!-- /FULL-ONLY -->).
+How {{PROJECT_NAME}} works *today*. This is a **living document** — update it as the system evolves, not as a historical log (for history, use `git log` or `docs/adr/`).
 
-> Keep this document about *what exists*, not *why it was chosen that way*. For the "why", link to<!-- FULL-ONLY --> the relevant ADR in `docs/adr/` or<!-- /FULL-ONLY --> a dated entry in `docs/lessons-*.md`.
+> Keep this document about *what exists*, not *why it was chosen that way*. For the "why", link to the relevant ADR in `docs/adr/` or a dated entry in `docs/lessons-*.md`.
 
 ## Overview
 
