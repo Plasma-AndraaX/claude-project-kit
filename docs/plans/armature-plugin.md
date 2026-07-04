@@ -15,20 +15,21 @@ Faire passer Armature du modèle « **copie de fichiers** dans chaque projet + `
 
 ## Forme cible
 
-Le repo `Plasma-AndraaX/armature` = **marketplace + plugin `armature`** :
+Le repo `Plasma-AndraaX/armature` = **marketplace (racine) + plugin isolé sous `plugin/`** (le plugin ne doit pas embarquer la doc de dev — cf. Lot 1) :
 
 ```
-armature/                              ← repo = marketplace + plugin
+armature/                                  ← repo = marketplace + dev
 ├── .claude-plugin/
-│   ├── marketplace.json               ← déclare le marketplace + l'entrée "armature"
-│   └── plugin.json                    ← name: "armature"  →  namespace /armature:
-├── skills/                            ← ex-commandes, invoquées /armature:<nom>
-│   ├── bootstrap-claude-env/SKILL.md  → /armature:bootstrap-claude-env
-│   ├── new-adr/SKILL.md               → /armature:new-adr
-│   └── … (les autres)
-├── templates/  en/  fr/               ← bundlés, lus via ${CLAUDE_PLUGIN_ROOT}/templates
+│   └── marketplace.json                   ← marketplace, source: ./plugin
+├── plugin/                                ← LE plugin distribué (namespace /armature:)
+│   ├── .claude-plugin/plugin.json         ← name: "armature"
+│   ├── skills/
+│   │   ├── bootstrap-claude-env/SKILL.md  → /armature:bootstrap-claude-env
+│   │   ├── new-adr/SKILL.md               → /armature:new-adr
+│   │   └── … (les autres)
+│   └── templates/  en/  fr/               ← bundlés, lus via ${CLAUDE_PLUGIN_ROOT}/templates
 ├── README · CHANGELOG · ADAPTING
-└── docs/  adr/ plans/ backlog/        ← doc dogfoodée du kit lui-même
+└── docs/  adr/ plans/ backlog/            ← doc dogfoodée, HORS du plugin distribué
 ```
 
 Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace intégralement l'ordre actuel `$ARMATURE_HOME` → `/mnt/c/dev/armature` → demander. Flux tiers : `/plugin marketplace add Plasma-AndraaX/armature` puis `/plugin install armature@armature`, ensuite `/armature:bootstrap-claude-env <chemin>`.
@@ -36,7 +37,7 @@ Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace in
 ## Surface d'impact
 
 ### Structure du plugin
-- **Nouveaux** : `.claude-plugin/plugin.json` (`name: armature`, `version`, `description`), `.claude-plugin/marketplace.json` (entrée pointant sur `.`).
+- **Nouveaux** : `.claude-plugin/marketplace.json` (racine, `source: ./plugin`) + `plugin/.claude-plugin/plugin.json` (`name: armature`, `version`). Le plugin vit **sous `plugin/`** ; la doc de dev reste à la racine, hors du plugin (Lot 1).
 - **Migration** : `templates/<lang>/dot-claude/commands/*.md` → `skills/<nom>/SKILL.md` (format skill : dossier + `SKILL.md`, frontmatter `description`/`$ARGUMENTS` conservés). Ces commandes cessent d'être des *templates copiés*.
 
 ### Skill bootstrap & résolution KIT_ROOT
@@ -90,7 +91,7 @@ Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace in
 - ~~**Q1 — Profils Full/Minimal**~~ : résolu ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) — **profil unique (Full)** ; plus de filtrage par profil, toutes les commandes sont présentes.
 - ~~**Q2 — Sort de `/propose-kit-improvement` & `/pull-kit-updates`**~~ : résolu ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) — **supprimés**. Commandes mises à jour via `/plugin update` ; docs trop personnalisées pour un merge ; amélioration via PR directe sur le repo.
 - ~~**Q3 — Tampon `.armature-version`**~~ : résolu ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) — **supprimé**. Plus de baseline de diff (propose/pull partis) ; la langue vient de `${user_config.lang}`, plus besoin de la tracer par projet.
-- **Q4 — `skills/` vs `commands/`** : la doc recommande `skills/<nom>/SKILL.md` pour un nouveau plugin ; confirmer que `description`/`$ARGUMENTS`/`argument-hint` se comportent à l'identique. À vérifier au Lot 1.
+- ~~**Q4 — `skills/` vs `commands/`**~~ : résolu (Lot 1) — format `skills/<nom>/SKILL.md` retenu ; `claude plugin validate --strict` vert avec frontmatter `description` + `argument-hint` + `disable-model-invocation`.
 - ~~**Q5 — Langue / parité `en`/`fr`**~~ : résolu — **un seul jeu de skills** (instructions en anglais), templates bilingues bundlés, langue du **contenu généré** pilotée par `${user_config.lang}` (choisie à l'install via `userConfig`). Pas de double jeu de skills.
 - **Q6 — Distribution** : marketplace auto-hébergé (le repo) d'abord, communautaire (Lot 6) plus tard.
 
@@ -98,10 +99,11 @@ Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace in
 
 - **2026-07-04** — Architecture plugin retenue (ADR 0004) après vérification doc : le namespace `:` n'existe que via plugin ; `${CLAUDE_PLUGIN_ROOT}` bundle les templates et supprime le chemin en dur. Namespace choisi : `armature`.
 - **2026-07-04** — Simplifications actées ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) : profil unique (Full), suppression de `propose`/`pull` et du tampon, langue via `${user_config.lang}`. Résout Q1/Q2/Q3/Q5.
+- **2026-07-04** — Lot 1 livré : squelette plugin **sous `plugin/`** (isolé de la doc de dev), `marketplace.json` racine → `source: ./plugin`, pilote `new-adr` → `/armature:new-adr`. `claude plugin validate --strict` vert (plugin + marketplace). Structure sous-dossier retenue après que le validateur a signalé le `CLAUDE.md` de dev embarqué en structure « à la racine ».
 
 ## Prochaines actions
 
-- [ ] Lot 1 — squelette plugin + skill pilote `new-adr`, testé via `--plugin-dir`.
+- [x] Lot 1 — squelette plugin (sous `plugin/`) + pilote `new-adr` ; `validate --strict` vert. Reste : test d'invocation *live* (`claude --plugin-dir .`) côté utilisateur.
 - [ ] Lot 2 — `${CLAUDE_PLUGIN_ROOT}` dans bootstrap + migration du skill.
 - [x] Q1/Q2/Q3/Q5 tranchées (ADR 0005 + `${user_config.lang}`) ; reste Q4 (`skills/` format) à vérifier au Lot 1.
 - [ ] Lot 5 — publier + re-migrer voxtrail/Unfog.

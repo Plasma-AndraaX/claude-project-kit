@@ -1,0 +1,15 @@
+{
+  "name": "armature",
+  "description": "Armature — the Claude Code documentation/workflow environment (CLAUDE.md, ADR↔plan↔backlog, coding standards), packaged as an installable plugin.",
+  "owner": {
+    "name": "Plasma-AndraaX",
+    "url": "https://github.com/Plasma-AndraaX"
+  },
+  "plugins": [
+    {
+      "name": "armature",
+      "source": "./plugin",
+      "description": "Bootstrap and maintain a Claude Code documentation/workflow environment — CLAUDE.md, ADR↔plan↔backlog, coding standards — in any project. Commands namespaced under /armature:."
+    }
+  ]
+}
