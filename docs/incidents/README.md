@@ -1,4 +1,4 @@
-# Journal d'incidents — claude-project-kit
+# Journal d'incidents — Armature
 
 Postmortems des incidents à impact réel survenus **en travaillant sur le kit** : un fichier par incident, `YYYY-MM-DD-slug.md`, du plus récent au plus ancien. Le kit utilise pour la forme le gabarit qu'il génère lui-même — voir [`../../templates/fr/docs/incidents/template.md`](../../templates/fr/docs/incidents/template.md) (dogfood).
 

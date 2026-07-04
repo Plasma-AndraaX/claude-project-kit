@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Consistency checks for claude-project-kit's templates/ tree.
+"""Consistency checks for Armature's templates/ tree.
 
 Not generated into bootstrapped projects — this is a maintenance tool for
 the kit itself. Run before committing a change to templates/ or to

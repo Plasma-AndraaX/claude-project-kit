@@ -1,18 +1,20 @@
-# Changelog — claude-project-kit
+# Changelog — Armature
 
 Human-readable history of the kit itself, release by release. Bumped manually and deliberately, not on every commit — that discipline would erode fast otherwise. Loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 This is **not** the same thing as:
 - `docs/changelog/` inside a *bootstrapped* project — that's a separate, generated artifact for that project's own end users.
-- `.claude-project-kit-version` — the precise machine-readable SHA + language stamp that `/propose-kit-improvement` diffs against. This file is for humans deciding whether to pull in kit updates; that one is for exact diffing.
+- `.armature-version` — the precise machine-readable SHA + language stamp that `/propose-kit-improvement` diffs against. This file is for humans deciding whether to pull in kit updates; that one is for exact diffing.
 
 ## Versioning
 
-[SemVer](https://semver.org/)-ish: MINOR for a new user-facing capability (a new template, a new skill, a new question in the bootstrap flow), PATCH for fixes/docs-only changes, MAJOR reserved for a breaking change to something already-bootstrapped projects depend on (e.g. renaming `.claude-project-kit-version`'s format). `/propose-kit-improvement` appends to `[Unreleased]` when it applies an accepted external contribution; bumping `VERSION` and rolling `[Unreleased]` into a dated section is still a deliberate, manual step.
+[SemVer](https://semver.org/)-ish: MINOR for a new user-facing capability (a new template, a new skill, a new question in the bootstrap flow), PATCH for fixes/docs-only changes, MAJOR reserved for a breaking change to something already-bootstrapped projects depend on (e.g. renaming `.armature-version`'s format). `/propose-kit-improvement` appends to `[Unreleased]` when it applies an accepted external contribution; bumping `VERSION` and rolling `[Unreleased]` into a dated section is still a deliberate, manual step.
 
 ## [Unreleased]
 
-_(nothing yet)_
+### Changed
+- **Renamed the kit `claude-project-kit` → `Armature`.** The repo (`github.com/Plasma-AndraaX/armature`), all doc titles/prose, skill descriptions, `bootstrap-claude-env`, and the `KIT_ROOT` resolution (`$ARMATURE_HOME` env var + `/mnt/c/dev/armature` default path) now carry the new name.
+- **Renamed the version-stamp file `.claude-project-kit-version` → `.armature-version`.** `bootstrap-claude-env` now writes the new name; `/propose-kit-improvement` and `/pull-kit-updates` now read it. The only two deployed projects (`voxtrail`, `Unfog`) were migrated by hand (stamp file renamed + their kit-owned skills/docs updated), so this is a **clean break with no compatibility fallback** for the old filename — any future project still holding a `.claude-project-kit-version` must be migrated the same way. Dated release entries below intentionally keep the old filename (historical record).
 
 ## [0.4.0] - 2026-07-02
 

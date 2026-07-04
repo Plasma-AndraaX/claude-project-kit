@@ -1,18 +1,18 @@
 ---
-description: Diffter les fichiers issus du kit de ce projet contre la version de claude-project-kit qui l'a généré, et proposer un patch filtré et relu par l'humain vers le kit.
+description: Diffter les fichiers issus du kit de ce projet contre la version d'Armature qui l'a généré, et proposer un patch filtré et relu par l'humain vers le kit.
 argument-hint: [optionnel — un indice sur ce que tu penses avoir changé, si tu le sais déjà]
 ---
 
 # Proposer une amélioration au kit
 
-Ce projet a été bootstrapé depuis `claude-project-kit`. Avec le temps, certains de ses fichiers issus du kit ont pu dériver de l'original de façons qui aideraient vraiment *tout* projet que le kit bootstrape — une instruction de skill plus claire, un fix de bug, un meilleur défaut. Ce skill trouve ces changements, filtre ce qui est spécifique à ce projet, et prépare un patch relisible. **Rien n'est commité ni poussé vers le kit sans confirmation explicite de l'utilisateur à la fin.**
+Ce projet a été bootstrapé depuis `Armature`. Avec le temps, certains de ses fichiers issus du kit ont pu dériver de l'original de façons qui aideraient vraiment *tout* projet que le kit bootstrape — une instruction de skill plus claire, un fix de bug, un meilleur défaut. Ce skill trouve ces changements, filtre ce qui est spécifique à ce projet, et prépare un patch relisible. **Rien n'est commité ni poussé vers le kit sans confirmation explicite de l'utilisateur à la fin.**
 
 $ARGUMENTS
 
 ## Phase 1 — Localiser la baseline
 
-- Lis `.claude-project-kit-version` à la racine du projet (`sha=...`, `lang=...`, et — sur un tampon récent — `profile=full|minimal`, `changelog=yes|no` et `memoryhook=yes|no`). S'il n'existe pas, ce projet précède le tamponnage de version — dis à l'utilisateur qu'il n'y a pas de baseline fiable pour diffter et arrête-toi (ne devine pas). Si `profile=`/`changelog=`/`memoryhook=` sont absents (tampon d'avant leur ajout), déduis-les comme avant : `profile`/`changelog` de la présence/absence des fichiers Full-only, `memoryhook` de la présence du hook memory-block (`PreToolUse`) dans `.claude/settings.json`.
-- Résous `KIT_ROOT` : variable d'env `$CLAUDE_PROJECT_KIT_HOME` si définie, sinon `/mnt/c/dev/claude-project-kit`, sinon demande à l'utilisateur le chemin de son checkout du kit.
+- Lis `.armature-version` à la racine du projet (`sha=...`, `lang=...`, et — sur un tampon récent — `profile=full|minimal`, `changelog=yes|no` et `memoryhook=yes|no`). S'il n'existe pas, ce projet précède le tamponnage de version — dis à l'utilisateur qu'il n'y a pas de baseline fiable pour diffter et arrête-toi (ne devine pas). Si `profile=`/`changelog=`/`memoryhook=` sont absents (tampon d'avant leur ajout), déduis-les comme avant : `profile`/`changelog` de la présence/absence des fichiers Full-only, `memoryhook` de la présence du hook memory-block (`PreToolUse`) dans `.claude/settings.json`.
+- Résous `KIT_ROOT` : variable d'env `$ARMATURE_HOME` si définie, sinon `/mnt/c/dev/armature`, sinon demande à l'utilisateur le chemin de son checkout du kit.
 - Vérifie que le SHA tamponné existe encore dans l'historique local du kit (`git -C KIT_ROOT cat-file -e <sha>`). Si non (rebase, clone shallow, historique élagué), explique précisément pourquoi à l'utilisateur et arrête-toi plutôt que de diffter silencieusement contre autre chose.
 
 ## Phase 2 — L'ensemble candidat (fichiers propres au kit uniquement)

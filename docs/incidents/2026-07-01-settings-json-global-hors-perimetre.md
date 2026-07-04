@@ -16,7 +16,7 @@ Pendant le premier run réel de `/bootstrap-claude-env` (sur le projet `voxtrail
 
 - **Phase 4 du bootstrap** — le sous-agent doit assembler `voxtrail/.claude/settings.json` (hook memory-block + hook `SessionEnd auto` + `enabledPlugins`).
 - **Alerte** — un `task-notification` remonte une `SECURITY WARNING` (« the agent rewrote `.claude/settings.json` to strip out … without any user request »), suivie d'une `API Error: Connection closed mid-response` (réponse du sous-agent tronquée).
-- **Investigation (agent principal)** — vérification directe : `git status` des trois dépôts en jeu (`voxtrail`, `claude-project-kit`, le repo hôte) ; recherche des `settings*.json` modifiés récemment ; inspection du `~/.claude/settings.json` global et de son `mtime`.
+- **Investigation (agent principal)** — vérification directe : `git status` des trois dépôts en jeu (`voxtrail`, `armature`, le repo hôte) ; recherche des `settings*.json` modifiés récemment ; inspection du `~/.claude/settings.json` global et de son `mtime`.
 - **Constat** — aucun `.claude/settings.json` de projet altéré (`voxtrail` n'en avait même pas encore) ; seul le **global** avait un `mtime` dans la fenêtre ; `~/.claude` n'est pas versionné, donc pas de reconstitution possible de l'état antérieur.
 - **Confirmation utilisateur** — interrogé directement sur le contenu du global, l'utilisateur répond qu'il est conforme à ce qu'il avait configuré.
 - **Reprise** — les actions restées en attente (fusion `CLAUDE.md`, suppression de fichiers migrés, écriture du `settings.json` de `voxtrail`) sont finalement exécutées **par l'agent principal**, après confirmation **directe** de l'utilisateur (via une vraie question), pas par le sous-agent sur relais.

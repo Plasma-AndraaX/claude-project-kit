@@ -66,7 +66,7 @@ Un hunk `diff -u` peut mélanger plusieurs changements logiquement distincts ; l
 
 **Fait** : `propose-kit-improvement.md` Phase 4 dit maintenant explicitement de sous-découper un hunk qui mélange plusieurs changements avant classification ; `pull-kit-updates.md` Phase 3 définit maintenant le recouvrement au grain ligne explicitement (le grain natif de `diff`/git), même si un merge mot-à-mot serait possible.
 
-### 10. ✅ Corrigé — Profil de bootstrap (Full/Minimal, changelog on/off) non tracé dans `.claude-project-kit-version`
+### 10. ✅ Corrigé — Profil de bootstrap (Full/Minimal, changelog on/off) non tracé dans `.armature-version`
 
 Le fichier ne stocke que `sha=`/`lang=`. Les deux skills miroirs doivent redéduire le profil de la présence/absence de fichiers — ambiguïté silencieuse entre "profil Minimal choisi au bootstrap" et "profil Full choisi puis fichiers supprimés depuis à la main".
 

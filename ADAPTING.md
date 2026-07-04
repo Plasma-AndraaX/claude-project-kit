@@ -92,7 +92,7 @@ Si Phase 2 détecte un vrai conflit — la config déclare une convention mais u
 
 ## Limite connue : pas de rétro-propagation
 
-Si tu améliores un `.tpl` dans `claude-project-kit` après avoir déjà bootstrapé plusieurs projets, ces projets ne se mettent pas à jour automatiquement. Pour l'instant :
+Si tu améliores un `.tpl` dans `Armature` après avoir déjà bootstrapé plusieurs projets, ces projets ne se mettent pas à jour automatiquement. Pour l'instant :
 1. Diff manuel entre le fichier généré chez toi et le template mis à jour ici.
 2. Applique la partie pertinente à la main.
 

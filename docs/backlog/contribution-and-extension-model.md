@@ -14,7 +14,7 @@ L'angle mort de la doctrine ci-dessus : sans automatisation, personne ne prend l
 
 ## Idée en attente — système de plugins / dépôts satellites
 
-Intuition de départ : plutôt que de tout merger dans `claude-project-kit`, un contributeur pourrait maintenir son propre dépôt qui *référence* le kit (un `templates/<lang>/` additionnel, appliqué en overlay par le skill) — pour éviter d'alourdir le core avec des variantes trop spécifiques, tout en laissant la communauté construire ce qu'elle veut.
+Intuition de départ : plutôt que de tout merger dans `Armature`, un contributeur pourrait maintenir son propre dépôt qui *référence* le kit (un `templates/<lang>/` additionnel, appliqué en overlay par le skill) — pour éviter d'alourdir le core avec des variantes trop spécifiques, tout en laissant la communauté construire ce qu'elle veut.
 
 **Pourquoi ce n'est pas construit maintenant** : zéro contributeur externe à ce jour, zéro PR reçue. Construire l'abstraction (résolution de plusieurs `KIT_ROOT`, gestion des conflits entre overlay et core, convention de nommage) pour un besoin hypothétique va exactement à l'encontre de la doctrine du kit lui-même ("ne pas designer pour des besoins hypothétiques"). Le coût de se tromper sur la forme de cette abstraction *avant* d'avoir vu un vrai cas d'usage est plus élevé que le coût d'attendre.
 

@@ -1,5 +1,5 @@
 ---
-description: Pull improvements made to claude-project-kit since this project was bootstrapped, three-way-merging against any local customization of the same kit-owned files.
+description: Pull improvements made to Armature since this project was bootstrapped, three-way-merging against any local customization of the same kit-owned files.
 argument-hint: [optional — a hint about what you expect changed in the kit]
 ---
 
@@ -11,8 +11,8 @@ $ARGUMENTS
 
 ## Phase 1 — Locate the baseline and the kit's current state
 
-- Read `.claude-project-kit-version` at the project root (`sha=...`, `lang=...`, and — on a recent stamp — `profile=full|minimal`, `changelog=yes|no` and `memoryhook=yes|no`). If missing, there's no baseline to diff from — tell the user and stop (don't guess). If `profile=`/`changelog=`/`memoryhook=` are absent (a stamp from before they existed), infer them as before: `profile`/`changelog` from which Full-only files are present, `memoryhook` from whether the memory-block (`PreToolUse`) hook is present in `.claude/settings.json`.
-- Resolve `KIT_ROOT`: `$CLAUDE_PROJECT_KIT_HOME` env var if set, otherwise `/mnt/c/dev/claude-project-kit`, otherwise ask.
+- Read `.armature-version` at the project root (`sha=...`, `lang=...`, and — on a recent stamp — `profile=full|minimal`, `changelog=yes|no` and `memoryhook=yes|no`). If missing, there's no baseline to diff from — tell the user and stop (don't guess). If `profile=`/`changelog=`/`memoryhook=` are absent (a stamp from before they existed), infer them as before: `profile`/`changelog` from which Full-only files are present, `memoryhook` from whether the memory-block (`PreToolUse`) hook is present in `.claude/settings.json`.
+- Resolve `KIT_ROOT`: `$ARMATURE_HOME` env var if set, otherwise `/mnt/c/dev/armature`, otherwise ask.
 - Compute `NEW_SHA = git -C KIT_ROOT rev-parse HEAD`. If it equals the stamped `sha`, tell the user the kit hasn't moved since bootstrap and stop — nothing to pull.
 - Verify the stamped `sha` is still reachable in `KIT_ROOT`'s history (`git -C KIT_ROOT cat-file -e <sha>`). If not, say precisely why and stop rather than diffing against the wrong thing.
 
@@ -53,7 +53,7 @@ If everything is a clean update or nothing needs pulling, this can be a short, f
 
 - Write each confirmed file into the project, re-substituting *this* project's own placeholder values and resolving markers for its actual profile/changelog choice — mirror `/bootstrap-claude-env` Phase 4's generation logic, don't hand-wave it.
 - For arbitration cases resolved as "keep mine," touch nothing, but note in the summary that this is now a known, deliberate divergence going forward (not a stale unreviewed diff).
-- Update `.claude-project-kit-version`'s `sha=` line to `NEW_SHA` once the review is done, **regardless of whether every hunk was accepted** — a declined change becomes an intentional divergence from that point forward, not something to re-litigate on every future run. Don't bump it if the user aborts before Phase 4's review completes.
+- Update `.armature-version`'s `sha=` line to `NEW_SHA` once the review is done, **regardless of whether every hunk was accepted** — a declined change becomes an intentional divergence from that point forward, not something to re-litigate on every future run. Don't bump it if the user aborts before Phase 4's review completes.
 - If any "keep mine" choice looks like it might be worth upstreaming, say so and suggest running `/propose-kit-improvement` next — the two skills close the loop on each other.
 
 ## What this skill does NOT do

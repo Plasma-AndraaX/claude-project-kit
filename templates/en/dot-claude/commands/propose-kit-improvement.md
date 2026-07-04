@@ -1,18 +1,18 @@
 ---
-description: Diff this project's kit-derived files against the claude-project-kit version that generated it, and propose a filtered, human-reviewed patch back to the kit.
+description: Diff this project's kit-derived files against the Armature version that generated it, and propose a filtered, human-reviewed patch back to the kit.
 argument-hint: [optional — a hint about what you think changed, if you already know]
 ---
 
 # Propose a kit improvement
 
-This project was bootstrapped from `claude-project-kit`. Over time, some of its kit-derived files may have drifted from the original in ways that would genuinely help *every* project the kit bootstraps — a clearer skill instruction, a bug fix, a better default. This skill finds those changes, filters out anything that's specific to this project, and prepares a reviewable patch. **Nothing is committed or pushed to the kit without explicit user confirmation at the end.**
+This project was bootstrapped from `Armature`. Over time, some of its kit-derived files may have drifted from the original in ways that would genuinely help *every* project the kit bootstraps — a clearer skill instruction, a bug fix, a better default. This skill finds those changes, filters out anything that's specific to this project, and prepares a reviewable patch. **Nothing is committed or pushed to the kit without explicit user confirmation at the end.**
 
 $ARGUMENTS
 
 ## Phase 1 — Locate the baseline
 
-- Read `.claude-project-kit-version` at the project root (`sha=...`, `lang=...`, and — on a recent stamp — `profile=full|minimal`, `changelog=yes|no` and `memoryhook=yes|no`). If it doesn't exist, this project predates version stamping — tell the user there's no reliable baseline to diff against and stop (don't guess). If `profile=`/`changelog=`/`memoryhook=` are absent (a stamp from before they existed), infer them as before: `profile`/`changelog` from which Full-only files are present, `memoryhook` from whether the memory-block (`PreToolUse`) hook is present in `.claude/settings.json`.
-- Resolve `KIT_ROOT`: `$CLAUDE_PROJECT_KIT_HOME` env var if set, otherwise `/mnt/c/dev/claude-project-kit`, otherwise ask the user for their kit checkout path.
+- Read `.armature-version` at the project root (`sha=...`, `lang=...`, and — on a recent stamp — `profile=full|minimal`, `changelog=yes|no` and `memoryhook=yes|no`). If it doesn't exist, this project predates version stamping — tell the user there's no reliable baseline to diff against and stop (don't guess). If `profile=`/`changelog=`/`memoryhook=` are absent (a stamp from before they existed), infer them as before: `profile`/`changelog` from which Full-only files are present, `memoryhook` from whether the memory-block (`PreToolUse`) hook is present in `.claude/settings.json`.
+- Resolve `KIT_ROOT`: `$ARMATURE_HOME` env var if set, otherwise `/mnt/c/dev/armature`, otherwise ask the user for their kit checkout path.
 - Verify the stamped SHA still exists in the kit's local history (`git -C KIT_ROOT cat-file -e <sha>`). If it doesn't (rebase, shallow clone, pruned history), tell the user precisely why and stop rather than silently diffing against something else.
 
 ## Phase 2 — The candidate set (kit-owned files only)

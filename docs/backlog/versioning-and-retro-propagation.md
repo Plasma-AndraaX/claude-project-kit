@@ -8,7 +8,7 @@ Aujourd'hui, un projet bootstrapé ne garde aucune trace de la révision du kit 
 
 ## Décision prise (2026-07) — SHA git plutôt que semver
 
-Tamponner le SHA du commit du kit (`git -C KIT_ROOT rev-parse HEAD`, capturé en Phase 4) dans un fichier `.claude-project-kit-version` à la racine du projet cible, plutôt que de maintenir un numéro de version sémantique à la main.
+Tamponner le SHA du commit du kit (`git -C KIT_ROOT rev-parse HEAD`, capturé en Phase 4) dans un fichier `.armature-version` à la racine du projet cible, plutôt que de maintenir un numéro de version sémantique à la main.
 
 **Pourquoi pas un semver classique + CHANGELOG dédié** : ça demanderait une discipline manuelle (bump à chaque commit substantiel) qui sera oubliée — exactement le genre de mécanisme qui s'auto-sabote avec le temps. Le SHA git est automatique, précis, et permet un `git diff <sha>..HEAD -- templates/<lang>/` direct pour voir exactement ce qui a changé depuis le bootstrap d'un projet donné.
 
@@ -22,12 +22,12 @@ Toujours pas construit, et volontairement : une synchronisation *automatique* fa
 
 ## Remontée cross-projet (le vrai trou "auto-apprenant") — ✅ résolu (2026-07)
 
-Construit : `/propose-kit-improvement` (généré dans chaque projet bootstrapé, profils Full et Minimal). Utilise le tampon `.claude-project-kit-version` ci-dessus pour diffter les fichiers "propres au kit" (liste stricte, jamais les fichiers de contenu projet) contre l'original, classer généralisable/spécifique/bruit, filtrer les infos personnelles, et présenter le patch à l'utilisateur pour confirmation avant toute branche/commit dans le checkout local du kit. Le push/PR reste une demande séparée et explicite — jamais automatique.
+Construit : `/propose-kit-improvement` (généré dans chaque projet bootstrapé, profils Full et Minimal). Utilise le tampon `.armature-version` ci-dessus pour diffter les fichiers "propres au kit" (liste stricte, jamais les fichiers de contenu projet) contre l'original, classer généralisable/spécifique/bruit, filtrer les infos personnelles, et présenter le patch à l'utilisateur pour confirmation avant toute branche/commit dans le checkout local du kit. Le push/PR reste une demande séparée et explicite — jamais automatique.
 
 Ce qui reste ouvert : rien n'assure qu'un contributeur pense à le lancer — pas de rappel automatique, juste une commande disponible.
 
 ## Tampon étendu à profile/changelog/memoryhook — ✅ résolu (2026-07-02)
 
-`.claude-project-kit-version` ne stockait que `sha=`/`lang=` ; le profil (Full/Minimal) et le choix changelog devaient être redéduits de la présence/absence de fichiers par `/propose-kit-improvement`/`/pull-kit-updates` lors de la normalisation — ambiguïté silencieuse entre "Minimal choisi au bootstrap" et "Full choisi puis fichiers supprimés depuis". Trouvé lors du premier run réel des 3 skills, voir `docs/backlog/first-real-run-findings.md`.
+`.armature-version` ne stockait que `sha=`/`lang=` ; le profil (Full/Minimal) et le choix changelog devaient être redéduits de la présence/absence de fichiers par `/propose-kit-improvement`/`/pull-kit-updates` lors de la normalisation — ambiguïté silencieuse entre "Minimal choisi au bootstrap" et "Full choisi puis fichiers supprimés depuis". Trouvé lors du premier run réel des 3 skills, voir `docs/backlog/first-real-run-findings.md`.
 
 Ajout de `profile=full|minimal` et `changelog=yes|no` au tampon (Phase 4 de `bootstrap-claude-env.md`). Puis, avec l'axe `MEMORYHOOK-ONLY` (cf. anomalie A1 de `first-real-run-findings.md`), ajout d'un cinquième champ `memoryhook=yes|no` — le paragraphe d'interdiction de la mémoire privée dans `persistence-strategy.md` est désormais gaté sur ce choix (indépendant de Full/Minimal), plus sur `FULL-ONLY`. Purement additif — les deux skills miroirs retombent sur l'ancienne inférence si un champ est absent (`profile`/`changelog` par présence de fichiers, `memoryhook` par présence du hook `PreToolUse` dans `.claude/settings.json`), donc pas de rupture pour les projets déjà bootstrapés (ex. `voxtrail`, tamponné avant ces ajouts).

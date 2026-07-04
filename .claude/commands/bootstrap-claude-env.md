@@ -19,11 +19,11 @@ Target path argument: **$ARGUMENTS**
 ## Phase 1 — Locate this kit's templates and pick a language
 
 Resolve `KIT_ROOT` in this order, stop at the first hit:
-1. `$CLAUDE_PROJECT_KIT_HOME` env var, if set and `$CLAUDE_PROJECT_KIT_HOME/templates` exists.
-2. `./templates` relative to the current working directory (covers the case where you're running this from inside a `claude-project-kit` checkout).
-3. `/mnt/c/dev/claude-project-kit/templates` (default known location on this machine).
+1. `$ARMATURE_HOME` env var, if set and `$ARMATURE_HOME/templates` exists.
+2. `./templates` relative to the current working directory (covers the case where you're running this from inside an `Armature` checkout).
+3. `/mnt/c/dev/armature/templates` (default known location on this machine).
 
-If none exist, stop and ask the user for the path to their `claude-project-kit` checkout.
+If none exist, stop and ask the user for the path to their `Armature` checkout.
 
 List `KIT_ROOT`'s immediate subdirectories — each one is a language variant (e.g. `en`, `fr`). Ask the user which one to use via `AskUserQuestion`, defaulting the suggested option to the language they're currently conversing in if it matches an available variant. Resolve `TPL_ROOT = KIT_ROOT/<chosen-lang>`. Every path referenced as `templates/...` in the phases below means `TPL_ROOT/...` (i.e. language-relative, not `KIT_ROOT` directly).
 
@@ -102,7 +102,7 @@ For every file under `TPL_ROOT` (the language variant chosen in Phase 1), apply 
 
 **`docs/claude-code-tooling.md` (Full profile) — the Inventory tables specifically never ship bare**: always fill "Hooks catalog" (the memory-block hook if enabled, and the session-end capture hook if configured — note its mode), "Custom skills" (already listed in the template), and "Plugins / MCP servers" (every candidate from the discovery step, tagged `adopted` or `suggested` per the user's Phase 3 answer). For anything tagged `suggested` that needs a credential to actually enable, put the exact setup command in "Recommended, not yet enabled" — never a provisioned secret. For anything tagged `adopted`, also add it to `<target>/.claude/settings.json`'s `enabledPlugins` (create the key if absent), in the form `"enabledPlugins": {"plugin-name@marketplace": true}` (this kit's own `.claude/settings.json` is a separate, unrelated file for working on the kit itself — not a reference for this shape). The other sections ("Strategy", "How to evaluate a new plugin/skill", "Security baseline", "References") stay as placeholders — they're intentionally a deliberate policy call for the team to write, not something to infer from a code scan.
 
-**Version stamp**: write `<target>/.claude-project-kit-version` with five lines: `sha=<git -C KIT_ROOT rev-parse HEAD>`, `lang=<chosen language from Phase 1>`, `profile=full|minimal` (Phase 3's answer), `changelog=yes|no` (Phase 3's answer — `no` if the question was never asked, i.e. Minimal profile), and `memoryhook=yes|no` (Phase 3's memory-block hook answer). All five are needed later to normalize this project's kit-derived files against the exact original template tree (`KIT_ROOT` at that SHA, that language, profile, changelog, and memory-hook choice) without having to re-infer them from which files/paragraphs happen to still be present — see `docs/backlog/versioning-and-retro-propagation.md` in the kit for why. Generated in both profiles. `/propose-kit-improvement` and `/pull-kit-updates` must tolerate an older stamp missing any of `profile=`/`changelog=`/`memoryhook=` (a project bootstrapped before these fields existed) — fall back to inferring from file/hook presence in that case, exactly as before.
+**Version stamp**: write `<target>/.armature-version` with five lines: `sha=<git -C KIT_ROOT rev-parse HEAD>`, `lang=<chosen language from Phase 1>`, `profile=full|minimal` (Phase 3's answer), `changelog=yes|no` (Phase 3's answer — `no` if the question was never asked, i.e. Minimal profile), and `memoryhook=yes|no` (Phase 3's memory-block hook answer). All five are needed later to normalize this project's kit-derived files against the exact original template tree (`KIT_ROOT` at that SHA, that language, profile, changelog, and memory-hook choice) without having to re-infer them from which files/paragraphs happen to still be present — see `docs/backlog/versioning-and-retro-propagation.md` in the kit for why. Generated in both profiles. `/propose-kit-improvement` and `/pull-kit-updates` must tolerate an older stamp missing any of `profile=`/`changelog=`/`memoryhook=` (a project bootstrapped before these fields existed) — fall back to inferring from file/hook presence in that case, exactly as before.
 
 If `<target>/.claude/settings.json` already exists (pre-existing project with its own Claude config), do **not** overwrite it — show the relevant hook snippet(s) below and ask the user to merge them manually, or offer to merge them yourself with an explicit diff.
 
@@ -138,7 +138,7 @@ Show:
 - Concrete next steps: flesh out `docs/architecture.md`, open a first ADR if there's already a pending decision, create `docs/prefs/<login>.md` (Full profile), regenerate the dashboard once there's at least one ADR (Full profile), run `/changelog-capture` after the next user-visible change (if the changelog module was included).
 - Which plugins/MCP servers were enabled vs. just recorded as `suggested` in `docs/claude-code-tooling.md`, and the setup command for any that need a credential the user has to supply.
 - That `./claude.sh` exists to launch Claude Code with local env vars pre-loaded, and that `.env.claude` (copied from `.env.claude.example`) is where secrets go — gitignored, never committed.
-- The kit commit SHA stamped in `.claude-project-kit-version`, and that `/propose-kit-improvement` (send changes to the kit) and `/pull-kit-updates` (bring kit improvements into this project) both use it as their diff baseline.
+- The kit commit SHA stamped in `.armature-version`, and that `/propose-kit-improvement` (send changes to the kit) and `/pull-kit-updates` (bring kit improvements into this project) both use it as their diff baseline.
 - Whether session-end capture is configured, in which mode, and — for `auto` — that it writes but never commits, so uncommitted files may be waiting for review at the start of the next session (check `tools/session-end-capture.log`).
 
 ## What this skill does NOT do

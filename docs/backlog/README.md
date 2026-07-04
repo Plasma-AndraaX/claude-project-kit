@@ -1,4 +1,4 @@
-# Backlog — claude-project-kit
+# Backlog — Armature
 
 Sujets ouverts sur le kit lui-même (pas sur un projet bootstrapé). Depuis le 2026-07-02, le kit a son propre [`docs/adr/`](../adr/README.md) + [`docs/plans/`](../plans/README.md) (il dogfoode sa propre machinerie) — les décisions structurantes assez mûres y vont ; les décisions plus anciennes gardent leur raisonnement dans `README.md`/`ADAPTING.md`. Le backlog reste pour ce qui n'est pas encore tranché.
 

@@ -1,4 +1,4 @@
-# Stratégie de test — claude-project-kit
+# Stratégie de test — Armature
 
 *Comment* le kit se teste : la **doctrine**, pas seulement les commandes. Le kit n'a pas d'`operations.md` séparé (il est petit et mono-outil) — le *comment lancer* tient dans la dernière section.
 

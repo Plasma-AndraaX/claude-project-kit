@@ -1,5 +1,5 @@
 ---
-description: Tirer les améliorations apportées à claude-project-kit depuis le bootstrap de ce projet, en fusionnant à 3 voies avec toute personnalisation locale des mêmes fichiers propres au kit.
+description: Tirer les améliorations apportées à Armature depuis le bootstrap de ce projet, en fusionnant à 3 voies avec toute personnalisation locale des mêmes fichiers propres au kit.
 argument-hint: [optionnel — un indice sur ce que tu penses avoir changé côté kit]
 ---
 
@@ -11,8 +11,8 @@ $ARGUMENTS
 
 ## Phase 1 — Localiser la baseline et l'état actuel du kit
 
-- Lis `.claude-project-kit-version` à la racine du projet (`sha=...`, `lang=...`, et — sur un tampon récent — `profile=full|minimal`, `changelog=yes|no` et `memoryhook=yes|no`). S'il est absent, il n'y a pas de baseline pour diffter — dis-le à l'utilisateur et arrête-toi (ne devine pas). Si `profile=`/`changelog=`/`memoryhook=` sont absents (tampon d'avant leur ajout), déduis-les comme avant : `profile`/`changelog` de la présence des fichiers Full-only, `memoryhook` de la présence du hook memory-block (`PreToolUse`) dans `.claude/settings.json`.
-- Résous `KIT_ROOT` : variable d'env `$CLAUDE_PROJECT_KIT_HOME` si définie, sinon `/mnt/c/dev/claude-project-kit`, sinon demande.
+- Lis `.armature-version` à la racine du projet (`sha=...`, `lang=...`, et — sur un tampon récent — `profile=full|minimal`, `changelog=yes|no` et `memoryhook=yes|no`). S'il est absent, il n'y a pas de baseline pour diffter — dis-le à l'utilisateur et arrête-toi (ne devine pas). Si `profile=`/`changelog=`/`memoryhook=` sont absents (tampon d'avant leur ajout), déduis-les comme avant : `profile`/`changelog` de la présence des fichiers Full-only, `memoryhook` de la présence du hook memory-block (`PreToolUse`) dans `.claude/settings.json`.
+- Résous `KIT_ROOT` : variable d'env `$ARMATURE_HOME` si définie, sinon `/mnt/c/dev/armature`, sinon demande.
 - Calcule `NEW_SHA = git -C KIT_ROOT rev-parse HEAD`. S'il est égal au `sha` tamponné, dis à l'utilisateur que le kit n'a pas bougé depuis le bootstrap et arrête-toi — rien à tirer.
 - Vérifie que le `sha` tamponné est encore accessible dans l'historique de `KIT_ROOT` (`git -C KIT_ROOT cat-file -e <sha>`). Sinon, explique précisément pourquoi et arrête-toi plutôt que de diffter contre la mauvaise chose.
 
@@ -53,7 +53,7 @@ Si tout est une mise à jour propre ou qu'il n'y a rien à tirer, ça peut être
 
 - Écris chaque fichier confirmé dans le projet, en resubstituant les propres valeurs de placeholder de *ce* projet et en résolvant les marqueurs pour son profil/choix changelog réel — reproduis la logique de génération de la Phase 4 de `/bootstrap-claude-env`, ne l'esquive pas.
 - Pour les cas d'arbitrage résolus en "garder le mien", ne touche à rien, mais note dans la synthèse que c'est désormais une divergence connue et délibérée à partir de maintenant (pas un diff périmé non relu).
-- Mets à jour la ligne `sha=` de `.claude-project-kit-version` vers `NEW_SHA` une fois la relecture terminée, **que tous les hunks aient été acceptés ou non** — un changement décliné devient une divergence intentionnelle à partir de ce point, pas quelque chose à re-débattre à chaque run futur. Ne l'avance pas si l'utilisateur abandonne avant la fin de la relecture en Phase 4.
+- Mets à jour la ligne `sha=` de `.armature-version` vers `NEW_SHA` une fois la relecture terminée, **que tous les hunks aient été acceptés ou non** — un changement décliné devient une divergence intentionnelle à partir de ce point, pas quelque chose à re-débattre à chaque run futur. Ne l'avance pas si l'utilisateur abandonne avant la fin de la relecture en Phase 4.
 - Si un choix "garder le mien" a l'air de valoir la peine d'être remonté, dis-le et propose de lancer `/propose-kit-improvement` ensuite — les deux skills se bouclent l'un sur l'autre.
 
 ## Ce que ce skill ne fait PAS

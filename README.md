@@ -1,6 +1,8 @@
-# claude-project-kit
+# Armature
 
-**Version actuelle : [0.4.0](CHANGELOG.md#040---2026-07-02)** — voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique lisible par un humain (distinct du tampon `.claude-project-kit-version`, qui sert au diff précis de `/propose-kit-improvement`).
+> *L'ossature qu'on pose dans un projet avant d'y monter la doc, les décisions et les conventions. Pas du code : l'environnement de travail avec Claude.*
+
+**Version actuelle : [0.4.0](CHANGELOG.md#040---2026-07-02)** — voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique lisible par un humain (distinct du tampon `.armature-version`, qui sert au diff précis de `/propose-kit-improvement`).
 
 Un kit pour installer, sur n'importe quel projet informatique (n'importe quel langage/stack), l'**environnement Claude** que j'utilise sur Holoon : de la doc versionnée qui fait office de mémoire durable pour l'agent, un cycle ADR ↔ plan ↔ backlog pour tracer les décisions, et une poignée de skills qui font vivre tout ça.
 
@@ -38,7 +40,7 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `claude.sh` + `.env.claude.example` + `.gitignore` | Script de lancement qui charge `.env.claude` (gitignored, jamais commité) puis lance `claude "$@"`. L'exemple documente valeur en clair ou résolution via un gestionnaire de mots de passe. Bash uniquement (pas de `.ps1` fourni). |
 | `tools/session-end-capture.sh` *(profil Full, sur demande)* | Hook `SessionEnd` optionnel : rappel visible (mode `message`) ou capture headless automatique sans commit (mode `auto`) quand une session se termine avec du travail non capturé. |
 | `docs/changelog/` + `/changelog-capture`, `/changelog-draft` *(profil Full, sur demande)* | Notes de release utilisateur : capture au fil de l'eau, rédaction à la release. Sans traduction multi-langue ni publication automatisée — voir `ADAPTING.md`. |
-| `.claude-project-kit-version` + `/propose-kit-improvement` | Tamponne le SHA du kit + la langue choisie à la génération, pour pouvoir diffter les fichiers propres au kit contre l'original et proposer un patch filtré en retour — jamais de push/PR sans confirmation explicite. |
+| `.armature-version` + `/propose-kit-improvement` | Tamponne le SHA du kit + la langue choisie à la génération, pour pouvoir diffter les fichiers propres au kit contre l'original et proposer un patch filtré en retour — jamais de push/PR sans confirmation explicite. |
 
 Deux profils au moment de la génération :
 - **Full** — tout l'arsenal ci-dessus.
@@ -61,7 +63,7 @@ Si le répertoire cible contient déjà du code, le skill fait un premier passag
 ### Option A — depuis ce repo
 
 ```bash
-cd /mnt/c/dev/claude-project-kit
+cd /mnt/c/dev/armature
 claude
 ```
 Puis, dans la session :
@@ -74,7 +76,7 @@ Le skill demande d'abord la langue des gabarits (§ Langues ci-dessus), puis pos
 
 Copie `template` en commande globale pour l'avoir disponible sans repasser par ce repo :
 ```bash
-cp /mnt/c/dev/claude-project-kit/.claude/commands/bootstrap-claude-env.md ~/.claude/commands/
+cp /mnt/c/dev/armature/.claude/commands/bootstrap-claude-env.md ~/.claude/commands/
 ```
 Puis, depuis **n'importe quel** répertoire Claude Code :
 ```
