@@ -1,6 +1,6 @@
 # Guide d'adaptation
 
-Check-list de ce qu'il faut personnaliser après (ou pendant) un `/bootstrap-claude-env`, selon le contexte du projet cible. Le skill pose les questions de base (nom, stack, solo/équipe) mais ne peut pas tout déduire — cette page couvre le reste.
+Check-list de ce qu'il faut personnaliser après (ou pendant) un `/bootstrap`, selon le contexte du projet cible. Le skill pose les questions de base (nom, stack, solo/équipe) mais ne peut pas tout déduire — cette page couvre le reste.
 
 ## Langue des templates
 
@@ -39,7 +39,7 @@ Le skill pose quand même la question (l'utilisateur reste décisionnaire), mais
 
 Le skill demande explicitement en Phase 3 où vit le backlog. Si l'équipe utilise déjà Jira/Trello/Notion/Linear/GitHub Issues, ne génère **pas** `docs/backlog/` — imposer un second système concurrent au premier crée de la confusion et personne ne le maintient. Dans ce cas, `docs/persistence-strategy.md` et les autres références à `docs/backlog/` sont ajustées pour nommer l'outil externe à la place.
 
-Cas particulier — **TODOs déjà présents dans le code existant** : si Phase 2 en détecte un nombre non-trivial, le skill propose (jamais automatiquement) de les trier en items de backlog au moment du bootstrap. En dehors de ce geste de migration ponctuel, les `TODO`/`FIXME` du code restent délibérément exclus comme source de backlog continue (cf. `whats-left.md`) — trop bruyants, jamais triés.
+Cas particulier — **TODOs déjà présents dans le code existant** : si Phase 2 en détecte un nombre non-trivial, le skill propose (jamais automatiquement) de les trier en items de backlog au moment du bootstrap. En dehors de ce geste de migration ponctuel, les `TODO`/`FIXME` du code restent délibérément exclus comme source de backlog continue (cf. le skill `/armature:review-backlog`) — trop bruyants, jamais triés.
 
 ## Changelog utilisateur
 

@@ -28,7 +28,7 @@ Après nettoyage, un projet bootstrapé reçoit **un seul jeu de doc** (ex-Full)
 - Supprimer `templates/{en,fr}/dot-claude/commands/propose-kit-improvement.md` et `pull-kit-updates.md` (4 fichiers). (Note : ces skills deviennent de toute façon caduques avec le plugin — cf. ADR 0004.)
 
 ### Skill bootstrap
-- `bootstrap-claude-env` : retirer la **question de profil** (Phase 3), retirer l'écriture du **tampon** `.armature-version` (Phase 4) et son champ `profile=`. La logique « Full/Minimal » de génération (Phase 4) devient « générer tout ».
+- `bootstrap` : retirer la **question de profil** (Phase 3), retirer l'écriture du **tampon** `.armature-version` (Phase 4) et son champ `profile=`. La logique « Full/Minimal » de génération (Phase 4) devient « générer tout ».
 
 ### Lint
 - `tools/lint-templates.py` : retirer l'axe profil des combinaisons vérifiées (garder `changelog` × `memoryhook`) ; retirer la connaissance des `MINIMAL_SKIP_COMMANDS` / listes de profil ; retirer toute référence au tampon.

@@ -4,7 +4,7 @@ The actual style and naming conventions in force in {{PROJECT_NAME}} — indenta
 
 > Keep this about *what* the convention is and *how* it's enforced, not *why*. If a style choice was a deliberate architectural decision, cross-reference the relevant ADR or a dated entry in `docs/lessons-technical.md` instead of explaining the reasoning here.
 
-> To (re)generate a stack-based proposal (new project, adding a language, refresh): run the `/armature:coding-standards` command.
+> To (re)generate a stack-based proposal (new project, adding a language, refresh): run the `/armature:document-standards` command.
 
 ## Overview
 

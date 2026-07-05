@@ -36,7 +36,7 @@ Le résultat, éprouvé sur plusieurs mois sur Holoon : `CLAUDE.md` sert d'index
 | `docs/claude-code-tooling.md` | Inventaire des skills/plugins/hooks Claude utilisés sur ce projet — jamais vide : le skill y consigne les plugins/MCP Anthropic-verified pertinents pour le stack détecté, et propose de les activer un par un dans `.claude/settings.json`. |
 | `docs/dashboard.html` + `tools/generate-dashboard.py` | Vue HTML générée de l'état ADR ↔ plan ↔ backlog. |
 | `.claude/settings.json` | Hook optionnel qui bloque l'écriture dans la mémoire privée Claude et renvoie vers `persistence-strategy.md`. |
-| Skills `/armature:new-adr`, `/armature:capture-lessons`, `/armature:whats-left`, `/armature:dashboard` | Fournis par le plugin `armature` (invoqués `/armature:…`), pas copiés dans le projet. Font vivre le système au quotidien. |
+| Skills `/armature:new-adr`, `/armature:capture-lessons`, `/armature:review-backlog`, `/armature:dashboard` | Fournis par le plugin `armature` (invoqués `/armature:…`), pas copiés dans le projet. Font vivre le système au quotidien. |
 | `claude.sh` + `.env.claude.example` + `.gitignore` | Script de lancement qui charge `.env.claude` (gitignored, jamais commité) puis lance `claude "$@"`. L'exemple documente valeur en clair ou résolution via un gestionnaire de mots de passe. Bash uniquement (pas de `.ps1` fourni). |
 | `tools/session-end-capture.sh` *(sur demande)* | Hook `SessionEnd` optionnel : rappel visible (mode `message`) ou capture headless automatique sans commit (mode `auto`) quand une session se termine avec du travail non capturé. |
 | `docs/changelog/` + `/armature:changelog-capture`, `/armature:changelog-draft` *(sur demande)* | Notes de release utilisateur : capture au fil de l'eau, rédaction à la release. Sans traduction multi-langue ni publication automatisée — voir `ADAPTING.md`. |
@@ -64,7 +64,7 @@ Armature se distribue comme **plugin Claude Code**. Une fois pour toutes, ajoute
 
 Ensuite, depuis **n'importe quelle** session Claude Code :
 ```
-/armature:bootstrap-claude-env /chemin/absolu/vers/mon-nouveau-projet
+/armature:bootstrap /chemin/absolu/vers/mon-nouveau-projet
 ```
 (sans argument, génère dans le répertoire courant). Le skill pose quelques questions (nom du projet, stack, solo/équipe, hook mémoire oui/non), puis écrit dans le répertoire cible — pas besoin d'y être `cd`, Claude Code écrit à des chemins absolus arbitraires. La langue du contenu généré vient de la config du plugin (`${user_config.lang}`).
 

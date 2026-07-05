@@ -16,10 +16,10 @@ Inventory of the Claude Code plugins, skills, subagents, and hooks used (or eval
 
 | Skill | Purpose |
 |---|---|
-| `/armature:coding-standards` | Proposes/refreshes `docs/coding-standards.md` from the stack, via a live docs source (documentation only, no scaffold) |
+| `/armature:document-standards` | Proposes/refreshes `docs/coding-standards.md` from the stack, via a live docs source (documentation only, no scaffold) |
 | `/armature:new-adr` | Guided process to open an ADR + companion plan |
 | `/armature:capture-lessons` | Reviews recent work and proposes doc updates |
-| `/armature:whats-left` | Tactical view of open backlog/plan items |
+| `/armature:review-backlog` | Tactical view of open backlog/plan items |
 | `/armature:dashboard` | Regenerates `docs/dashboard.html` |
 <!-- CHANGELOG-ONLY --> | `/armature:changelog-capture` | Captures a user-facing changelog note while context is fresh |
 | `/armature:changelog-draft` | Drafts the release changelog from `docs/changelog/_next.md` | <!-- /CHANGELOG-ONLY -->

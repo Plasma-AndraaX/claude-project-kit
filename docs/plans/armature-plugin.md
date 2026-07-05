@@ -24,7 +24,7 @@ armature/                                  ← repo = marketplace + dev
 ├── plugin/                                ← LE plugin distribué (namespace /armature:)
 │   ├── .claude-plugin/plugin.json         ← name: "armature"
 │   ├── skills/
-│   │   ├── bootstrap-claude-env/SKILL.md  → /armature:bootstrap-claude-env
+│   │   ├── bootstrap/SKILL.md  → /armature:bootstrap
 │   │   ├── new-adr/SKILL.md               → /armature:new-adr
 │   │   └── … (les autres)
 │   └── templates/  en/  fr/               ← bundlés, lus via ${CLAUDE_PLUGIN_ROOT}/templates
@@ -32,7 +32,7 @@ armature/                                  ← repo = marketplace + dev
 └── docs/  adr/ plans/ backlog/            ← doc dogfoodée, HORS du plugin distribué
 ```
 
-Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace intégralement l'ordre actuel `$ARMATURE_HOME` → `/mnt/c/dev/armature` → demander. Flux tiers : `/plugin marketplace add Plasma-AndraaX/armature` puis `/plugin install armature@armature`, ensuite `/armature:bootstrap-claude-env <chemin>`.
+Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace intégralement l'ordre actuel `$ARMATURE_HOME` → `/mnt/c/dev/armature` → demander. Flux tiers : `/plugin marketplace add Plasma-AndraaX/armature` puis `/plugin install armature@armature`, ensuite `/armature:bootstrap <chemin>`.
 
 ## Surface d'impact
 
@@ -41,7 +41,7 @@ Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace in
 - **Migration** : `templates/<lang>/dot-claude/commands/*.md` → `skills/<nom>/SKILL.md` (format skill : dossier + `SKILL.md`, frontmatter `description`/`$ARGUMENTS` conservés). Ces commandes cessent d'être des *templates copiés*.
 
 ### Skill bootstrap & résolution KIT_ROOT
-- `bootstrap-claude-env` : Phase 1 résout `KIT_ROOT = ${CLAUDE_PLUGIN_ROOT}` et lit la langue via `${user_config.lang}` ; Phase 4 **ne copie plus** les commandes (elles vivent dans le plugin) et **n'écrit plus de tampon** (ADR 0005) — ne génère que la doc/structure, un seul profil.
+- `bootstrap` : Phase 1 résout `KIT_ROOT = ${CLAUDE_PLUGIN_ROOT}` et lit la langue via `${user_config.lang}` ; Phase 4 **ne copie plus** les commandes (elles vivent dans le plugin) et **n'écrit plus de tampon** (ADR 0005) — ne génère que la doc/structure, un seul profil.
 
 ### `propose`/`pull` & tampon
 - **Supprimés** ([ADR 0005](../adr/0005-simplifications-post-plugin.md)) : les 2 skills et le tampon `.armature-version` disparaissent (détail dans [`post-plugin-simplification.md`](post-plugin-simplification.md)).
@@ -60,11 +60,11 @@ Résolution `KIT_ROOT` dans les skills : **`${CLAUDE_PLUGIN_ROOT}`** remplace in
 - **Critère de sortie** : `/armature:new-adr` s'invoque et fonctionne via `--plugin-dir`.
 
 ### Lot 2 — Templates via `${CLAUDE_PLUGIN_ROOT}` + bootstrap
-- Réécrire la résolution `KIT_ROOT` de `bootstrap-claude-env` sur `${CLAUDE_PLUGIN_ROOT}` (supprimer `/mnt/c/dev/armature` + `$ARMATURE_HOME`) ; migrer le skill en `skills/`.
-- **Critère de sortie** : `/armature:bootstrap-claude-env` génère un projet en lisant les templates bundlés, zéro chemin en dur.
+- Réécrire la résolution `KIT_ROOT` de `bootstrap` sur `${CLAUDE_PLUGIN_ROOT}` (supprimer `/mnt/c/dev/armature` + `$ARMATURE_HOME`) ; migrer le skill en `skills/`.
+- **Critère de sortie** : `/armature:bootstrap` génère un projet en lisant les templates bundlés, zéro chemin en dur.
 
 ### Lot 3 — Migrer les commandes restantes en skills
-- Migrer en `skills/` les commandes conservées (`new-adr`, `capture-lessons`, `whats-left`, `dashboard`, `coding-standards`, `changelog-capture`, `changelog-draft` — `propose`/`pull` supprimées, cf. ADR 0005) ; langue du contenu via `${user_config.lang}`.
+- Migrer en `skills/` les commandes conservées (`new-adr`, `capture-lessons`, `review-backlog`, `dashboard`, `coding-standards`, `changelog-capture`, `changelog-draft` — `propose`/`pull` supprimées, cf. ADR 0005) ; langue du contenu via `${user_config.lang}`.
 - **Critère de sortie** : tous les `/armature:…` conservés fonctionnent.
 
 ### Lot 4 — Nettoyage post-plugin (ADR 0005)

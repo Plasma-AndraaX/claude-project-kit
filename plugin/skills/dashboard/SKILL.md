@@ -1,5 +1,5 @@
 ---
-description: Regenerates docs/dashboard.html — architectural view by tracks of ADR ↔ plan ↔ backlog. For the prioritized tactical list, use /whats-left.
+description: Regenerates docs/dashboard.html — architectural view by tracks of ADR ↔ plan ↔ backlog. For the prioritized tactical list, use /review-backlog.
 disable-model-invocation: true
 ---
 
@@ -7,19 +7,19 @@ disable-model-invocation: true
 
 Regenerates `docs/dashboard.html`, which presents the current ADR ↔ plans ↔ backlog state as **tracks**: one row per ADR, with its companion plan and the backlog items that mention it.
 
-## Boundary with `/whats-left`
+## Boundary with `/review-backlog`
 
 The two commands may look similar — they parse the same sources. The functional boundary:
 
-| `/dashboard` | `/whats-left` |
+| `/dashboard` | `/review-backlog` |
 |---|---|
 | **Architectural** view: *"how is the system structured?"* | **Tactical** view: *"what do I work on now?"* |
 | Persistent HTML to keep open in a tab | Ephemeral markdown in the conversation |
 | ADR tracks + their linked backlog + ADR-candidate bundles | Prioritized list of isolated items, hot items, functional gaps |
 | **Includes**: ADR tracks with linked backlog, orphan PRIMARY bundles (ADR candidates), reference (closed) | **Includes**: active standalone items, orphan sub-items, next-step suggestion |
-| **Excludes**: standalone items without an ADR, orphan sub-items (delegated to `/whats-left`) | **Excludes**: the ADR ↔ plan mechanics themselves |
+| **Excludes**: standalone items without an ADR, orphan sub-items (delegated to `/review-backlog`) | **Excludes**: the ADR ↔ plan mechanics themselves |
 
-Concretely: an active backlog item with no ADR to its name and not part of a PRIMARY bundle shows up in `/whats-left` but **not** in the dashboard. Conversely, the ADR ↔ plan relational structure is invisible in `/whats-left` but central to the dashboard.
+Concretely: an active backlog item with no ADR to its name and not part of a PRIMARY bundle shows up in `/review-backlog` but **not** in the dashboard. Conversely, the ADR ↔ plan relational structure is invisible in `/review-backlog` but central to the dashboard.
 
 ## Steps
 

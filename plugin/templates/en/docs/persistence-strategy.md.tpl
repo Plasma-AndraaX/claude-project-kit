@@ -18,7 +18,7 @@ A `PreToolUse` hook in `.claude/settings.json` blocks any write under the memory
 | **Item to handle later** (rollout, debt, refactor, deferred point) | [`docs/backlog/`](backlog/) — one file per topic | free-form, follow existing files' conventions |
 | **Non-obvious technical lesson** (gotcha, tooling trap, library quirk) | [`docs/lessons-technical.md`](lessons-technical.md) | dated section |
 | **Incident / postmortem** (dated event: timeline, root cause, follow-up actions) | [`docs/incidents/`](incidents/README.md) — one file per incident | ≠ lesson (`lessons-technical`), ≠ work (`backlog`) |
-| **Code style / naming convention** observed or declared | [`docs/coding-standards.md`](coding-standards.md) | one section per language/module if heterogeneous; `/armature:coding-standards` proposes from the stack |
+| **Code style / naming convention** observed or declared | [`docs/coding-standards.md`](coding-standards.md) | one section per language/module if heterogeneous; `/armature:document-standards` proposes from the stack |
 | **Non-obvious business rule** *(if this project has `lessons-domain.md`)* | `docs/lessons-domain.md` (only generated for a rich business domain) | dated section |
 | **Current state of the system** (architecture, how it works today) | [`docs/architecture.md`](architecture.md) | update as reality changes |
 | **Setup / build / deploy** | [`docs/operations.md`](operations.md) | |

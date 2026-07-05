@@ -11,7 +11,7 @@ Le kit est un arbre de templates + des skills en Markdown. Il n'a **pas de code 
 | Niveau | Outil | Périmètre | Quand |
 |---|---|---|---|
 | Lint des templates | `python3 tools/lint-templates.py` | Balance des marqueurs `FULL`/`MINIMAL`/`CHANGELOG`, parité `en`/`fr`, rendu sans placeholder / marqueur / ligne-vide-de-tableau résiduels sur chaque profil × changelog | Avant chaque commit touchant `plugin/templates/`, un skill, ou le lint lui-même |
-| Run manuel end-to-end | Session Claude Code réelle | Que `/bootstrap-claude-env`, `/propose-kit-improvement`, `/pull-kit-updates` produisent réellement le comportement décrit, sur un vrai projet | À chaque changement substantiel d'un skill |
+| Run manuel end-to-end | Session Claude Code réelle | Que `/bootstrap`, `/propose-kit-improvement`, `/pull-kit-updates` produisent réellement le comportement décrit, sur un vrai projet | À chaque changement substantiel d'un skill |
 
 Le run manuel end-to-end n'est pas de la cérémonie théorique : le premier (2026-07-01/02, sur le projet `voxtrail`) a fait remonter 10 frictions que le lint ne pouvait pas voir — voir [`backlog/first-real-run-findings.md`](backlog/first-real-run-findings.md).
 

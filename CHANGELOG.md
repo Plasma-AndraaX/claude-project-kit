@@ -15,6 +15,7 @@ Major reshaping: Armature is renamed and turned into a **Claude Code plugin**. S
 ### Changed
 - **Renamed `claude-project-kit` → `Armature`** — repo (`github.com/Plasma-AndraaX/armature`), all docs, skill descriptions, prose.
 - **Armature is now a Claude Code plugin (`armature`).** The kit's commands are plugin skills invoked as `/armature:…`, installed once (`/plugin marketplace add Plasma-AndraaX/armature` then `/plugin install armature@armature`) instead of copied into every bootstrapped project. Templates are bundled in the plugin and resolved via `${CLAUDE_PLUGIN_ROOT}` — no more hard-coded `/mnt/c/dev/armature` path or `$ARMATURE_HOME` env var. Content language comes from the plugin's `${user_config.lang}` option (chosen at install). See ADR 0004.
+- **Command names follow the Anthropic house style** (short, kebab-case, verb-object where natural): `/armature:bootstrap`, `/armature:new-adr`, `/armature:capture-lessons`, `/armature:document-standards`, `/armature:review-backlog`, `/armature:dashboard`, `/armature:changelog-capture`, `/armature:changelog-draft` — renamed from the longer `bootstrap-claude-env`/`coding-standards`/`whats-left`.
 - **Single profile.** The Full/Minimal axis is gone: `FULL-ONLY`/`MINIMAL-ONLY` markers were flattened to always-on, the bootstrap no longer asks about profile, and `lint-templates.py` now only checks the orthogonal `CHANGELOG` × `MEMORYHOOK` combinations. See ADR 0005.
 
 ### Removed

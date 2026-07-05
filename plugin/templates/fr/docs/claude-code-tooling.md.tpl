@@ -16,10 +16,10 @@ Inventaire des plugins, skills, subagents et hooks Claude Code utilisés (ou év
 
 | Skill | Vocation |
 |---|---|
-| `/armature:coding-standards` | Propose/actualise `docs/coding-standards.md` selon la stack, via une source de doc vivante (documentaire, pas de scaffold) |
+| `/armature:document-standards` | Propose/actualise `docs/coding-standards.md` selon la stack, via une source de doc vivante (documentaire, pas de scaffold) |
 | `/armature:new-adr` | Processus guidé pour ouvrir une ADR + son plan compagnon |
 | `/armature:capture-lessons` | Passe en revue le travail récent et propose des mises à jour de doc |
-| `/armature:whats-left` | Vue tactique des items backlog/plan ouverts |
+| `/armature:review-backlog` | Vue tactique des items backlog/plan ouverts |
 | `/armature:dashboard` | Régénère `docs/dashboard.html` |
 <!-- CHANGELOG-ONLY --> | `/armature:changelog-capture` | Capture une note de changelog utilisateur pendant que le contexte est frais |
 | `/armature:changelog-draft` | Rédige le changelog de release depuis `docs/changelog/_next.md` | <!-- /CHANGELOG-ONLY -->

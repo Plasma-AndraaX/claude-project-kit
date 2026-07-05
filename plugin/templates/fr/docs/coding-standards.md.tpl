@@ -4,7 +4,7 @@ Le style et les conventions de nommage réellement en vigueur dans {{PROJECT_NAM
 
 > Garder ce document centré sur *quelle* est la convention et *comment* elle est appliquée, pas sur le *pourquoi*. Si un choix de style est une décision architecturale délibérée, référencer l'ADR concernée ou une entrée datée de `docs/lessons-technical.md` plutôt que d'expliquer le raisonnement ici.
 
-> Pour (re)générer une proposition de conventions selon la stack (projet neuf, ajout d'un langage, actualisation) : lancer la commande `/armature:coding-standards`.
+> Pour (re)générer une proposition de conventions selon la stack (projet neuf, ajout d'un langage, actualisation) : lancer la commande `/armature:document-standards`.
 
 ## Vue d'ensemble
 
