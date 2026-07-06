@@ -10,6 +10,10 @@ This is **not** the same thing as `docs/changelog/` inside a *bootstrapped* proj
 
 ## [Unreleased]
 
+_(nothing yet)_
+
+## [0.5.0] - 2026-07-06
+
 Major reshaping: Armature is renamed and turned into a **Claude Code plugin**. See ADR 0004 (plugin distribution) and ADR 0005 (post-plugin simplifications).
 
 ### Changed
