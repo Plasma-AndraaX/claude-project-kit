@@ -4,7 +4,7 @@ date: 2026-07-06
 deciders: [Plasma-AndraaX]
 superseded-by:
 related-adrs: [0004, 0005]
-related-plans: [modele-extension-commandes]
+related-plans: [2026-07-06-modele-extension-commandes]
 ---
 
 # ADR 0006 — Modèle d'extensibilité des commandes du plugin
@@ -40,6 +40,6 @@ Adopter un **modèle d'extensibilité à trois niveaux, sans nouvelle machinerie
 ## Références
 
 - ADR liées : [0004](0004-plugin-armature.md) (bascule plugin — crée le problème), [0005](0005-simplifications-post-plugin.md) (précédent d'un « non » gelé : fin de la synchro projet↔kit)
-- Plans liés : [`../plans/modele-extension-commandes.md`](../plans/modele-extension-commandes.md)
+- Plans liés : [`../plans/2026-07-06-modele-extension-commandes.md`](../plans/2026-07-06-modele-extension-commandes.md)
 - Réflexion source : [`../backlog/command-extension-mechanism.md`](../backlog/command-extension-mechanism.md)
 - Mécanisme du tier (a) : [`../../plugin/templates/fr/docs/prefs/README.md.tpl`](../../plugin/templates/fr/docs/prefs/README.md.tpl)

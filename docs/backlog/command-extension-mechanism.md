@@ -52,6 +52,6 @@ La proposition se réduit donc à : **(a) déjà là** (observation, pas décisi
 
 ## Statut
 
-**Tranché le 2026-07-06 par [ADR 0006](../adr/0006-modele-extension-commandes.md)** (+ [plan compagnon](../plans/modele-extension-commandes.md)) : modèle d'extensibilité à 3 niveaux **sans nouvelle machinerie** — (a) conventions portées par les fichiers déjà auto-chargés, (c) override local assumé, (b) overlay à points d'ancrage **délibérément reporté**. Ce fichier est conservé comme **réflexion source**. Distinct de [`contribution-and-extension-model.md`](contribution-and-extension-model.md), qui traite des *dépôts satellites / overlays de templates*.
+**Tranché le 2026-07-06 par [ADR 0006](../adr/0006-modele-extension-commandes.md)** (+ [plan compagnon](../plans/2026-07-06-modele-extension-commandes.md)) : modèle d'extensibilité à 3 niveaux **sans nouvelle machinerie** — (a) conventions portées par les fichiers déjà auto-chargés, (c) override local assumé, (b) overlay à points d'ancrage **délibérément reporté**. Ce fichier est conservé comme **réflexion source**. Distinct de [`contribution-and-extension-model.md`](contribution-and-extension-model.md), qui traite des *dépôts satellites / overlays de templates*.
 
 **Déclencheur de réveil du tier (b)** : le jour où une personnalisation *additive légère* devient récurrente (≥ 2 projets) et pénible à maintenir à la main — l'override complet (c) étant alors trop lourd pour le besoin. Holoon reste couvert par override complet (ses commandes locales conservées).
