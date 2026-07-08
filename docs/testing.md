@@ -11,7 +11,7 @@ Le kit est un arbre de templates + des skills en Markdown. Il n'a **pas de code 
 | Niveau | Outil | Périmètre | Quand |
 |---|---|---|---|
 | Lint des templates | `python3 tools/lint-templates.py` | Balance des marqueurs `FULL`/`MINIMAL`/`CHANGELOG`, parité `en`/`fr`, rendu sans placeholder / marqueur / ligne-vide-de-tableau résiduels sur chaque profil × changelog | Avant chaque commit touchant `plugin/templates/`, un skill, ou le lint lui-même |
-| Run manuel end-to-end | Session Claude Code réelle | Que `/bootstrap`, `/propose-kit-improvement`, `/pull-kit-updates` produisent réellement le comportement décrit, sur un vrai projet | À chaque changement substantiel d'un skill |
+| Run manuel end-to-end | Session Claude Code réelle | Que les skills `/armature:*` (`bootstrap`, `new-adr`, `capture-lessons`…) produisent réellement le comportement décrit, sur un vrai projet | À chaque changement substantiel d'un skill |
 
 Le run manuel end-to-end n'est pas de la cérémonie théorique : le premier (2026-07-01/02, sur le projet `voxtrail`) a fait remonter 10 frictions que le lint ne pouvait pas voir — voir [`backlog/first-real-run-findings.md`](backlog/first-real-run-findings.md).
 
@@ -33,4 +33,12 @@ Un changement est « testé » avant commit si :
 python3 tools/lint-templates.py
 ```
 
-Le run manuel end-to-end n'a pas de commande : ouvrir Claude Code dans un projet (jetable ou réel) et invoquer les skills. Voir [`backlog/first-real-run-findings.md`](backlog/first-real-run-findings.md) pour la méthodologie du premier run.
+Le run manuel end-to-end n'a pas de commande unique : ouvrir Claude Code dans un projet cible (jetable ou réel) et invoquer les skills. Voir [`backlog/first-real-run-findings.md`](backlog/first-real-run-findings.md) pour la méthodologie du premier run.
+
+**Dogfooding du kit lui-même** — pour exercer les vraies `/armature:*` sur *leur propre source* (dispatch d'overlay compris), lancer le kit avec son plugin chargé depuis le working tree :
+
+```bash
+./claude.sh          # = claude --plugin-dir ./plugin
+```
+
+Éditer `plugin/skills/<x>/SKILL.md` puis `/reload-plugins` recharge à chaud. **Ne pas** installer le plugin via un marketplace dans ce repo : ça copierait un snapshot en cache et masquerait tes éditions (deux copies divergentes). Le `--plugin-dir` est *la* voie live confirmée par la doc Claude Code.
