@@ -8,6 +8,17 @@ disable-model-invocation: true
 
 Turn the accumulated notes in `docs/changelog/_next.md` into a formatted, publishable changelog entry for release **$ARGUMENTS**.
 
+## Project overlay
+
+Before anything else, check whether this project provides an overlay for this command at `.claude/armature/changelog-draft.md` (relative to the project root).
+
+- **If it exists**, read it and announce: "**Surcharge projet active** (`.claude/armature/changelog-draft.md`)". It holds named markdown sections that extend this command:
+  - `## before` / `## after` — reserved lifecycle hooks: run `## before` now (before the process below), and `## after` at the very end.
+  - a section whose name matches a `[project anchor: <id>]` marker placed in this skill — inject its content at that marker's location.
+  - any section matching neither a reserved hook nor a declared anchor: ignore it.
+  - Execute the `## before` section now if present.
+- **If it does not exist**, proceed normally — this command behaves exactly as its base, with nothing injected.
+
 ## Sources, in priority order
 
 1. **`docs/changelog/_next.md`** — the primary source. These notes were captured close to the work, in user language; trust them over anything you reconstruct after the fact.
@@ -24,8 +35,14 @@ Turn the accumulated notes in `docs/changelog/_next.md` into a formatted, publis
 4. Present the draft to the user for review before publishing anywhere.
 5. Once approved: append the finished entry to wherever this project's published changelog lives (a `CHANGELOG.md`, a docs site, a release-notes field — ask if not established), then **clear `_next.md`** back to its empty template shape for the next cycle.
 
+> `[project anchor: changelog-output]` — if a project overlay defines a `## changelog-output` section, use its output format, grouping/bucket taxonomy, and destination for steps 3 and 5 (e.g. per-version locale files instead of a single `CHANGELOG.md`). The base spine — sources priority, gap-flagging, review pause, `_next.md` reset — stays unchanged.
+
 ## What this skill does NOT do
 
-- It does not translate the output into other languages — if this project ships to multiple locales, that's a separate, project-specific extension (see `ADAPTING.md` in the kit this was bootstrapped from).
+- It does not translate the output into other languages by default — if this project ships to multiple locales, put that (and any other post-draft artifacts: a metadata file, screenshot captures) in the project overlay's `## after` hook (see `ADAPTING.md` § "Personnaliser une commande du plugin").
 - It does not publish anywhere automatically — the last step is a manual/scripted action specific to this project's actual publishing surface.
 - It does not invent user-facing framing for a commit with no `_next.md` entry and no clear user impact — ask rather than guess.
+
+### Final — project `after` hook
+
+If a project overlay defined a `## after` section, apply its instructions as the closing step — e.g. locale translations (via a glossary), a metadata file, screenshot captures. No overlay ⇒ skip entirely.

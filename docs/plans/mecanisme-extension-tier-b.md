@@ -83,7 +83,8 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 | Lot | SHA | Date | Notes |
 |---|---|---|---|
 | Lot 1 — prototype + implémentation `new-adr` | `bf36fd1` | 2026-07-08 | mécanisme validé 4/4 par agents frais et **promu** dans `plugin/skills/new-adr/SKILL.md` (dispatch + hook `after` + ancrage `exploration-zones`) ; Q2/Q3 confirmées, opt-in/backward-compatible |
-| Lot 2 — généraliser (4 skills) + doc | *(ce commit)* | 2026-07-08 | mécanisme porté sur `capture-lessons` / `changelog-capture` / `dashboard` / `review-backlog` (1 ancrage adapté chacune) ; spot-check `capture-lessons` OK ; `ADAPTING.md` documente la convention |
+| Lot 2 — généraliser (4 skills) + doc | `ba207f1` | 2026-07-08 | mécanisme porté sur `capture-lessons` / `changelog-capture` / `dashboard` / `review-backlog` (1 ancrage adapté chacune) ; spot-check `capture-lessons` OK ; `ADAPTING.md` documente la convention |
+| Lot 3 — trancher `changelog-draft` | *(ce commit)* | 2026-07-08 | **verdict : overlay** (pas tier c). Divergence mappée sur `before` + ancrage `changelog-output` + `after` (locales/metadata/captures) ; spine préservée. Spot-check du cas lourd OK (`after` à 3 sous-étapes + spine intacte) |
 
 ## Follow-ups surfacés pendant l'implémentation
 
@@ -92,6 +93,7 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 ## Journal de décisions
 
 - **2026-07-08** — Ouverture. Trois choix de cadrage validés par l'utilisateur : **direction seule** dans l'ADR (design au plan) ; **localisation hors scope** (Lot 4 gated) ; **extend seul** (pas de mode replace). Fondé sur le diagnostic des 6 commandes Holoon (5 extensions + 1 hybride, 0 remplacement).
+- **2026-07-08** — **Lot 3 livré. Verdict `changelog-draft` : overlay (tier b), pas override (tier c).** La colonne vertébrale de la base (sources priorisées, gap-flagging, voix éditoriale, pause de revue, reset `_next.md`) a une valeur partagée réelle ; la divergence Holoon (versioning, format/destination, locales + metadata + captures) mappe sur `before` + ancrage `changelog-output` + `after`. Argument décisif : cette logique projet est **irréductiblement projet-spécifique** (côté projet de toute façon) → l'overlay **domine** le fork (hériter la spine plutôt que la dupliquer). Spot-check du cas lourd (agent frais) : `after` à 3 sous-étapes intégralement appliqué **et** spine préservée, 0 parasite. Bémol assumé : c'est le plus gros overlay ; le tier (c) reste l'échappatoire si ça devient ingérable.
 - **2026-07-08** — **Lot 2 livré.** Mécanisme répliqué sur les 4 autres extensions nettes, chacune avec dispatch + hook `after` + 1 ancrage mid-flow adapté (`capture-targets`, `changelog-buckets`, `dashboard-delivery`, `silent-delivery-detection`). Spot-check `capture-lessons` par agent frais : injection parfaite (before + ancrage de routage + after), 0 parasite — le transfert au-delà de `new-adr` est confirmé, y compris sur un **type d'ancrage différent** (injection dans une table de routage). Convention documentée pour les consommateurs dans `ADAPTING.md` (tier b), tiers réordonnés léger→lourd. `claude plugin validate --strict` + lint verts.
 - **2026-07-08** — **Lot 1 livré.** Prototype (dispatch + hook `after` + ancrage `exploration-zones`) testé par 4 agents frais (3 overlay + 1 contrôle) : **4/4 corrects**, injection fiable, 0 parasite, backward-compatible confirmé. **Q3 résolue** (dispatch mou fiable), **Q2 confirmée** à l'usage. Mécanisme **promu** dans `plugin/skills/new-adr/SKILL.md` (extend-only, opt-in). Finding : l'ancrage mid-flow est aussi fiable que les hooks à N=3 — l'écart anticipé n'apparaît pas.
 - **2026-07-08** — **Q1 résolue** (un fichier par commande, `.claude/armature/<nom>.md`, committé) et **Q2 proposée** (sections markdown ; `before`/`after` réservés à position implicite + ancrages nommés déclarés par la base ; un seul mécanisme). Piège de vocabulaire acté : nos « hooks » ≠ les hooks Claude Code de `settings.json` → stockage sous `armature/`, pas `hooks/`.
@@ -103,7 +105,8 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 - [x] Décider Q1/Q2 au vu du prototype (Q1 résolue, Q2 confirmée, Q3 résolue).
 - [x] **Documenter la convention overlay** dans `ADAPTING.md` (§ Personnaliser une commande — tier b).
 - [x] Lot 2 — généralisé aux 4 autres extensions nettes ; spot-check `capture-lessons` OK.
-- [ ] Lot 3 — trancher `changelog-draft` (l'hybride : overlay suffit-il, ou tier c ?).
+- [x] Lot 3 — `changelog-draft` tranché : **overlay** (spot-check cas lourd OK).
+- [ ] **Plan clôturable** : Lots 1-3 livrés, seul le Lot 4 (localisation) reste *gated future* → prêt à passer `implemented` sur demande.
 - [ ] Lot 4 — *gated future*, ne rien faire avant le déclencheur (langue = dernier blocage).
 
 ---
