@@ -10,6 +10,17 @@ You just shipped something user-visible (a fix, a feature, a behavior change) an
 
 $ARGUMENTS
 
+## Project overlay
+
+Before anything else, check whether this project provides an overlay for this command at `.claude/armature/changelog-capture.md` (relative to the project root).
+
+- **If it exists**, read it and announce: "**Surcharge projet active** (`.claude/armature/changelog-capture.md`)". It holds named markdown sections that extend this command:
+  - `## before` / `## after` — reserved lifecycle hooks: run `## before` now (before the process below), and `## after` at the very end.
+  - a section whose name matches a `[project anchor: <id>]` marker placed in this skill — inject its content at that marker's location.
+  - any section matching neither a reserved hook nor a declared anchor: ignore it.
+  - Execute the `## before` section now if present.
+- **If it does not exist**, proceed normally — this command behaves exactly as its base, with nothing injected.
+
 ## What belongs here
 
 - **User-visible** changes: something a user of the product would notice or care about. Not internal refactors, not test additions, not dependency bumps with no behavior change.
@@ -28,8 +39,14 @@ $ARGUMENTS
 2. Append a new dated entry following the shape shown in `_next.md`'s comment: a one-line header (what changed, in user terms) + 1-3 sentences of plain-language body.
 3. Don't touch anything else in the file — this is append-only until `/changelog-draft` clears it at release time.
 
+> `[project anchor: changelog-buckets]` — if a project overlay defines a `## changelog-buckets` section, apply its bucket/taxonomy, entry-shape, and locale rules when writing the entry in step 2.
+
 ## What you do NOT do
 
 - Don't write marketing copy or hype — factual and plain beats enthusiastic and vague.
 - Don't guess at user impact you're not sure of — ask the user if the framing is right before committing an ambiguous entry.
 - Don't run this for changes with zero user-visible surface — it's fine to say "nothing changelog-worthy here."
+
+### Final — project `after` hook
+
+If a project overlay defined a `## after` section, apply its instructions as the closing step. No overlay ⇒ skip entirely.

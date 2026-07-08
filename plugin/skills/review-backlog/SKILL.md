@@ -9,6 +9,17 @@ Produce a **tactical view** of what's left to do: the answer to *"what do I work
 
 > **Primary axis = readiness** ("can I act on this now?"), **not** the backlog's resting priority. The resting order (README section order) is raw material; you **re-express** it as *is this actionable*, and you **compress the long tail**.
 
+## Project overlay
+
+Before anything else, check whether this project provides an overlay for this command at `.claude/armature/review-backlog.md` (relative to the project root).
+
+- **If it exists**, read it and announce: "**Surcharge projet active** (`.claude/armature/review-backlog.md`)". It holds named markdown sections that extend this command:
+  - `## before` / `## after` — reserved lifecycle hooks: run `## before` now (before the process below), and `## after` at the very end.
+  - a section whose name matches a `[project anchor: <id>]` marker placed in this skill — inject its content at that marker's location.
+  - any section matching neither a reserved hook nor a declared anchor: ignore it.
+  - Execute the `## before` section now if present.
+- **If it does not exist**, proceed normally — this command behaves exactly as its base, with nothing injected.
+
 ## Canonical sources (read in this order)
 
 1. **`docs/backlog/README.md`** — skeleton. Its sections are the **resting** prioritization; they feed the readiness classification (mapping below), they are **not** the output's section plan.
@@ -21,6 +32,8 @@ Produce a **tactical view** of what's left to do: the answer to *"what do I work
 **Do NOT use**: `// TODO:` / `// FIXME:` / `// XXX:` in code (noisy, non-canonical); issue trackers unless referenced from the backlog/a plan.
 
 **Exclude**: closing/archive README sections (e.g. "Reference (closed topics)").
+
+> `[project anchor: silent-delivery-detection]` — if a project overlay defines a `## silent-delivery-detection` section, use its project-specific grep(s)/paths for the silent-delivery check above (e.g. domain-event files), plus any project-specific canonical sources or exclusions it lists.
 
 ## Output format
 
@@ -52,3 +65,7 @@ One single response. Header, then 5 sections **in this fixed order**, then a sum
 5. **💤 Someday/maybe** *(compressed — never expanded in normal mode)*. Dormant items, holes without a trigger: **counted + pointer**, not listed. E.g. `12 dormant with no active trigger → backlog/README.md § Dormant`.
 
 **Summary (3-5 lines)**: total open items · **natural next step** (the first item of 🔥, else 🏗️, else ✅) · context promotions/demotions with their why · *stale* signals (item checked off elsewhere but not in the README, or the reverse; silent delivery) to clean up.
+
+### Final — project `after` hook
+
+If a project overlay defined a `## after` section, apply its instructions as the closing step. No overlay ⇒ skip entirely.

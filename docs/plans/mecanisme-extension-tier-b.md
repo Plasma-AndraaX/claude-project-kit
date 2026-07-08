@@ -82,7 +82,8 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 
 | Lot | SHA | Date | Notes |
 |---|---|---|---|
-| Lot 1 — prototype + implémentation `new-adr` | *(ce commit)* | 2026-07-08 | mécanisme validé 4/4 par agents frais et **promu** dans `plugin/skills/new-adr/SKILL.md` (dispatch + hook `after` + ancrage `exploration-zones`) ; Q2/Q3 confirmées, opt-in/backward-compatible |
+| Lot 1 — prototype + implémentation `new-adr` | `bf36fd1` | 2026-07-08 | mécanisme validé 4/4 par agents frais et **promu** dans `plugin/skills/new-adr/SKILL.md` (dispatch + hook `after` + ancrage `exploration-zones`) ; Q2/Q3 confirmées, opt-in/backward-compatible |
+| Lot 2 — généraliser (4 skills) + doc | *(ce commit)* | 2026-07-08 | mécanisme porté sur `capture-lessons` / `changelog-capture` / `dashboard` / `review-backlog` (1 ancrage adapté chacune) ; spot-check `capture-lessons` OK ; `ADAPTING.md` documente la convention |
 
 ## Follow-ups surfacés pendant l'implémentation
 
@@ -91,6 +92,7 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 ## Journal de décisions
 
 - **2026-07-08** — Ouverture. Trois choix de cadrage validés par l'utilisateur : **direction seule** dans l'ADR (design au plan) ; **localisation hors scope** (Lot 4 gated) ; **extend seul** (pas de mode replace). Fondé sur le diagnostic des 6 commandes Holoon (5 extensions + 1 hybride, 0 remplacement).
+- **2026-07-08** — **Lot 2 livré.** Mécanisme répliqué sur les 4 autres extensions nettes, chacune avec dispatch + hook `after` + 1 ancrage mid-flow adapté (`capture-targets`, `changelog-buckets`, `dashboard-delivery`, `silent-delivery-detection`). Spot-check `capture-lessons` par agent frais : injection parfaite (before + ancrage de routage + after), 0 parasite — le transfert au-delà de `new-adr` est confirmé, y compris sur un **type d'ancrage différent** (injection dans une table de routage). Convention documentée pour les consommateurs dans `ADAPTING.md` (tier b), tiers réordonnés léger→lourd. `claude plugin validate --strict` + lint verts.
 - **2026-07-08** — **Lot 1 livré.** Prototype (dispatch + hook `after` + ancrage `exploration-zones`) testé par 4 agents frais (3 overlay + 1 contrôle) : **4/4 corrects**, injection fiable, 0 parasite, backward-compatible confirmé. **Q3 résolue** (dispatch mou fiable), **Q2 confirmée** à l'usage. Mécanisme **promu** dans `plugin/skills/new-adr/SKILL.md` (extend-only, opt-in). Finding : l'ancrage mid-flow est aussi fiable que les hooks à N=3 — l'écart anticipé n'apparaît pas.
 - **2026-07-08** — **Q1 résolue** (un fichier par commande, `.claude/armature/<nom>.md`, committé) et **Q2 proposée** (sections markdown ; `before`/`after` réservés à position implicite + ancrages nommés déclarés par la base ; un seul mécanisme). Piège de vocabulaire acté : nos « hooks » ≠ les hooks Claude Code de `settings.json` → stockage sous `armature/`, pas `hooks/`.
 - **2026-07-08** — **Modèle « hooks + ancrages » retenu comme direction de design** (idée utilisateur, affine le « points d'ancrage nommés » de l'ADR sans le contredire). Points d'injection à deux granularités : **hooks lifecycle** (`before`/`after`/`end`) universels et *plus fiables* (prepend/append > splice) comme forme **dominante**, + **ancrages nommés mid-flow** pour les trous sémantiques précis. Motivé par le diagnostic : la majorité des extensions Holoon (`changelog-draft`, `dashboard`) sont des étapes *après* le cœur = hooks `after` propres ; le mid-flow est la minorité. Le Lot 1 prototype **les deux** pour comparer fiabilité et ergonomie.
@@ -99,9 +101,9 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 
 - [x] Lot 1 — prototype + implémentation `new-adr` : forme validée (4/4), mécanisme promu dans la skill.
 - [x] Décider Q1/Q2 au vu du prototype (Q1 résolue, Q2 confirmée, Q3 résolue).
-- [ ] **Documenter la convention overlay** (`.claude/armature/<nom>.md`, hooks `before`/`after` + ancrages) dans `ADAPTING.md` — à faire au Lot 2 quand ≥ 2 commandes la portent.
-- [ ] Lot 2 — généraliser aux 4 autres extensions nettes (la forme est arrêtée).
-- [ ] Lot 3 — trancher `changelog-draft`.
+- [x] **Documenter la convention overlay** dans `ADAPTING.md` (§ Personnaliser une commande — tier b).
+- [x] Lot 2 — généralisé aux 4 autres extensions nettes ; spot-check `capture-lessons` OK.
+- [ ] Lot 3 — trancher `changelog-draft` (l'hybride : overlay suffit-il, ou tier c ?).
 - [ ] Lot 4 — *gated future*, ne rien faire avant le déclencheur (langue = dernier blocage).
 
 ---

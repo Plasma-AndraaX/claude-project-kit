@@ -7,6 +7,17 @@ disable-model-invocation: true
 
 You're called at the end of non-trivial work to do a capture-and-update pass on the docs. You don't capture everything — apply the relevance filters below aggressively and propose concrete, actionable additions.
 
+## Project overlay
+
+Before anything else, check whether this project provides an overlay for this command at `.claude/armature/capture-lessons.md` (relative to the project root).
+
+- **If it exists**, read it and announce: "**Surcharge projet active** (`.claude/armature/capture-lessons.md`)". It holds named markdown sections that extend this command:
+  - `## before` / `## after` — reserved lifecycle hooks: run `## before` now (before the process below), and `## after` at the very end.
+  - a section whose name matches a `[project anchor: <id>]` marker placed in this skill — inject its content at that marker's location.
+  - any section matching neither a reserved hook nor a declared anchor: ignore it.
+  - Execute the `## before` section now if present.
+- **If it does not exist**, proceed normally — this command behaves exactly as its base, with nothing injected.
+
 ## Common targets (non-exhaustive)
 
 The targets below cover most cases. **This isn't a closed list**: if another file is the right place (`CLAUDE.md`, a sub-folder README, a feature-specific doc, an `accepted` ADR to supersede, or even a new file to create), go there. Choose the target based on the nature of what you're capturing; don't force information into a box it doesn't belong in.
@@ -19,6 +30,8 @@ The targets below cover most cases. **This isn't a closed list**: if another fil
 | `docs/operations.md` | Commands, workflows, prerequisites for setup / build / run / deploy / migrations |
 | `docs/plans/<slug>.md` (in-progress) | Progress log (lot shipped), follow-ups surfaced during implementation, remaining open questions |
 | *other* | If the right place isn't in this table, propose it to the user with a justification |
+
+> `[project anchor: capture-targets]` — if a project overlay defines a `## capture-targets` section, fold its project-specific targets/examples into the routing above (e.g. domain areas, stack-specific traps, a per-file supersede example).
 
 ## Relevance criteria — aggressive filter
 
@@ -81,6 +94,10 @@ Before editing, present the short list (passed + rejected) to the user for valid
 ### 5. Separate commit
 
 This whole pass is **one `docs:` commit**. Never mix with code.
+
+### Final — project `after` hook
+
+If a project overlay defined a `## after` section, apply its instructions as the closing step — including any project-specific commit/VCS convention, which takes precedence over the generic `docs:` commit above. No overlay ⇒ skip.
 
 ## Before proposing each item, ask yourself
 

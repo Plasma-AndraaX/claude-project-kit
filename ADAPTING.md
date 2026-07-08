@@ -81,11 +81,16 @@ Si Phase 2 détecte un vrai conflit — la config déclare une convention mais u
 
 ## Personnaliser une commande du plugin
 
-Les commandes sont des **skills du plugin** (`/armature:<nom>`), partagées entre tous tes projets et mises à jour via `/plugin update` — tu ne les édites pas en place. Trois niveaux pour les adapter à ton projet, du plus léger au plus lourd ([ADR 0006](docs/adr/0006-modele-extension-commandes.md)) :
+Les commandes sont des **skills du plugin** (`/armature:<nom>`), partagées entre tous tes projets et mises à jour via `/plugin update` — tu ne les édites pas en place. Trois niveaux pour les adapter à ton projet, du plus léger au plus lourd ([ADR 0006](docs/adr/0006-modele-extension-commandes.md) + [0007](docs/adr/0007-mecanisme-extension-tier-b.md)) :
 
 1. **Conventions transverses** (« pas de trailer co-auteur », Gitflow, `deciders` par défaut…) → rien de spécial à faire : mets-les dans `CLAUDE.md` (règle d'équipe) ou `docs/prefs/<login>.md` (préférence perso). Les deux sont **auto-chargés à chaque session**, donc les commandes les voient déjà — `new-adr`, `document-standards` et `dashboard` consultent même explicitement `docs/prefs` pour le style de commit.
-2. **Override complet** — quand une commande doit faire quelque chose de *franchement différent* (le `changelog-draft` multi-locale de Holoon, une détection couplée à ton code…), crée une commande locale `.claude/commands/<nom>.md`. Elle vit dans un **namespace distinct** (`/<nom>`, à côté de `/armature:<nom>`) : les deux coexistent sans conflit, et c'est un choix **légitime**, pas un pis-aller — le plugin ne cherche pas à tout absorber. Contrepartie assumée : une commande locale ne bénéficie pas des évolutions de la skill de base, à réserver donc aux cas où le comportement diverge vraiment.
-3. **Enrichissement additif léger** (ajouter juste quelques cibles/exemples de stack à une commande générique) : il n'existe **pas encore** de mécanisme d'overlay dédié — délibérément reporté tant que ce besoin ne devient pas récurrent (voir ADR 0006). En attendant, soit la convention passe par (1), soit tu bascules en override (2).
+2. **Extension par overlay** (ajouter des cibles/exemples de stack, une détection maison, une étape de fin) → **le mécanisme d'overlay** ([ADR 0007](docs/adr/0007-mecanisme-extension-tier-b.md)) : crée `.claude/armature/<commande>.md` (committé). Ses sections nommées s'injectent dans la commande de base **sans la forker** — la base reste au plugin et suit ses mises à jour :
+   - `## before` / `## after` — hooks lifecycle, exécutés avant / après le cœur de la commande ;
+   - `## <ancrage>` — cible un point d'extension nommé `[project anchor: <ancrage>]` déclaré dans la skill de base (p. ex. `exploration-zones` dans `new-adr`, `capture-targets` dans `capture-lessons`, `changelog-buckets` dans `changelog-capture`, `dashboard-delivery` dans `dashboard`, `silent-delivery-detection` dans `review-backlog`) ;
+   - une section qui ne correspond ni à un hook ni à un ancrage déclaré est ignorée.
+
+   **Extend seul, opt-in** : pas d'overlay ⇒ commande de base inchangée. Pour lister les ancrages d'une commande, cherche `[project anchor:` dans sa skill.
+3. **Override complet** — quand une commande doit faire quelque chose de *franchement différent* (un autre workflow entier, pas un enrichissement), crée une commande locale `.claude/commands/<nom>.md`. Elle vit dans un **namespace distinct** (`/<nom>`, à côté de `/armature:<nom>`) : les deux coexistent sans conflit, c'est un choix **légitime** — le plugin ne cherche pas à tout absorber. Contrepartie assumée : une commande locale ne bénéficie pas des évolutions de la skill de base, à réserver aux cas où le comportement diverge vraiment **et** où l'overlay (2) ne suffit pas.
 
 ## Limite connue : pas de rétro-propagation
 
