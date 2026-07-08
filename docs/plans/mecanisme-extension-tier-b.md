@@ -75,14 +75,14 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 
 - ~~**Q1 — Chemin/granularité de l'overlay**~~ **Résolue (2026-07-08) : un fichier par commande, à `.claude/armature/<nom>.md`** (sections `## before` / `## after` / `## <ancrage>`), committé. Sous `.claude/` (config Claude Code), namespacé par le plugin → pattern réutilisable `.claude/<plugin>/<commande>.md`. **NB : surtout pas `.claude/hooks/`** — réservé aux vrais hooks Claude Code (`settings.json`), concept distinct de nos sections d'injection prompt-level.
 - **Q2 — Déclaration des points d'injection** *(proposition de tête, à valider au Lot 1)* : **une seule syntaxe — des sections markdown dans l'overlay, le nom de la section décide de la nature.** `before`/`after` = **noms réservés à position implicite** (hooks universels, zéro déclaration côté base). Tout autre `## <id>` = un **ancrage mid-flow** que la base a déclaré inline (`[ancrage projet : <id>]`). Section qui ne matche ni un nom réservé ni un ancrage déclaré → **ignorée** (à flagger, cf. Q4). Élégance : `before`/`after` sont des ancrages à nom réservé + position implicite → un seul mécanisme.
-- **Q3 — Fiabilité du dispatch mou** : à quel point la base « bave »-t-elle dans l'injection ? — **le Lot 1 tranche**.
+- ~~**Q3 — Fiabilité du dispatch mou**~~ **Résolue (2026-07-08) : fiable.** Prototype sur `new-adr`, 4 agents frais : 3/3 runs avec overlay = injection complète et exacte (`before` + ancrage + `after`), 0 parasite ; 1/1 contrôle sans overlay = base intacte, aucune injection fantôme. La base ne « bave » pas. Nuance honnête : à N=3, l'ancrage mid-flow est **aussi** fiable que les hooks — l'écart de robustesse anticipé n'apparaît pas.
 - **Q4 — Lint** : faut-il un check qui valide que les ancrages ciblés par un overlay existent bien dans la base (éviter les overlays silencieusement ignorés) ?
 
 ## Progression
 
 | Lot | SHA | Date | Notes |
 |---|---|---|---|
-| — | — | — | *(rien livré ; ADR + plan ouverts le 2026-07-08)* |
+| Lot 1 — prototype + implémentation `new-adr` | *(ce commit)* | 2026-07-08 | mécanisme validé 4/4 par agents frais et **promu** dans `plugin/skills/new-adr/SKILL.md` (dispatch + hook `after` + ancrage `exploration-zones`) ; Q2/Q3 confirmées, opt-in/backward-compatible |
 
 ## Follow-ups surfacés pendant l'implémentation
 
@@ -91,14 +91,16 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 ## Journal de décisions
 
 - **2026-07-08** — Ouverture. Trois choix de cadrage validés par l'utilisateur : **direction seule** dans l'ADR (design au plan) ; **localisation hors scope** (Lot 4 gated) ; **extend seul** (pas de mode replace). Fondé sur le diagnostic des 6 commandes Holoon (5 extensions + 1 hybride, 0 remplacement).
+- **2026-07-08** — **Lot 1 livré.** Prototype (dispatch + hook `after` + ancrage `exploration-zones`) testé par 4 agents frais (3 overlay + 1 contrôle) : **4/4 corrects**, injection fiable, 0 parasite, backward-compatible confirmé. **Q3 résolue** (dispatch mou fiable), **Q2 confirmée** à l'usage. Mécanisme **promu** dans `plugin/skills/new-adr/SKILL.md` (extend-only, opt-in). Finding : l'ancrage mid-flow est aussi fiable que les hooks à N=3 — l'écart anticipé n'apparaît pas.
 - **2026-07-08** — **Q1 résolue** (un fichier par commande, `.claude/armature/<nom>.md`, committé) et **Q2 proposée** (sections markdown ; `before`/`after` réservés à position implicite + ancrages nommés déclarés par la base ; un seul mécanisme). Piège de vocabulaire acté : nos « hooks » ≠ les hooks Claude Code de `settings.json` → stockage sous `armature/`, pas `hooks/`.
 - **2026-07-08** — **Modèle « hooks + ancrages » retenu comme direction de design** (idée utilisateur, affine le « points d'ancrage nommés » de l'ADR sans le contredire). Points d'injection à deux granularités : **hooks lifecycle** (`before`/`after`/`end`) universels et *plus fiables* (prepend/append > splice) comme forme **dominante**, + **ancrages nommés mid-flow** pour les trous sémantiques précis. Motivé par le diagnostic : la majorité des extensions Holoon (`changelog-draft`, `dashboard`) sont des étapes *après* le cœur = hooks `after` propres ; le mid-flow est la minorité. Le Lot 1 prototype **les deux** pour comparer fiabilité et ergonomie.
 
 ## Prochaines actions
 
-- [ ] Lot 1 — prototype sur `new-adr` : forme d'overlay + ancrages + aiguillage, mesure de fiabilité.
-- [ ] Décider Q1/Q2 au vu du prototype.
-- [ ] Lot 2 — généraliser une fois la forme arrêtée.
+- [x] Lot 1 — prototype + implémentation `new-adr` : forme validée (4/4), mécanisme promu dans la skill.
+- [x] Décider Q1/Q2 au vu du prototype (Q1 résolue, Q2 confirmée, Q3 résolue).
+- [ ] **Documenter la convention overlay** (`.claude/armature/<nom>.md`, hooks `before`/`after` + ancrages) dans `ADAPTING.md` — à faire au Lot 2 quand ≥ 2 commandes la portent.
+- [ ] Lot 2 — généraliser aux 4 autres extensions nettes (la forme est arrêtée).
 - [ ] Lot 3 — trancher `changelog-draft`.
 - [ ] Lot 4 — *gated future*, ne rien faire avant le déclencheur (langue = dernier blocage).
 

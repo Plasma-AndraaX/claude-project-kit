@@ -10,6 +10,17 @@ The user wants to think through a topic that deserves an ADR (*Architecture Deci
 
 Topic proposed by the user: **$ARGUMENTS**
 
+## Project overlay
+
+Before anything else, check whether this project provides an overlay for this command at `.claude/armature/new-adr.md` (relative to the project root).
+
+- **If it exists**, read it and announce: "**Surcharge projet active** (`.claude/armature/new-adr.md`)". It holds named markdown sections that extend this command:
+  - `## before` / `## after` — reserved lifecycle hooks: run `## before` now (before the process below), and `## after` at the very end.
+  - a section whose name matches a `[project anchor: <id>]` marker placed in this skill — inject its content at that marker's location.
+  - any section matching neither a reserved hook nor a declared anchor: ignore it.
+  - Execute the `## before` section now if present.
+- **If it does not exist**, proceed normally — this command behaves exactly as its base, with nothing injected.
+
 ## When an ADR is justified
 
 An ADR is relevant if **at least two** of these conditions hold:
@@ -39,6 +50,8 @@ For decisions touching an unfamiliar or wide area:
 - Ask for **structured** reports with file:line references, not file dumps. Impose a word limit (~500).
 - Cross-reference the reports to measure the real impact.
 - Check existing `docs/lessons-*.md` and `docs/adr/` — they may already hold part of the answer or document invariants to respect.
+
+> `[project anchor: exploration-zones]` — if a project overlay defines a `## exploration-zones` section, use its content as the prioritized zones to explore in this phase.
 
 **Don't start drafting until you have:**
 - A clear picture of the impacted zones and estimated cost.
@@ -115,6 +128,10 @@ Update `docs/plans/README.md` with the new entry in the index.
 ### Phase 6 — Commit the docs
 
 A **single `docs:` commit** for the ADR, the plan, and both indexes. Don't mix with code. Check `docs/prefs/<login>.md` (if this project uses it) for the user's commit message conventions before writing the commit.
+
+### Final — project `after` hook
+
+If a project overlay defined a `## after` section, apply its instructions as the closing step — including, where it concerns the commit/VCS flow, taking precedence over Phase 6's generic `docs:` commit. No overlay ⇒ skip entirely.
 
 ## Rules
 
