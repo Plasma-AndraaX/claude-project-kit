@@ -3,7 +3,7 @@ status: accepted
 date: 2026-07-06
 deciders: [Plasma-AndraaX]
 superseded-by:
-related-adrs: [0004, 0005]
+related-adrs: [0004, 0005, 0007]
 related-plans: [2026-07-06-modele-extension-commandes]
 ---
 

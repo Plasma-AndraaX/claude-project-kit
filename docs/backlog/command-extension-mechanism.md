@@ -69,7 +69,7 @@ Question posée : Holoon *étend*-il la base Armature, ou la *remplace*-t-il ? D
 - 0006 qualifiait Holoon de « cas canonique de l'override (c) » et `changelog-draft` de « comportement franchement différent ». **Réfuté** : Holoon *étend* pour les 6, il n'override pas.
 - 0006 reportait le tier (b) faute de « besoin additif récurrent ». **La réalité est l'inverse** : le besoin d'extension est **universel** chez Holoon, payé aujourd'hui par 6 forks dupliqués qui vont dériver de la base.
 
-**Forme de design qui se dégage** (candidate à un **ADR 0007** superséderant le report du tier (b)) :
+**Forme de design qui se dégage** (→ ouverte le 2026-07-08 comme [ADR 0007](../adr/0007-mecanisme-extension-tier-b.md), qui révise le report du tier (b)) :
 - **Dispatch** : `/armature:<nom>` consulte un overlay projet optionnel (idée utilisateur — un seul nom de commande, pas de doublon `/<nom>` vs `/armature:<nom>`).
 - **Extend-first** : l'overlay injecte aux points d'ancrage ; le mode *replace* est rare, voire inutile (aucune des 6 ne le réclame).
 - Types d'ancrage récurrents : (1) cibles/exemples domaine-stack, (2) détection projet-spécifique, (3) étapes/sections additionnelles, (4) bloc de format de sortie surchargeable.
@@ -80,4 +80,4 @@ Question posée : Holoon *étend*-il la base Armature, ou la *remplace*-t-il ? D
 
 **Tranché le 2026-07-06 par [ADR 0006](../adr/0006-modele-extension-commandes.md)** (+ [plan compagnon](../plans/2026-07-06-modele-extension-commandes.md)) : modèle d'extensibilité à 3 niveaux **sans nouvelle machinerie** — (a) conventions portées par les fichiers déjà auto-chargés, (c) override local assumé, (b) overlay à points d'ancrage **délibérément reporté**. Ce fichier est conservé comme **réflexion source**. Distinct de [`contribution-and-extension-model.md`](contribution-and-extension-model.md), qui traite des *dépôts satellites / overlays de templates*.
 
-**Déclencheur de réveil du tier (b)** : **a sonné le 2026-07-08.** Le diagnostic ci-dessus montre que le besoin d'extension est universel chez Holoon (6/6 des commandes mappées sont des extensions de la base, pas des overrides). Candidate à un **ADR 0007** qui construirait le mécanisme extend et superséderait le report du tier (b) de l'ADR 0006. En attendant, Holoon reste sur ses commandes locales (forks dupliqués qui divergeront).
+**Déclencheur de réveil du tier (b)** : **a sonné le 2026-07-08.** Le diagnostic ci-dessus montre que le besoin d'extension est universel chez Holoon (6/6 des commandes mappées sont des extensions de la base, pas des overrides) → ouvert le 2026-07-08 comme **[ADR 0007](../adr/0007-mecanisme-extension-tier-b.md)** (+ [plan](../plans/mecanisme-extension-tier-b.md)) : construire le mécanisme extend (dispatch `/armature:<nom>` → overlay, ancrages nommés, extend-first), révisant le report du tier (b) de 0006. En attendant l'implémentation, Holoon reste sur ses forks.
