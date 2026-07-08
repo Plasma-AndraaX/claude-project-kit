@@ -50,8 +50,34 @@ En inspectant le kit avant de proposer quoi que ce soit à construire, on consta
 
 La proposition se réduit donc à : **(a) déjà là** (observation, pas décision) ; **(c) marche aujourd'hui** (namespace distinct, à bénir) ; **(b) seule vraie machinerie neuve**, sans déclencheur.
 
+## Diagnostic des 6 commandes Holoon (2026-07-08) — le déclencheur du tier (b) a sonné
+
+Question posée : Holoon *étend*-il la base Armature, ou la *remplace*-t-il ? Diagnostic en **lecture seule** — comparaison de chacune des 6 commandes Holoon qui mappent sur une skill de base contre cette base (6 agents parallèles). *(Holoon a 10 commandes locales ; 4 — `db-pull-from-prod`, `i18n-add-key`, `i18n-audit`, `release` — n'ont aucun équivalent Armature et restent purement locales, hors sujet.)*
+
+| Commande | Verdict | La base survit-elle ? |
+|---|---|---|
+| `new-adr` | Extension | Squelette identique (6 phases, sections d'ADR verbatim) + zones domaine/permissions, Gitflow greffés |
+| `capture-lessons` | Extension | Table de routage + filtre identiques + cibles EF Core/CQRS/Holacracy greffées |
+| `changelog-capture` | Extension | Même cible, même filtre, même handoff `→ changelog-draft` ; + buckets/locales |
+| `dashboard` | Extension | Sections + script + « known patterns » identiques ; seule l'étape delivery reskinnée |
+| `changelog-draft` | Hybride | Réécrit (fr, 7 vs 5 étapes) **mais** toute la colonne vertébrale survit (3 sources priorisées, « signale les trous, n'invente pas », voix éditoriale prime, pause de revue, reset `_next.md`). Spécialisé, pas réinventé. |
+| `whats-left` | Extension | Squelette verbatim + 5 sections en plus ; le « couplage au code » = **une seule ligne de grep** |
+
+**Résultat : 5 extensions nettes + 1 hybride qui reste une spécialisation. Zéro remplacement réel.**
+
+**Ce que ça corrige dans l'ADR 0006** (le *modèle* à 3 tiers tient ; c'est sa *disposition* qui était fausse) :
+- 0006 qualifiait Holoon de « cas canonique de l'override (c) » et `changelog-draft` de « comportement franchement différent ». **Réfuté** : Holoon *étend* pour les 6, il n'override pas.
+- 0006 reportait le tier (b) faute de « besoin additif récurrent ». **La réalité est l'inverse** : le besoin d'extension est **universel** chez Holoon, payé aujourd'hui par 6 forks dupliqués qui vont dériver de la base.
+
+**Forme de design qui se dégage** (candidate à un **ADR 0007** superséderant le report du tier (b)) :
+- **Dispatch** : `/armature:<nom>` consulte un overlay projet optionnel (idée utilisateur — un seul nom de commande, pas de doublon `/<nom>` vs `/armature:<nom>`).
+- **Extend-first** : l'overlay injecte aux points d'ancrage ; le mode *replace* est rare, voire inutile (aucune des 6 ne le réclame).
+- Types d'ancrage récurrents : (1) cibles/exemples domaine-stack, (2) détection projet-spécifique, (3) étapes/sections additionnelles, (4) bloc de format de sortie surchargeable.
+- **Bémol localisation** : skills de base en anglais, Holoon a forké en partie pour du **français** → un extend-aux-ancrages garde un squelette anglais (commande bilingue) ; servir pleinement Holoon peut demander aussi des skills localisés. L'extension règle la divergence de *contenu*, pas de *langue*.
+- **Bémol fiabilité** : le dispatch in-skill (« suis cet autre fichier ») est une séparation *molle* (prompt-level), moins hermétique qu'une commande séparée — à valider par prototype.
+
 ## Statut
 
 **Tranché le 2026-07-06 par [ADR 0006](../adr/0006-modele-extension-commandes.md)** (+ [plan compagnon](../plans/2026-07-06-modele-extension-commandes.md)) : modèle d'extensibilité à 3 niveaux **sans nouvelle machinerie** — (a) conventions portées par les fichiers déjà auto-chargés, (c) override local assumé, (b) overlay à points d'ancrage **délibérément reporté**. Ce fichier est conservé comme **réflexion source**. Distinct de [`contribution-and-extension-model.md`](contribution-and-extension-model.md), qui traite des *dépôts satellites / overlays de templates*.
 
-**Déclencheur de réveil du tier (b)** : le jour où une personnalisation *additive légère* devient récurrente (≥ 2 projets) et pénible à maintenir à la main — l'override complet (c) étant alors trop lourd pour le besoin. Holoon reste couvert par override complet (ses commandes locales conservées).
+**Déclencheur de réveil du tier (b)** : **a sonné le 2026-07-08.** Le diagnostic ci-dessus montre que le besoin d'extension est universel chez Holoon (6/6 des commandes mappées sont des extensions de la base, pas des overrides). Candidate à un **ADR 0007** qui construirait le mécanisme extend et superséderait le report du tier (b) de l'ADR 0006. En attendant, Holoon reste sur ses commandes locales (forks dupliqués qui divergeront).
