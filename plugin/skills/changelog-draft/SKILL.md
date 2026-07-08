@@ -37,6 +37,8 @@ Before anything else, check whether this project provides an overlay for this co
 
 > `[project anchor: changelog-output]` — if a project overlay defines a `## changelog-output` section, use its output format, grouping/bucket taxonomy, and destination for steps 3 and 5 (e.g. per-version locale files instead of a single `CHANGELOG.md`). The base spine — sources priority, gap-flagging, review pause, `_next.md` reset — stays unchanged.
 
+> `[project anchor: review-additions]` — if a project overlay defines a `## review-additions` section, fold it into the **review pause** (step 4): e.g. propose per-entry metadata/flags, or reclassify flagged gaps, for the user to decide *during* review rather than at the very end.
+
 ## What this skill does NOT do
 
 - It does not translate the output into other languages by default — if this project ships to multiple locales, put that (and any other post-draft artifacts: a metadata file, screenshot captures) in the project overlay's `## after` hook (see `ADAPTING.md` § "Personnaliser une commande du plugin").

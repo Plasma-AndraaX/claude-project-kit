@@ -35,6 +35,8 @@ Before anything else, check whether this project provides an overlay for this co
 
 > `[project anchor: silent-delivery-detection]` — if a project overlay defines a `## silent-delivery-detection` section, use its project-specific grep(s)/paths for the silent-delivery check above (e.g. domain-event files), plus any project-specific canonical sources or exclusions it lists.
 
+> `[project anchor: readiness-classification]` — source #1 feeds a readiness classification, but the base ships **no mapping** (the rubric names are project-specific): if a project overlay defines a `## readiness-classification` section (its README-rubric → readiness-tier table), use it to drive that classification.
+
 ## Output format
 
 One single response. Header, then 5 sections **in this fixed order**, then a summary.
@@ -63,6 +65,8 @@ One single response. Header, then 5 sections **in this fixed order**, then a sum
 3. **✅ Ready to start** *(trigger satisfied or no prerequisite)*. **Selective**: high-priority + targeted actions + tech debt + bundles with nothing blocking the start. Sorted by type. **Not all N items** — only the ones actually actionable and worth proposing.
 4. **⏳ On trigger** *(the trigger is the title)*. Items waiting on a signal: those with a documented Trigger field **not yet satisfied**, plus README sections like "waiting on a signal" or "doctrines to mature". Scan the conditions and **match against reality**; an item whose trigger looks close/met **moves up** to ✅ (say so in the summary).
 5. **💤 Someday/maybe** *(compressed — never expanded in normal mode)*. Dormant items, holes without a trigger: **counted + pointer**, not listed. E.g. `12 dormant with no active trigger → backlog/README.md § Dormant`.
+
+> `[project anchor: context-reprioritization]` — if a project overlay defines a `## context-reprioritization` section, apply its context-scan logic when populating **🔥 Hot now** (section 1): e.g. the current conversation, recent `git log`, release state, open questions blocking an in-progress Lot. Output-only — never modify the backlog files.
 
 **Summary (3-5 lines)**: total open items · **natural next step** (the first item of 🔥, else 🏗️, else ✅) · context promotions/demotions with their why · *stale* signals (item checked off elsewhere but not in the README, or the reverse; silent delivery) to clean up.
 
