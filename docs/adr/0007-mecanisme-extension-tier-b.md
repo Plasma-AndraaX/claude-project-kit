@@ -4,7 +4,7 @@ date: 2026-07-08
 deciders: [Plasma-AndraaX]
 superseded-by:
 related-adrs: [0006]
-related-plans: [mecanisme-extension-tier-b]
+related-plans: [2026-07-08-mecanisme-extension-tier-b]
 ---
 
 # ADR 0007 — Construire le mécanisme d'extension des commandes (tier b : overlay extend-first)
@@ -19,7 +19,7 @@ Un diagnostic en **lecture seule** des 6 commandes Holoon qui mappent sur une ba
 
 Construire le **tier (b)** : un mécanisme d'extension **extend-first** où une commande de base `/armature:<nom>` consulte un **overlay projet optionnel** et y injecte le contenu projet à des **points d'ancrage nommés**. Un seul nom de commande (le dispatch supprime le doublon `/<nom>` vs `/armature:<nom>` du tier c). Le mécanisme est **extension seule** — pas de mode remplacement (le diagnostic montre 0/6 le réclament ; le tier (c) reste l'échappatoire si un vrai cas de remplacement surgit).
 
-Cet ADR fixe la **direction** ; la forme concrète (chemin de l'overlay, syntaxe d'ancrage, instruction de dispatch) et un **Lot prototype** de validation vivent dans le [plan compagnon](../plans/mecanisme-extension-tier-b.md). Cet ADR **révise le report du tier (b)** de l'ADR 0006 ; le reste de 0006 (le modèle à 3 niveaux, les tiers a et c) tient inchangé.
+Cet ADR fixe la **direction** ; la forme concrète (chemin de l'overlay, syntaxe d'ancrage, instruction de dispatch) et un **Lot prototype** de validation vivent dans le [plan compagnon](../plans/2026-07-08-mecanisme-extension-tier-b.md). Cet ADR **révise le report du tier (b)** de l'ADR 0006 ; le reste de 0006 (le modèle à 3 niveaux, les tiers a et c) tient inchangé.
 
 ## Conséquences
 
@@ -37,5 +37,5 @@ Cet ADR fixe la **direction** ; la forme concrète (chemin de l'overlay, syntaxe
 ## Références
 
 - ADR liées : [0006](0006-modele-extension-commandes.md) (pose le modèle 3 niveaux + reporte le tier b — cet ADR révise ce report)
-- Plans liés : [`../plans/mecanisme-extension-tier-b.md`](../plans/mecanisme-extension-tier-b.md)
+- Plans liés : [`../plans/2026-07-08-mecanisme-extension-tier-b.md`](../plans/2026-07-08-mecanisme-extension-tier-b.md)
 - Diagnostic source : [`../backlog/command-extension-mechanism.md`](../backlog/command-extension-mechanism.md) § Diagnostic des 6 commandes Holoon (2026-07-08)
