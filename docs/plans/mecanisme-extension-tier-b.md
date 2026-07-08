@@ -15,13 +15,17 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 
 ## Forme cible (à valider au Lot 1 — non figée)
 
-- **Overlay projet** : un fichier optionnel par commande, p. ex. `.claude/armature/<nom>.md` (chemin/format à confirmer).
-- **Dispatch** : chaque skill de base commence par une clause — « si l'overlay projet existe, lis-le et applique ses injections aux ancrages ci-dessous ; annonce *surcharge projet active* au démarrage ».
-- **Points d'ancrage nommés** : des emplacements déclarés dans la skill de base où le contenu projet s'insère. **Taxonomie dérivée du diagnostic** (les 4 natures récurrentes) :
-  1. **Cibles/exemples domaine-stack** — `new-adr` zones d'exploration, `capture-lessons` lignes de la table de routage.
-  2. **Détection projet-spécifique** — `whats-left` grep de livraison, `changelog-capture` buckets.
-  3. **Étapes/sections additionnelles** — `changelog-draft` locales/metadata/captures, `whats-left` sections en plus.
-  4. **Bloc de format de sortie surchargeable** — `dashboard` étape delivery, `changelog-draft` format de sortie.
+- **Overlay projet** : un fichier optionnel par commande, p. ex. `.claude/armature/<nom>.md`, avec une section par point d'injection (granularité à confirmer — un fichier à sections vs un fichier par hook, cf. Q1).
+- **Dispatch** : chaque skill de base commence par une clause — « si l'overlay projet existe, lis-le et applique ses injections aux points ci-dessous ; annonce *surcharge projet active* au démarrage ».
+- **Points d'injection = deux granularités d'un même mécanisme** (un point identifié + un bloc projet qui le remplit) :
+  - **Hooks lifecycle — la forme dominante** : `before` / `after` / `end` (et éventuels `before-<phase>`). **Universels** (toute commande en a, zéro prévoyance de l'auteur de la base) et **plus fiables** que l'injection mid-flow — un prepend/append est robuste pour le modèle, un *splice* au milieu l'est moins (dé-risque le bémol « dispatch mou », cf. Q3).
+  - **Ancrages nommés mid-flow — le sous-ensemble sémantique** : là où le projet doit remplir un *trou précis* au milieu du flux (une cellule de table, un champ), la base déclare un ancrage nommé. Coûte de la prévoyance → réservé aux cas où un hook `before`/`after` ne suffit pas.
+- **Correspondance avec le diagnostic** (les 4 natures) :
+  1. **Étapes additionnelles** (`changelog-draft` locales/metadata/captures, `dashboard` delivery+push) → **hook `after`/`end`** — la majorité des besoins Holoon, capturée proprement.
+  2. **Format de sortie surchargeable** (`dashboard`, `changelog-draft`) → hook `after` ou ancrage selon la finesse voulue.
+  3. **Cibles/exemples domaine-stack** (`new-adr` zones, `capture-lessons` table) → **ancrage mid-flow**, ou tier (a) via `CLAUDE.md`.
+  4. **Détection projet-spécifique** (`whats-left` grep) → ancrage mid-flow (« point clé »).
+- **Ce que les hooks ne font pas** : `before`/`after` *enrobent*, ils ne *modifient* pas un pas du milieu. Changer *comment* la base exécute une étape (pas ajouter autour) demande un ancrage mid-flow, ou relève du tier (c) — rare chez Holoon (il *ajoute*, il ne récrit pas le milieu).
 - **Extend seul** — pas de mode replace ; le tier (c) reste l'échappatoire.
 
 ## Surface d'impact
@@ -41,11 +45,11 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 
 ## Lots d'implémentation
 
-### Lot 1 — Prototype sur `new-adr` (dé-risquer la forme)
-- Concevoir la forme minimale : chemin de l'overlay, 2-3 ancrages nommés dans `new-adr` (zones d'exploration ; `deciders`/références ; conventions VCS), la clause d'aiguillage.
+### Lot 1 — Prototype sur `new-adr` (dé-risquer la forme, comparer les deux granularités)
+- Prototyper **les deux granularités pour les comparer** : **un hook `after`** (une étape projet ajoutée en fin de `new-adr`) **et un ancrage mid-flow** (les zones d'exploration de la phase 2), + la clause d'aiguillage.
 - Implémenter sur `plugin/skills/new-adr/SKILL.md` + un overlay d'exemple simulant Holoon.
-- Faire tourner et **mesurer la fiabilité** : la base injecte-t-elle proprement aux ancrages, sans « baver » (la séparation molle) ? sur plusieurs essais.
-- **Critère de sortie** : `new-adr` lit l'overlay et injecte aux ancrages de façon **fiable et reproductible** ; forme d'overlay + syntaxe d'ancrage **arrêtées**.
+- **Mesurer la fiabilité de chacun** sur plusieurs essais : le hook `after` (prepend/append) *vs* l'ancrage mid-flow (splice) — la base « bave »-t-elle ? Hypothèse : le hook est nettement plus robuste.
+- **Critère de sortie** : `new-adr` applique proprement hook + ancrage de façon reproductible ; **verdict comparatif fiabilité/ergonomie** ; granularité de fichier (Q1) + syntaxe **arrêtées**.
 
 ### Lot 2 — Généraliser aux extensions nettes
 - Porter la forme validée sur `capture-lessons`, `changelog-capture`, `dashboard`, `whats-left` (→ `review-backlog`).
@@ -69,8 +73,8 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 
 ## Questions ouvertes
 
-- **Q1 — Chemin/format de l'overlay** : `.claude/armature/<nom>.md` ? Un frontmatter pour déclarer quels ancrages il cible ?
-- **Q2 — Déclaration des ancrages** : comment la skill de base *nomme* ses ancrages (commentaire nommé ? section conventionnée ?) et comment l'overlay les cible sans ambiguïté.
+- **Q1 — Chemin/granularité de l'overlay** : `.claude/armature/<nom>.md` **un fichier par commande à sections** (`## after`, `## before`, `## <ancrage>`) *vs* un fichier par hook (`new-adr-after.md`…) ? Penchant actuel : **un fichier par commande** (éviter l'éparpillement — 6 commandes × 3 hooks = 18 fichiers).
+- **Q2 — Déclaration des points d'injection** : les hooks lifecycle (`before`/`after`/`end`) sont-ils **implicites** (toute commande les expose) ou déclarés ? Comment la base *nomme* ses ancrages mid-flow et comment l'overlay cible chaque point sans ambiguïté.
 - **Q3 — Fiabilité du dispatch mou** : à quel point la base « bave »-t-elle dans l'injection ? — **le Lot 1 tranche**.
 - **Q4 — Lint** : faut-il un check qui valide que les ancrages ciblés par un overlay existent bien dans la base (éviter les overlays silencieusement ignorés) ?
 
@@ -87,6 +91,7 @@ Les skills de base vivent sous `plugin/skills/<nom>/SKILL.md`, partagées, lues 
 ## Journal de décisions
 
 - **2026-07-08** — Ouverture. Trois choix de cadrage validés par l'utilisateur : **direction seule** dans l'ADR (design au plan) ; **localisation hors scope** (Lot 4 gated) ; **extend seul** (pas de mode replace). Fondé sur le diagnostic des 6 commandes Holoon (5 extensions + 1 hybride, 0 remplacement).
+- **2026-07-08** — **Modèle « hooks + ancrages » retenu comme direction de design** (idée utilisateur, affine le « points d'ancrage nommés » de l'ADR sans le contredire). Points d'injection à deux granularités : **hooks lifecycle** (`before`/`after`/`end`) universels et *plus fiables* (prepend/append > splice) comme forme **dominante**, + **ancrages nommés mid-flow** pour les trous sémantiques précis. Motivé par le diagnostic : la majorité des extensions Holoon (`changelog-draft`, `dashboard`) sont des étapes *après* le cœur = hooks `after` propres ; le mid-flow est la minorité. Le Lot 1 prototype **les deux** pour comparer fiabilité et ergonomie.
 
 ## Prochaines actions
 
